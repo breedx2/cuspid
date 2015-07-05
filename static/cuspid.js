@@ -17,7 +17,7 @@ function resizeCanvasToWindow(){
 function imageLoaded(id){
 	//TODO: All images must be converted to grayscale!
 	// blitFull(id);
-	scrollLeft(id, 75, 5);
+	scrollRight(id, 125, 20);
 }
 
 function loadImages(){

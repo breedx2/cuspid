@@ -1,6 +1,15 @@
 
 function scrollLeft(imgId, speed, jerkiness){
+	scrollHoriz(imgId, speed, jerkiness, true);
+}
+
+function scrollRight(imgId, speed, jerkiness){
+	scrollHoriz(imgId, speed, jerkiness, false);
+}
+
+function scrollHoriz(imgId, speed, jerkiness, leftNotRight){
 	jerkiness = jerkiness || 1;
+	var inc = leftNotRight ? 1 : -1;
 	var canvas = $('#cnv').get(0);
     var context = canvas.getContext('2d');
     var img = $('#' + imgId).get(0);
@@ -12,9 +21,12 @@ function scrollLeft(imgId, speed, jerkiness){
 		if(x > 0){	//paint rest
 			context.drawImage(img, 0, 0, x, img.height, context.canvas.width-cx, 0, cx, context.canvas.height);
 		}
-		x = x + jerkiness;
-		if(x >= img.width){
+		x = x + (inc * jerkiness);
+		if(leftNotRight && (x > img.width)){
 			x = 0;
+		}
+		else if(!leftNotRight && (x < 0)){
+			x = img.width;
 		}
 	}
 	var timer = setInterval(paint, speed);
