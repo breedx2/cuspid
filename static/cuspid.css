@@ -1,0 +1,31 @@
+html, body {
+	margin: 0px;
+	padding: 0px;
+	height: 100%;
+	width: 100%;
+	font-family: sans-serif;
+	overflow: hidden;
+}
+
+body {
+	background-color: #222224;
+	color: #cccccc;
+}
+
+div#top {
+	width: 100%;
+	position: absolute;
+	float: top;
+	text-align: center;
+	padding-top: 1px;
+	border-bottom: dashed gray 1px;
+	z-index: 9;
+}
+
+canvas#cnv {
+	display: block;
+	padding: 0px;
+	margin: 0px;
+	top: 0px;
+	border: solid white 5px;
+}

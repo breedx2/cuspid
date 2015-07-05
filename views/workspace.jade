@@ -1,5 +1,10 @@
 html
 	head
 		title|cuspid workspace
-	body
-		h1|cheers
+		link(rel="stylesheet", href="/static/cuspid.css")
+		script(src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js")
+		script(src="/static/cuspid.js")
+	body(onload="cuspidLoad();")
+		div(id='top')
+			h1|CUSPID
+		canvas(id='cnv')
