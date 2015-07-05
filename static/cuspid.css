@@ -29,3 +29,7 @@ canvas#cnv {
 	top: 0px;
 	border: solid white 5px;
 }
+
+div#imagepool {
+	width: 200px;
+}
