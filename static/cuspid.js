@@ -12,8 +12,16 @@ function cuspidLoad(){
 
 function handleKey(event){
 	console.log('I saw this key: ' + event.keyCode);
-	if((event.keyCode == 32) && animation){
+	if(animation && (event.keyCode == 32)){
 		animation.pause();
+	}
+	else if(animation && (event.keyCode == 187) && (event.shiftKey)){
+		console.log("Slowing animation speed");
+		animation.deltaDuration(5);
+	}
+	else if(animation && (event.keyCode == 189) && (!event.shiftKey)){
+		console.log("Increasing animation speed");
+		animation.deltaDuration(-5);
 	}
 }
 
@@ -34,16 +42,9 @@ function imageLoaded(id){
 		duration: 55,
 		paint: scrollDown(id, 55, 10)
 	});
-	animation.run();
+	animation.start();
 }
 
 function loadImages(){
 	$('#imagepool').append("<img src='/static/cuspid.jpg' id='cuspid' onload='imageLoaded(\"cuspid\")'/>");
-}
-
-function blitFull(id){
-	var canvas = $('#cnv').get(0);
-    var context = canvas.getContext('2d');
-    var img = $('#' + id).get(0);
-    context.drawImage(img, 0, 0, img.width, img.height, 0, 0, context.canvas.width, context.canvas.height);
 }

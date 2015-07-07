@@ -6,18 +6,36 @@ function animate(options){
 		options: options,
 		animTimer: null,
 		running: false,
-		run: function(){
+		start: function(){
 			this.animTimer = setInterval(this.options.paint, options.duration);
 			this.running = true;
 			return this;
 		},
+		stop: function(){
+			clearInterval(this.animTimer);
+			this.running = false;
+			return this;
+		},
+		deltaDuration: function(delta){
+			this.options.duration = Math.max(1, this.options.duration + delta);
+			this.restart();
+			return this;
+		},
+		duration: function(duration){
+			this.options.duration = duration;
+			this.restart();
+			return this;
+		},
+		restart: function(){
+			this.stop();
+			this.start();
+		},
 		pause: function(){
 			if(this.running){
-				clearInterval(this.animTimer);
-				this.running = false;
+				this.stop();
 			}
 			else{
-				return this.run();
+				return this.start();
 			}
 		}
 	}
