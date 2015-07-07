@@ -1,4 +1,5 @@
 
+var DEFAULT_DURATION = 55;
 var animation = null;
 
 function cuspidLoad(){
@@ -23,6 +24,31 @@ function handleKey(event){
 		console.log("Increasing animation speed");
 		animation.deltaDuration(-5);
 	}
+	else if(event.keyCode == 39){
+		switchToDir(scrollRight);
+	}
+	else if(event.keyCode == 37){
+		switchToDir(scrollLeft);
+	}
+	else if(event.keyCode == 38){
+		switchToDir(scrollUp);
+	}
+	else if(event.keyCode == 40){
+		switchToDir(scrollDown);
+	}
+}
+
+function switchToDir(func){
+	if(!animation){
+			return;
+		}
+		animation.stop();
+		animation = animate({
+			duration: animation.options.duration,
+			imageIds: animation.options.imageIds,
+			paint: func(animation.options.imageIds[0], 10)
+		});
+		animation.start();
 }
 
 function resizeCanvasToWindow(){
@@ -35,12 +61,10 @@ function resizeCanvasToWindow(){
 function imageLoaded(id){
 	//TODO: All images must be converted to grayscale!
 	// blitFull(id);
-	//scrollRight(id, 125, 20);
-	 //scrollDown(id, 55, 10);
-	// scrollUp(id, 125, 20);
 	animation = animate({
-		duration: 55,
-		paint: scrollDown(id, 55, 10)
+		duration: DEFAULT_DURATION,
+		imageIds: [id],
+		paint: scrollDown(id, 10)
 	});
 	animation.start();
 }

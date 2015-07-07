@@ -41,15 +41,15 @@ function animate(options){
 	}
 }
 
-function scrollLeft(imgId, speed, jerkiness){
-	return scrollHoriz(imgId, speed, jerkiness, true);
+function scrollLeft(imgId, jerkiness){
+	return scrollHoriz(imgId, jerkiness, true);
 }
 
-function scrollRight(imgId, speed, jerkiness){
-	return scrollHoriz(imgId, speed, jerkiness, false);
+function scrollRight(imgId, jerkiness){
+	return scrollHoriz(imgId, jerkiness, false);
 }
 
-function scrollHoriz(imgId, speed, jerkiness, leftNotRight){
+function scrollHoriz(imgId, jerkiness, leftNotRight){
 	jerkiness = Math.abs(jerkiness) || 1;
 	var inc = leftNotRight ? 1 : -1;
 	var canvas = $('#cnv').get(0);
@@ -73,16 +73,16 @@ function scrollHoriz(imgId, speed, jerkiness, leftNotRight){
 	}
 }
 
-function scrollDown(imgId, speed, jerkiness){
-	return scrollVert(imgId, speed, jerkiness, false);
+function scrollDown(imgId, jerkiness){
+	return scrollVert(imgId, jerkiness, false);
 }
 
-function scrollUp(imgId, speed, jerkiness){
-	return scrollVert(imgId, speed, jerkiness, true);
+function scrollUp(imgId, jerkiness){
+	return scrollVert(imgId, jerkiness, true);
 }
 
 //could probably combine this with horiz for code reuse/deduplication, but f it
-function scrollVert(imgId, speed, jerkiness, upNotDown){
+function scrollVert(imgId, jerkiness, upNotDown){
 	jerkiness = Math.abs(jerkiness) || 1;
 	var inc = upNotDown ? 1 : -1;
 	var canvas = $('#cnv').get(0);
