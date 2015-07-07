@@ -1,10 +1,20 @@
 
+var animation = null;
+
 function cuspidLoad(){
 	resizeCanvasToWindow();
 	window.onresize = function(event){
 		resizeCanvasToWindow();
 	}
 	loadImages();
+	$('body').get(0).addEventListener('keydown', handleKey);
+}
+
+function handleKey(event){
+	console.log('I saw this key: ' + event.keyCode);
+	if((event.keyCode == 32) && animation){
+		animation.pause();
+	}
 }
 
 function resizeCanvasToWindow(){
@@ -18,8 +28,13 @@ function imageLoaded(id){
 	//TODO: All images must be converted to grayscale!
 	// blitFull(id);
 	//scrollRight(id, 125, 20);
-	 scrollDown(id, 125, 20);
+	 //scrollDown(id, 55, 10);
 	// scrollUp(id, 125, 20);
+	animation = animate({
+		duration: 55,
+		paint: scrollDown(id, 55, 10)
+	});
+	animation.run();
 }
 
 function loadImages(){

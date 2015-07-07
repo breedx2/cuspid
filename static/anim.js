@@ -1,10 +1,34 @@
 
+
+function animate(options){
+
+	return {
+		options: options,
+		animTimer: null,
+		running: false,
+		run: function(){
+			this.animTimer = setInterval(this.options.paint, options.duration);
+			this.running = true;
+			return this;
+		},
+		pause: function(){
+			if(this.running){
+				clearInterval(this.animTimer);
+				this.running = false;
+			}
+			else{
+				return this.run();
+			}
+		}
+	}
+}
+
 function scrollLeft(imgId, speed, jerkiness){
-	scrollHoriz(imgId, speed, jerkiness, true);
+	return scrollHoriz(imgId, speed, jerkiness, true);
 }
 
 function scrollRight(imgId, speed, jerkiness){
-	scrollHoriz(imgId, speed, jerkiness, false);
+	return scrollHoriz(imgId, speed, jerkiness, false);
 }
 
 function scrollHoriz(imgId, speed, jerkiness, leftNotRight){
@@ -14,7 +38,7 @@ function scrollHoriz(imgId, speed, jerkiness, leftNotRight){
     var context = canvas.getContext('2d');
     var img = $('#' + imgId).get(0);
 	var x = 0;
-	function paint(){
+	return function(){
 		var xp = x * 1.0 / img.width;
 		var cx = context.canvas.width * xp;
 		context.drawImage(img, x, 0, img.width-x, img.height, 0, 0, context.canvas.width-cx, context.canvas.height);
@@ -29,17 +53,17 @@ function scrollHoriz(imgId, speed, jerkiness, leftNotRight){
 			x = img.width;
 		}
 	}
-	var timer = setInterval(paint, speed);
 }
 
 function scrollDown(imgId, speed, jerkiness){
-	scrollVert(imgId, speed, jerkiness, false);
+	return scrollVert(imgId, speed, jerkiness, false);
 }
 
 function scrollUp(imgId, speed, jerkiness){
-	scrollVert(imgId, speed, jerkiness, true);
+	return scrollVert(imgId, speed, jerkiness, true);
 }
 
+//could probably combine this with horiz for code reuse/deduplication, but f it
 function scrollVert(imgId, speed, jerkiness, upNotDown){
 	jerkiness = Math.abs(jerkiness) || 1;
 	var inc = upNotDown ? 1 : -1;
@@ -47,7 +71,7 @@ function scrollVert(imgId, speed, jerkiness, upNotDown){
     var context = canvas.getContext('2d');
     var img = $('#' + imgId).get(0);
 	var y = 0;
-	function paint(){
+	return function(){
 		var yp = y * 1.0 / img.height;
 		var cy = context.canvas.height * yp;
 		context.drawImage(img, 0, y, img.width, img.height - y, 0, 0, context.canvas.width, context.canvas.height-cy);
@@ -62,7 +86,6 @@ function scrollVert(imgId, speed, jerkiness, upNotDown){
 			y = img.height;
 		}
 	}
-	var timer = setInterval(paint, speed);
 }
 
 function stretchRightCompactor(imgId, speed){
