@@ -1,1 +1,1 @@
-canvas visualizations - infiltrationlab style.
+canvas pixel experiments - infiltrationlab style.
