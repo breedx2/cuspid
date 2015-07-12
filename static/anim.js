@@ -66,9 +66,17 @@ function scrollUp(imgId, jerkiness){
 
 //could probably combine this with horiz for code reuse/deduplication, but f it
 function scrollVert(imgId, jerkiness, upNotDown){
-jerkiness = Math.abs(jerkiness) || 1;
+	jerkiness = Math.abs(jerkiness) || 1;
 	return boxScroll(imgId, upNotDown ? "UP" : "DOWN", jerkiness, 
 						{ x: 0, y: 0, dx: "FULL", dy: "FULL"});
+}
+
+function zoomIn(imgId, jerkiness){
+	return zoomer(imgId, "IN", Math.abs(jerkiness) || 1);
+}
+
+function zoomOut(imgId, jerkiness){
+	return zoomer(imgId, "OUT", Math.abs(jerkiness) || 1);
 }
 
 function _blit(img, context, src, dst){

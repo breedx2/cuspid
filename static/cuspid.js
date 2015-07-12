@@ -25,33 +25,39 @@ function handleKey(event){
 		animation.deltaDuration(-5);
 	}
 	else if(event.keyCode == 39){
-		changeDirection(scrollRight);
+		changeAnimation(scrollRight);
 	}
 	else if(event.keyCode == 37){
-		changeDirection(scrollLeft);
+		changeAnimation(scrollLeft);
 	}
-	else if(event.keyCode == 38){
-		changeDirection(scrollUp);
+	else if((event.keyCode == 38) && (!event.shiftKey)){
+		changeAnimation(scrollUp);
 	}
-	else if(event.keyCode == 40){
-		changeDirection(scrollDown);
+	else if((event.keyCode == 40) && (!event.shiftKey)){
+		changeAnimation(scrollDown);
+	}
+	else if((event.keyCode == 38) && (event.shiftKey)){
+		changeAnimation(zoomIn);
+	}
+	else if((event.keyCode == 40) && (event.shiftKey)){
+		changeAnimation(zoomOut);
 	}
 	else if(event.keyCode == 13){	//enter key
 		animation.options.paint();
 	}
 }
 
-function changeDirection(func){
+function changeAnimation(func){
 	if(!animation){
-			return;
-		}
-		animation.stop();
-		animation = animate({
-			duration: animation.options.duration,
-			imageIds: animation.options.imageIds,
-			paint: func(animation.options.imageIds[0], 10)
-		});
-		animation.start();
+		return;
+	}
+	animation.stop();
+	animation = animate({
+		duration: animation.options.duration,
+		imageIds: animation.options.imageIds,
+		paint: func(animation.options.imageIds[0], animation.options.jerkiness || 5)
+	});
+	animation.start();
 }
 
 function resizeCanvasToWindow(){
@@ -68,6 +74,7 @@ function imageLoaded(id){
 		imageIds: [id],
 		// paint: scrollDown(id, 10)
 		// paint: boxScroll(id, "DOWN", 10, {x: 6, y: 0, dx: 120, dy: 80})
+		jerkiness: 5,
 		paint: zoomer(id, "OUT", 5)
 	});
 	animation.start();
