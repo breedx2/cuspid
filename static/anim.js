@@ -160,6 +160,7 @@ function _getSourceBox(box, img){
 		return [ box1, { x: 0, y: box.y, dx: box.dx - box1.dx, dy: box.dy}];
 	}
 	if(box.y < 0){	//above top
+		console.log("ABOVE TOP");
 		box1.y = img.height + box.y;
 		box1.dy = -1 * box.y;
 		return [ box1, { x: box.x, y: 0, dx: box.dx, dy: box.dy - box1.dy} ];	
@@ -170,7 +171,6 @@ function _getSourceBox(box, img){
 		return [ box1, { x: box.x, y: 0, dx: box.dx, dy: box.dy - box1.dy}];
 	}
 	return [box];
-	//TODO: do y scrolly parts
 	//TODO: doesn't handle scrolling by both x and y
 }
 
@@ -179,10 +179,11 @@ function _getDestBox(srcBox, img, canvas, direction){
 		return [{x: 0, y: 0, dx: canvas.width, dy: canvas.height}];
 	}
 	var boxdx = srcBox[0].dx + srcBox[1].dx;
+	var boxdy = srcBox[0].dy + srcBox[1].dy;
 	var px0 = srcBox[0].dx * 1.0 / boxdx;	//first box horizontal percent
-	var py0 = srcBox[0].dy * 1.0 / img.height;	//first box vertical percent
-	var px1 = srcBox[1].dx * 1.0 / boxdx;	//second box horizontal percent
-	var py1 = srcBox[1].dy * 1.0 / img.height;	//second box vertical percent
+	var py0 = srcBox[0].dy * 1.0 / boxdy;	//first box vertical percent
+	// var px1 = srcBox[1].dx * 1.0 / boxdx;	//second box horizontal percent
+	// var py1 = srcBox[1].dy * 1.0 / img.height;	//second box vertical percent
 	// var width0 = px0 * canvas.width;
 	// var height0 = py0 * canvas.height;
 
