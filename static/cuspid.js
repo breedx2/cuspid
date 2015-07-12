@@ -36,6 +36,9 @@ function handleKey(event){
 	else if(event.keyCode == 40){
 		switchToDir(scrollDown);
 	}
+	else if(event.keyCode == 13){	//enter key
+		animation.options.paint();
+	}
 }
 
 function switchToDir(func){
