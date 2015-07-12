@@ -25,23 +25,23 @@ function handleKey(event){
 		animation.deltaDuration(-5);
 	}
 	else if(event.keyCode == 39){
-		switchToDir(scrollRight);
+		changeDirection(scrollRight);
 	}
 	else if(event.keyCode == 37){
-		switchToDir(scrollLeft);
+		changeDirection(scrollLeft);
 	}
 	else if(event.keyCode == 38){
-		switchToDir(scrollUp);
+		changeDirection(scrollUp);
 	}
 	else if(event.keyCode == 40){
-		switchToDir(scrollDown);
+		changeDirection(scrollDown);
 	}
 	else if(event.keyCode == 13){	//enter key
 		animation.options.paint();
 	}
 }
 
-function switchToDir(func){
+function changeDirection(func){
 	if(!animation){
 			return;
 		}
@@ -64,10 +64,10 @@ function resizeCanvasToWindow(){
 function imageLoaded(id){
 	//TODO: All images must be converted to grayscale!
 	animation = animate({
-		duration: 100,//DEFAULT_DURATION,
+		duration: 40,//DEFAULT_DURATION,
 		imageIds: [id],
 		// paint: scrollDown(id, 10)
-		paint: boxScroll(id, "LEFT", 1, "FULL", "FULL")//25, 50)//"FULL", "FULL")//50)//"FULL", "FULL")
+		paint: boxScroll(id, "UP", 15, "FULL", "FULL")//25, 50)//"FULL", "FULL")//50)//"FULL", "FULL")
 	});
 	animation.start();
 }
