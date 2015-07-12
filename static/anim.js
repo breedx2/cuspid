@@ -124,7 +124,7 @@ function boxScroll(imgId, direction, jerkiness, srcWidth, srcHeight){
     	console.log("box: " + JSON.stringify(box) + ", srcBox: " + JSON.stringify(srcBox));
 
     	var dstBox = _getDestBox(srcBox, img, canvas);
-    	console.log("                    dstBox: " + JSON.stringify(dstBox));
+    	console.log("                                    dstBox: " + JSON.stringify(dstBox));
 
     	//maybe paint twice
 
@@ -139,7 +139,7 @@ function boxScroll(imgId, direction, jerkiness, srcWidth, srcHeight){
 }
 
 function _blit(img, context, src, dst){
-	console.log("BLIT: ", src.x, src.y, src.dx, src.dy, dst.x, dst.y, dst.dx, dst.dy);
+	// console.log("BLIT: ", src.x, src.y, src.dx, src.dy, dst.x, dst.y, dst.dx, dst.dy);
 	context.drawImage(img, src.x, src.y, src.dx, src.dy, dst.x, dst.y, dst.dx, dst.dy);
 }
 
@@ -150,12 +150,12 @@ function _getSourceBox(box, img){
 		dx: box.dx,
 		dy: box.dy
 	}
-	if(box1.x < 0){	//before left edge
-		box1.x = img.width + box1.x;
-		box1.dx = img.width - box1.x;
-		return [ box1, { x: 0, y: box.y, dx: box1.x, dy: box.dy} ];
+	if(box.x < 0){	//before left edge
+		box1.x = img.width + box.x;
+		box1.dx = -1 * box.x;
+		return [ box1, { x: 0, y: box.y, dx: box.dx - box1.dx, dy: box.dy} ];
 	}
-	if(box1.x + box1.dx > img.width){	//past right edge
+	if(box.x + box.dx > img.width){	//past right edge
 		box1.dx = img.width - box1.x;
 		return [ box1, { x: 0, y: box.y, dx: box.dx - box1.dx, dy: box.dy}];
 	}
@@ -168,16 +168,17 @@ function _getDestBox(srcBox, img, canvas){
 	if(srcBox.length == 1){
 		return [{x: 0, y: 0, dx: canvas.width, dy: canvas.height}];
 	}
-	var px0 = srcBox[0].dx * 1.0 / img.width;	//first box horizontal percent
+	var boxdx = srcBox[0].dx + srcBox[1].dx;
+	var px0 = srcBox[0].dx * 1.0 / boxdx;	//first box horizontal percent
 	var py0 = srcBox[0].dy * 1.0 / img.height;	//first box vertical percent
-	var px1 = srcBox[1].dx * 1.0 / img.width;	//second box horizontal percent
+	var px1 = srcBox[1].dx * 1.0 / boxdx;	//second box horizontal percent
 	var py1 = srcBox[1].dy * 1.0 / img.height;	//second box vertical percent
 	var width0 = px0 * canvas.width;
 	var height0 = py0 * canvas.height;
-	
+
 	return [
 		{x: 0, y: 0, dx: Math.round(canvas.width * px0), dy: canvas.height},
-		{x: Math.round(canvas.width * px0), y: 0, dx: Math.round(px1 * canvas.width), dy: canvas.height}
+		{x: Math.round(canvas.width * px0), y: 0, dx: canvas.width - Math.round(canvas.width * px0), dy: canvas.height}
 	]
 	console.log("Shouldn't be here yet, f it...");
 }
@@ -186,8 +187,8 @@ function _wrapToImageDimensions(box, img){
 	var x = box.x, y = box.y, dx = box.dx, dy = box.dy;
 	if(x >= img.width){ x = 0; }
 	if(y >= img.height){ y = 0; }
-	if(x + dx <= 0){ x = img.width - 1; }
-	if(y + dy < 0){ y = img.height - 1; }
+	if(x + dx <= 0){ x = img.width - dx; }
+	if(y + dy <= 0){ y = img.height - dy; }
 	return { x: x, y: y, dx: dx, dy: dy };
 }
 
