@@ -107,16 +107,16 @@ function scrollVert(imgId, jerkiness, upNotDown){
 }
 
 //TODO: Add srcX and srcY
-function boxScroll(imgId, direction, jerkiness, srcWidth, srcHeight){
+function boxScroll(imgId, direction, jerkiness, srcBox){
 	var canvas = $('#cnv').get(0);
     var context = canvas.getContext('2d');
     var img = $('#' + imgId).get(0);
 
 	jerkiness = Math.abs(jerkiness) || 1;
-    if(srcWidth == "FULL") { srcWidth = img.width; }
-    if(srcHeight == "FULL") { srcHeight = img.height; }
+    if(srcBox.dx == "FULL") { srcBox.dx = img.width; }
+    if(srcBox.dy == "FULL") { srcBox.dy = img.height; }
 
-	var box = {x: 0, y: 0, dx: srcWidth, dy: srcHeight};
+	var box = {x: 0, y: 0, dx: srcBox.dx, dy: srcBox.dy};
 	var incFunction = _incFunction(direction, jerkiness);
     return function(){
 
