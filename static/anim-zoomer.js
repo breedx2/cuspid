@@ -14,35 +14,35 @@ function zoomer(imgId, direction, jerkiness){
 			box = initialBox(img, direction);
 		}
 	}
-}
 
-function initialBox(img, direction){
-	if(direction == "OUT"){
-		return {x: img.width/2, y: img.height/2, dx: 1, dy: 1};
+	function initialBox(img, direction){
+		if(direction == "OUT"){
+			return {x: img.width/2, y: img.height/2, dx: 1, dy: 1};
+		}
+		else {
+			return {x: 0, y: 0, dx: img.width, dy: img.height};
+		}
 	}
-	else {
-		return {x: 0, y: 0, dx: img.width, dy: img.height};
-	}
-}
 
-function _incFunction(img, direction, jerkiness){
-	// var ratio = img.width * 1.0 / img.height;
-	switch(direction){
-		case "IN":
-			return function(box){
-				//TODO: Need to consider aspect ratio?
-				var dx = box.dx - jerkiness;
-				var dy = box.dy - jerkiness;
-				return {x: (img.width / 2) - (dx/2), y: (img.height/2) - (dy/2), dx: dx, dy: dy}
-			}
-		case "OUT":
-			return function(box){
-				//TODO: Need to consider aspect ratio?
-				var dx = box.dx + jerkiness;
-				var dy = box.dy + jerkiness;
-				return {x: (img.width / 2) - (dx/2), y: (img.height/2) - (dy/2), dx: dx, dy: dy}
-			}
-		default: 
-			throw new Error("Unknown direction " + direction + ", must be IN or OUT");
+	function _incFunction(img, direction, jerkiness){
+		// var ratio = img.width * 1.0 / img.height;
+		switch(direction){
+			case "IN":
+				return function(box){
+					//TODO: Need to consider aspect ratio?
+					var dx = box.dx - jerkiness;
+					var dy = box.dy - jerkiness;
+					return {x: (img.width / 2) - (dx/2), y: (img.height/2) - (dy/2), dx: dx, dy: dy}
+				}
+			case "OUT":
+				return function(box){
+					//TODO: Need to consider aspect ratio?
+					var dx = box.dx + jerkiness;
+					var dy = box.dy + jerkiness;
+					return {x: (img.width / 2) - (dx/2), y: (img.height/2) - (dy/2), dx: dx, dy: dy}
+				}
+			default: 
+				throw new Error("Unknown direction " + direction + ", must be IN or OUT");
+		}
 	}
 }

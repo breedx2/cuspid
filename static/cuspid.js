@@ -68,7 +68,7 @@ function imageLoaded(id){
 		imageIds: [id],
 		// paint: scrollDown(id, 10)
 		// paint: boxScroll(id, "DOWN", 10, {x: 6, y: 0, dx: 120, dy: 80})
-		paint: zoomer(id, "IN", 10)
+		paint: zoomer(id, "OUT", 5)
 	});
 	animation.start();
 }
