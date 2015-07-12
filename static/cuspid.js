@@ -67,7 +67,7 @@ function imageLoaded(id){
 		duration: 40,//DEFAULT_DURATION,
 		imageIds: [id],
 		// paint: scrollDown(id, 10)
-		paint: boxScroll(id, "LEFT", 10, {x: 0, y: 0, dx: 85, dy: "FULL"})
+		paint: boxScroll(id, "DOWN", 10, {x: 6, y: 0, dx: 120, dy: 80})
 	});
 	animation.start();
 }
