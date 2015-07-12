@@ -64,10 +64,11 @@ function resizeCanvasToWindow(){
 function imageLoaded(id){
 	//TODO: All images must be converted to grayscale!
 	animation = animate({
-		duration: 40,//DEFAULT_DURATION,
+		duration: 30,//DEFAULT_DURATION,
 		imageIds: [id],
 		// paint: scrollDown(id, 10)
-		paint: boxScroll(id, "DOWN", 10, {x: 6, y: 0, dx: 120, dy: 80})
+		// paint: boxScroll(id, "DOWN", 10, {x: 6, y: 0, dx: 120, dy: 80})
+		paint: zoomer(id, "IN", 10)
 	});
 	animation.start();
 }

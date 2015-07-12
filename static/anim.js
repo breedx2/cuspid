@@ -12,8 +12,9 @@ function animate(options){
 			return this;
 		},
 		stop: function(){
-			clearInterval(this.animTimer);
 			this.running = false;
+			console.log("STOPPING");
+			clearInterval(this.animTimer);
 			return this;
 		},
 		deltaDuration: function(delta){
