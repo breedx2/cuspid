@@ -62,9 +62,10 @@ function imageLoaded(id){
 	//TODO: All images must be converted to grayscale!
 	// blitFull(id);
 	animation = animate({
-		duration: DEFAULT_DURATION,
+		duration: 66,//DEFAULT_DURATION,
 		imageIds: [id],
-		paint: scrollDown(id, 10)
+		// paint: scrollDown(id, 10)
+		paint: boxScroll(id, "RIGHT", 1, "FULL", "FULL")
 	});
 	animation.start();
 }
