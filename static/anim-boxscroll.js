@@ -45,13 +45,11 @@ function boxScroll(imgId, direction, jerkiness, startBox){
             return [ box1, { x: 0, y: box.y, dx: box.dx - box1.dx, dy: box.dy}];
         }
         if(box.y < 0){  //above top
-            console.log("ABOVE TOP");
             box1.y = img.height + box.y;
             box1.dy = -1 * box.y;
             return [ box1, { x: box.x, y: 0, dx: box.dx, dy: box.dy - box1.dy} ];   
         }
         if(box.y + box.dy > img.height){    //below bottom
-            console.log("BELOW BOTTOM");
             box1.dy = img.height - box1.y;
             return [ box1, { x: box.x, y: 0, dx: box.dx, dy: box.dy - box1.dy}];
         }
