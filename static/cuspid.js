@@ -24,23 +24,29 @@ function handleKey(event){
 		console.log("Increasing animation speed");
 		animation.deltaDuration(-5);
 	}
-	else if(event.keyCode == 39){
+	else if((event.keyCode == 39) && (!event.shiftKey)){	//right arrow
 		changeAnimation(scrollRight);
 	}
-	else if(event.keyCode == 37){
+	else if((event.keyCode == 37) && (!event.shiftKey)){	//left arrow
 		changeAnimation(scrollLeft);
 	}
-	else if((event.keyCode == 38) && (!event.shiftKey)){
+	else if((event.keyCode == 38) && (!event.shiftKey)){	//up arrow
 		changeAnimation(scrollUp);
 	}
-	else if((event.keyCode == 40) && (!event.shiftKey)){
+	else if((event.keyCode == 40) && (!event.shiftKey)){	//down arrow
 		changeAnimation(scrollDown);
 	}
-	else if((event.keyCode == 38) && (event.shiftKey)){
+	else if((event.keyCode == 38) && (event.shiftKey)){		//shift up arrow
 		changeAnimation(zoomIn);
 	}
-	else if((event.keyCode == 40) && (event.shiftKey)){
+	else if((event.keyCode == 40) && (event.shiftKey)){		//shift down arrow
 		changeAnimation(zoomOut);
+	}
+	else if((event.keyCode == 39) && (event.shiftKey)){		//shift right arrow
+		changeAnimation(paletteUp);
+	}
+	else if((event.keyCode == 37) && (event.shiftKey)){	//shift left arrow
+		changeAnimation(paletteDown);
 	}
 	else if(event.keyCode == 13){	//enter key
 		animation.options.paint();

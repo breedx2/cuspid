@@ -79,6 +79,14 @@ function zoomOut(imgId, jerkiness){
 	return zoomer(imgId, "OUT", Math.abs(jerkiness) || 1);
 }
 
+function paletteUp(imgId, jerkiness){
+	return rotatePalette(imgId, "UP", jerkiness);
+}
+
+function paletteDown(imgId, jerkiness){
+	return rotatePalette(imgId, "DOWN", jerkiness);
+}
+
 function _blit(img, context, src, dst){
 	// console.log("BLIT: ", src.x, src.y, src.dx, src.dy, dst.x, dst.y, dst.dx, dst.dy);
 	context.drawImage(img, src.x, src.y, src.dx, src.dy, dst.x, dst.y, dst.dx, dst.dy);
