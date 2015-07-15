@@ -32,6 +32,7 @@ function init3D(){
 	// Load our texture
 	var texture = THREE.ImageUtils.loadTexture( '/static/cuspid.jpg' );
 	texture.minFilter = texture.magFilter = THREE.LinearFilter;
+	texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
 
 	// Create 3D scene using OrthographicCamera, which looks 'flat' (no perspective).
 	// Set the viewport to expand from the origin, 1.0 in each cardinal direction.
@@ -41,7 +42,7 @@ function init3D(){
 	// We're going to draw a single quad with our texture.
 	// Size is 2.0 to match our viewport (-1.0...1.0)
 	var quadGeom = new THREE.PlaneBufferGeometry( 2.0, 2.0 );
-	var quadMaterial = new THREE.MeshBasicMaterial({ map:texture });
+	var quadMaterial = createCuspidShaderMaterial( texture );
 	quad = new THREE.Mesh( quadGeom, quadMaterial );
 	scene.add( quad );
 
@@ -101,7 +102,8 @@ function changeAnimation(func){
 	animation = animate({
 		duration: animation.options.duration,
 		imageIds: animation.options.imageIds,
-		paint: func(animation.options.imageIds[0], animation.options.jerkiness || 5)
+		paint: func(animation.options.imageIds[0], animation.options.jerkiness || 5),
+		quad: quad
 	});
 	animation.start();
 }
@@ -111,7 +113,8 @@ function resizeCanvasToWindow(){
 	var h = window.innerHeight - 10;
 
 	/*
-	// ThreeJS steals the context, can't set it manually. Set renderer size instead (below).
+	// ThreeJS steals the context, can't set the size manually.
+	// Instead, set renderer size (see below).
 	var canvas = $('#cnv').get(0);
 	var context = canvas.getContext('3d');
 	context.canvas.width = w;
@@ -134,7 +137,8 @@ function imageLoaded(id){
 		// paint: boxScroll(id, "DOWN", 10, {x: 6, y: 0, dx: 120, dy: 80})
 		jerkiness: 5,
 		// paint: zoomer(id, "OUT", 5)
-		paint: rotatePalette(id, "DOWN", 21)
+		paint: rotatePalette(id, "DOWN", 21),
+		quad: quad
 	});
 	animation.start();
 }
