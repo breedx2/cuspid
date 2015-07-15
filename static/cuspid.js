@@ -7,8 +7,6 @@ var scene, camera, renderer;
 var quad, texture;
 
 function cuspidLoad(){
-	resizeCanvasToWindow();
-
 	// FPS stats. TODO: remove for production
 	stats = new Stats();
 	stats.domElement.style.position = 'absolute';
@@ -17,9 +15,11 @@ function cuspidLoad(){
 
 	init3D();
 
+	// After 3D is ready: resize canvas and renderer.
 	window.onresize = function(event){
 		resizeCanvasToWindow();
 	}
+	resizeCanvasToWindow();
 
 	loadImages();
 	$('body').get(0).addEventListener('keydown', handleKey);
@@ -45,10 +45,8 @@ function init3D(){
 	quad = new THREE.Mesh( quadGeom, quadMaterial );
 	scene.add( quad );
 
-	var canvas = document.getElementById( "cnv" );
-	console.log("wtf", canvas);
-
 	// .antialias: some browsers will ignore this
+	var canvas = $('#cnv').get(0);
 	renderer = new THREE.WebGLRenderer({ antialias:true, precision:'mediump', canvas:canvas });
 	renderer.setClearColor( 0xff2224, 1.0 );
 }
@@ -109,12 +107,20 @@ function changeAnimation(func){
 }
 
 function resizeCanvasToWindow(){
-	return;	//FIXME
+	var w = window.innerWidth - 10;
+	var h = window.innerHeight - 10;
 
+	/*
+	// ThreeJS steals the context, can't set it manually. Set renderer size instead (below).
 	var canvas = $('#cnv').get(0);
-	var context = canvas.getContext('2d');
-	context.canvas.width = window.innerWidth - 10;
-	context.canvas.height = window.innerHeight - 10;
+	var context = canvas.getContext('3d');
+	context.canvas.width = w;
+	context.canvas.height = h;
+	*/
+
+	if( renderer ) {	// sanity check
+		renderer.setSize( w, h );
+	}
 }
 
 function imageLoaded(id){
@@ -138,6 +144,8 @@ function perFrame(){
 	requestAnimationFrame( perFrame );
 
 	renderer.render( scene, camera );
+
+	if( stats ) stats.update();
 }
 
 function loadImages(){
