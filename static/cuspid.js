@@ -2,13 +2,55 @@
 var DEFAULT_DURATION = 55;
 var animation = null;
 
+// ThreeJS variables
+var scene, camera, renderer;
+var quad, texture;
+
 function cuspidLoad(){
 	resizeCanvasToWindow();
+
+	// FPS stats. TODO: remove for production
+	stats = new Stats();
+	stats.domElement.style.position = 'absolute';
+	stats.domElement.style.top = '0px';
+	document.body.appendChild( stats.domElement );
+
+	init3D();
+
 	window.onresize = function(event){
 		resizeCanvasToWindow();
 	}
+
 	loadImages();
 	$('body').get(0).addEventListener('keydown', handleKey);
+
+	// Start animation
+	perFrame();
+}
+
+function init3D(){
+	// Load our texture
+	var texture = THREE.ImageUtils.loadTexture( '/static/cuspid.jpg' );
+	texture.minFilter = texture.magFilter = THREE.LinearFilter;
+
+	// Create 3D scene using OrthographicCamera, which looks 'flat' (no perspective).
+	// Set the viewport to expand from the origin, 1.0 in each cardinal direction.
+	scene = new THREE.Scene();
+	camera = new THREE.OrthographicCamera( -1.0, 1.0, 1.0, -1.0, -100, 100 );	// left, right, top, bottom, near, far
+
+	// We're going to draw a single quad with our texture.
+	// Size is 2.0 to match our viewport (-1.0...1.0)
+	var quadGeom = new THREE.PlaneBufferGeometry( 2.0, 2.0 );
+	var quadMaterial = new THREE.MeshBasicMaterial({ map:texture });
+	quad = new THREE.Mesh( quadGeom, quadMaterial );
+	scene.add( quad );
+
+	var canvas = document.getElementById( "cnv" );
+	console.log("wtf", canvas);
+
+	// .antialias: some browsers will ignore this
+	renderer = new THREE.WebGLRenderer({ antialias:true, precision:'mediump', canvas:canvas });
+	renderer.setClearColor( 0xff2224, 1.0 );
 }
 
 function handleKey(event){
@@ -67,6 +109,8 @@ function changeAnimation(func){
 }
 
 function resizeCanvasToWindow(){
+	return;	//FIXME
+
 	var canvas = $('#cnv').get(0);
 	var context = canvas.getContext('2d');
 	context.canvas.width = window.innerWidth - 10;
@@ -74,6 +118,8 @@ function resizeCanvasToWindow(){
 }
 
 function imageLoaded(id){
+	return;	// FIXME
+
 	//TODO: All images must be converted to grayscale!
 	animation = animate({
 		duration: 33,//DEFAULT_DURATION,
@@ -87,6 +133,14 @@ function imageLoaded(id){
 	animation.start();
 }
 
+function perFrame(){
+	// Request another animation frame
+	requestAnimationFrame( perFrame );
+
+	renderer.render( scene, camera );
+}
+
 function loadImages(){
+	return;//FIXME
 	$('#imagepool').append("<img src='/static/cuspid.jpg' id='cuspid' onload='imageLoaded(\"cuspid\")'/>");
 }
