@@ -52,8 +52,7 @@ function scrollRight( quad, jerkiness){
 
 function scrollHoriz( quad, jerkiness, leftNotRight){
 	jerkiness = Math.abs(jerkiness) || 1;
-	return boxScroll( quad, leftNotRight ? "LEFT" : "RIGHT", jerkiness,
-						{ x: 0, y: 0, dx: "FULL", dy: "FULL"});
+	return boxScroll( quad, leftNotRight ? "LEFT" : "RIGHT", jerkiness );
 }
 
 function scrollDown( quad, jerkiness){
@@ -67,8 +66,7 @@ function scrollUp( quad, jerkiness){
 //could probably combine this with horiz for code reuse/deduplication, but f it
 function scrollVert( quad, jerkiness, upNotDown){
 	jerkiness = Math.abs(jerkiness) || 1;
-	return boxScroll( quad, upNotDown ? "UP" : "DOWN", jerkiness,
-						{ x: 0, y: 0, dx: "FULL", dy: "FULL"});
+	return boxScroll( quad, upNotDown ? "UP" : "DOWN", jerkiness );
 }
 
 function zoomIn( quad, jerkiness ){

@@ -31,8 +31,8 @@ function cuspidLoad(){
 
 function init3D(){
 	// Load our texture
-	var texture = THREE.ImageUtils.loadTexture( '/static/cuspid.jpg' );
-	texture.minFilter = texture.magFilter = THREE.LinearFilter;
+	var texture = THREE.ImageUtils.loadTexture( '/static/cuspid_pow2.jpg' );
+	texture.minFilter = texture.magFilter = THREE.NearestFilter;	// or THREE.LinearFilter;
 	texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
 
 	// Create 3D scene using OrthographicCamera, which looks 'flat' (no perspective).
@@ -49,8 +49,7 @@ function init3D(){
 
 	// .antialias: some browsers will ignore this
 	var canvas = $('#cnv').get(0);
-	renderer = new THREE.WebGLRenderer({ antialias:true, precision:'mediump', canvas:canvas });
-	renderer.setClearColor( 0xff2224, 1.0 );
+	renderer = new THREE.WebGLRenderer({ antialias:true, precision:'mediump', canvas:canvas, autoClear:false });
 }
 
 function handleKey(event){
@@ -96,10 +95,13 @@ function handleKey(event){
 }
 
 function changeAnimation(func){
-	if(!animation){
-		return;
-	}
-	animation.stop();
+	if( animation ) animation.stop();
+
+	// Reset quad uniforms and size
+	quad.material.uniforms['colorCycle'].value = 0.0;
+	quad.material.uniforms['uvOffset'].value.set( 0, 0 );
+	quad.scale.set( 1.0, 1.0, 1.0 );
+
 	animation = animate({
 		duration: animation.options.duration,
 		imageIds: animation.options.imageIds,
@@ -114,7 +116,7 @@ function resizeCanvasToWindow(){
 
 	/*
 	// ThreeJS steals the context, can't set the size manually.
-	// Instead, set renderer size (see below).
+	// Instead, use renderer.setSize (see below).
 	var canvas = $('#cnv').get(0);
 	var context = canvas.getContext('3d');
 	context.canvas.width = w;
