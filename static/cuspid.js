@@ -21,8 +21,9 @@ function cuspidLoad(){
 	}
 	resizeCanvasToWindow();
 
-	loadImages();
 	$('body').get(0).addEventListener('keydown', handleKey);
+
+	initFirstAnimation();
 
 	// Start animation
 	perFrame();
@@ -102,8 +103,7 @@ function changeAnimation(func){
 	animation = animate({
 		duration: animation.options.duration,
 		imageIds: animation.options.imageIds,
-		paint: func(animation.options.imageIds[0], animation.options.jerkiness || 5),
-		quad: quad
+		paint: func( quad, animation.options.jerkiness || 5),
 	});
 	animation.start();
 }
@@ -126,19 +126,14 @@ function resizeCanvasToWindow(){
 	}
 }
 
-function imageLoaded(id){
-	return;	// FIXME
-
-	//TODO: All images must be converted to grayscale!
+function initFirstAnimation(){
 	animation = animate({
 		duration: 33,//DEFAULT_DURATION,
-		imageIds: [id],
 		// paint: scrollDown(id, 10)
 		// paint: boxScroll(id, "DOWN", 10, {x: 6, y: 0, dx: 120, dy: 80})
 		jerkiness: 5,
 		// paint: zoomer(id, "OUT", 5)
-		paint: rotatePalette(id, "DOWN", 21),
-		quad: quad
+		paint: rotatePalette( quad, "DOWN", 21 ),
 	});
 	animation.start();
 }
@@ -150,9 +145,4 @@ function perFrame(){
 	renderer.render( scene, camera );
 
 	if( stats ) stats.update();
-}
-
-function loadImages(){
-	return;//FIXME
-	$('#imagepool').append("<img src='/static/cuspid.jpg' id='cuspid' onload='imageLoaded(\"cuspid\")'/>");
 }
