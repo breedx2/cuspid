@@ -32,24 +32,25 @@ function cuspidLoad(){
 function init3D(){
 	// Load our texture
 	var texture = THREE.ImageUtils.loadTexture( '/static/cuspid_pow2.jpg' );
-	texture.minFilter = texture.magFilter = THREE.NearestFilter;	// or THREE.LinearFilter;
-	texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+	texture.minFilter = texture.magFilter = THREE.LinearFilter;	// smoother
+	//texture.minFilter = texture.magFilter = THREE.NearestFilter;	// more aliasing
+	texture.wrapS = texture.wrapT = THREE.RepeatWrapping;	// image wraps around
+	texture.format = THREE.LuminanceFormat;	// we only need 1 channel for grayscale
 
 	// Create 3D scene using OrthographicCamera, which looks 'flat' (no perspective).
 	// Set the viewport to expand from the origin, 1.0 in each cardinal direction.
 	scene = new THREE.Scene();
 	camera = new THREE.OrthographicCamera( -1.0, 1.0, 1.0, -1.0, -100, 100 );	// left, right, top, bottom, near, far
 
-	// We're going to draw a single quad with our texture.
-	// Size is 2.0 to match our viewport (-1.0...1.0)
+	// Draw a single quad with our texture.
+	// Width & height are both 2.0, to completely fill our viewport (-1.0...1.0)
 	var quadGeom = new THREE.PlaneBufferGeometry( 2.0, 2.0 );
 	var quadMaterial = createCuspidShaderMaterial( texture );
 	quad = new THREE.Mesh( quadGeom, quadMaterial );
 	scene.add( quad );
 
-	// .antialias: some browsers will ignore this
 	var canvas = $('#cnv').get(0);
-	renderer = new THREE.WebGLRenderer({ antialias:true, precision:'mediump', canvas:canvas, autoClear:false });
+	renderer = new THREE.WebGLRenderer({ antialias:false, precision:'mediump', canvas:canvas, autoClear:false });
 }
 
 function handleKey(event){
