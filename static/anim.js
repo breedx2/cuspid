@@ -4,17 +4,15 @@ function animate(options){
 
 	return {
 		options: options,
-		animTimer: null,
 		running: false,
 		start: function(){
-			this.animTimer = setInterval(this.options.paint, options.duration);
+			this.tickFunction = this.options.paint;
 			this.running = true;
 			return this;
 		},
 		stop: function(){
 			this.running = false;
 			console.log("STOPPING");
-			clearInterval(this.animTimer);
 			return this;
 		},
 		deltaDuration: function(delta){

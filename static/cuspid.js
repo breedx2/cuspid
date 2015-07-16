@@ -6,6 +6,8 @@ var animation = null;
 var scene, camera, renderer;
 var quad, texture;
 
+var prevMS = (new Date()).getTime();
+
 function cuspidLoad(){
 	// FPS stats. TODO: remove for production
 	stats = new Stats();
@@ -144,6 +146,17 @@ function initFirstAnimation(){
 function perFrame(){
 	// Request another animation frame
 	requestAnimationFrame( perFrame );
+
+	// Frame rate may not be constant 60fps. Time between frames determines how
+	// quickly to advance animations.
+	var ms = (new Date()).getTime();
+	var elapsed = (ms - prevMS) * 0.001;	// ms to seconds
+	var timeMult = elapsed * 60.0;			// Animations are cooked at 60fps, I think? So timeMult is ~1.0 when computer is achieving 60fps
+	timeMult = Math.min( 4.0, timeMult );	// Prevent grievous skipping
+	prevMS = ms;
+
+	// Advance the animation
+	if( animation ) animation.tickFunction( timeMult );
 
 	renderer.render( scene, camera );
 

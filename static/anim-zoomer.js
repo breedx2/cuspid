@@ -2,11 +2,11 @@
 function zoomer( quad, direction, jerkiness ){
 	var phase = 0.0;	// 0..1
 
-	var fn = function _zoomFunction(){
+	var fn = function _zoomFunction( timeMult ){
 		var img = quad.material.uniforms['texture'].value.image;
 		switch(direction){
-			case "IN":     phase += jerkiness / img.width; break;
-			case "OUT":    phase -= jerkiness / img.width; break;
+			case "IN":     phase += (jerkiness / img.width) * timeMult; break;
+			case "OUT":    phase -= (jerkiness / img.width) * timeMult; break;
 			default:
 				throw new Error("Unknown direction " + direction + ", must be IN or OUT");
 				break;

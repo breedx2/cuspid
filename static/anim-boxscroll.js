@@ -2,7 +2,7 @@
 function boxScroll( quad, direction, jerkiness ){
 	jerkiness = Math.abs(jerkiness) || 1;
 
-	var fn = function _scrollFunction(){
+	var fn = function _scrollFunction( timeMult ){
 		var offset = new THREE.Vector2( 0, 0 );
 
 		// GL texture coordinates (UVs) are floating point numbers in range 0..1,
@@ -18,6 +18,8 @@ function boxScroll( quad, direction, jerkiness ){
 				break;
 		}
 
+		offset.multiplyScalar( timeMult );
+		
 		quad.material.uniforms['uvOffset'].value.add( offset );
 	};
 
