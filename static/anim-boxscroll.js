@@ -11,15 +11,15 @@ function boxScroll( quad, direction, jerkiness ){
 		switch( direction ) {
 			case 'LEFT':  offset.x = jerkiness / img.width; break;
 			case 'RIGHT': offset.x = -jerkiness / img.width; break;
-			case 'UP':    offset.y = jerkiness / img.height; break;
-			case 'DOWN':  offset.y = -jerkiness / img.height; break;
+			case 'UP':    offset.y = -jerkiness / img.height; break;
+			case 'DOWN':  offset.y = jerkiness / img.height; break;
 			default:
 				throw new Error("Unknown direction: " + direction);
 				break;
 		}
 
 		offset.multiplyScalar( timeMult );
-		
+
 		quad.material.uniforms['uvOffset'].value.add( offset );
 	};
 
