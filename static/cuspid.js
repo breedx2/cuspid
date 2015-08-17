@@ -19,9 +19,9 @@ function cuspidLoad(){
 
 	// After 3D is ready: resize canvas and renderer.
 	window.onresize = function(event){
-		resizeCanvasToWindow();
+		setRenderSize();
 	}
-	resizeCanvasToWindow();
+	setRenderSize();
 
 	$('body').get(0).addEventListener('keydown', handleKey);
 
@@ -98,7 +98,9 @@ function handleKey(event){
 }
 
 function changeAnimation(func){
-	if( animation ) animation.stop();
+	if(animation){
+		animation.stop();	
+	}
 
 	// Reset quad uniforms and size
 	quad.material.uniforms['colorCycle'].value = 0.0;
@@ -113,20 +115,14 @@ function changeAnimation(func){
 	animation.start();
 }
 
-function resizeCanvasToWindow(){
+function setRenderSize(){
 	var w = window.innerWidth - 10;
 	var h = window.innerHeight - 10;
 
-	/*
 	// ThreeJS steals the context, can't set the size manually.
 	// Instead, use renderer.setSize (see below).
-	var canvas = $('#cnv').get(0);
-	var context = canvas.getContext('3d');
-	context.canvas.width = w;
-	context.canvas.height = h;
-	*/
 
-	if( renderer ) {	// sanity check
+	if(renderer) {	// sanity check
 		renderer.setSize( w, h );
 	}
 }
@@ -156,9 +152,13 @@ function perFrame(){
 	prevMS = ms;
 
 	// Advance the animation
-	if( animation ) animation.tickFunction( timeMult );
+	if(animation){
+		animation.tickFunction( timeMult );
+	}
 
 	renderer.render( scene, camera );
 
-	if( stats ) stats.update();
+	if(stats){
+		stats.update();	
+	}
 }
