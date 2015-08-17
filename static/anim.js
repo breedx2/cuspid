@@ -75,6 +75,7 @@ Animation.prototype._render = function(){
 	this.options.renderer.render( this.options.scene, this.options.camera );
 }
 
+// TODO: Move all of these somewhere more sensical/useful
 
 function scrollLeft( quad, jerkiness){
 	return scrollHoriz( quad, jerkiness, true);

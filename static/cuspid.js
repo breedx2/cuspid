@@ -119,7 +119,6 @@ function setRenderSize(){
 
 	// ThreeJS steals the context, can't set the size manually.
 	// Instead, use renderer.setSize (see below).
-
 	if(renderer) {	// sanity check
 		renderer.setSize( w, h );
 	}
@@ -141,29 +140,3 @@ function startFirstAnimation(){
 	animation.start();
 	return animation;
 }
-
-// function perFrame(){
-// 	// Request another animation frame
-// 	if(animation.running){
-// 		requestAnimationFrame( perFrame );	
-// 	}
-
-// 	// Frame rate may not be constant 60fps. Time between frames determines how
-// 	// quickly to advance animations.
-// 	var ms = (new Date()).getTime();
-// 	var elapsed = (ms - prevMS) * 0.001;	// ms to seconds
-// 	var timeMult = elapsed * 60.0;			// Animations are cooked at 60fps, I think? So timeMult is ~1.0 when computer is achieving 60fps
-// 	timeMult = Math.min( 4.0, timeMult );	// Prevent grievous skipping
-// 	prevMS = ms;
-
-// 	// Advance the animation
-// 	if(animation){
-// 		animation.tickFunction( timeMult );
-// 	}
-
-// 	renderer.render( scene, camera );
-
-// 	if(stats){
-// 		stats.update();	
-// 	}
-// }
