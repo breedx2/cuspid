@@ -4,17 +4,15 @@ function animate(options){
 
 	return {
 		options: options,
-		animTimer: null,
 		running: false,
 		start: function(){
-			this.animTimer = setInterval(this.options.paint, options.duration);
+			this.tickFunction = this.options.paint;
 			this.running = true;
 			return this;
 		},
 		stop: function(){
 			this.running = false;
 			console.log("STOPPING");
-			clearInterval(this.animTimer);
 			return this;
 		},
 		deltaDuration: function(delta){
@@ -42,57 +40,51 @@ function animate(options){
 	}
 }
 
-function scrollLeft(imgId, jerkiness){
-	return scrollHoriz(imgId, jerkiness, true);
+function scrollLeft( quad, jerkiness){
+	return scrollHoriz( quad, jerkiness, true);
 }
 
-function scrollRight(imgId, jerkiness){
-	return scrollHoriz(imgId, jerkiness, false);
+function scrollRight( quad, jerkiness){
+	return scrollHoriz( quad, jerkiness, false);
 }
 
-function scrollHoriz(imgId, jerkiness, leftNotRight){
+function scrollHoriz( quad, jerkiness, leftNotRight){
 	jerkiness = Math.abs(jerkiness) || 1;
-	return boxScroll(imgId, leftNotRight ? "LEFT" : "RIGHT", jerkiness, 
-						{ x: 0, y: 0, dx: "FULL", dy: "FULL"});
+	return boxScroll( quad, leftNotRight ? "LEFT" : "RIGHT", jerkiness );
 }
 
-function scrollDown(imgId, jerkiness){
-	return scrollVert(imgId, jerkiness, false);
+function scrollDown( quad, jerkiness){
+	return scrollVert( quad, jerkiness, false);
 }
 
-function scrollUp(imgId, jerkiness){
-	return scrollVert(imgId, jerkiness, true);
+function scrollUp( quad, jerkiness){
+	return scrollVert( quad, jerkiness, true);
 }
 
 //could probably combine this with horiz for code reuse/deduplication, but f it
-function scrollVert(imgId, jerkiness, upNotDown){
+function scrollVert( quad, jerkiness, upNotDown){
 	jerkiness = Math.abs(jerkiness) || 1;
-	return boxScroll(imgId, upNotDown ? "UP" : "DOWN", jerkiness, 
-						{ x: 0, y: 0, dx: "FULL", dy: "FULL"});
+	return boxScroll( quad, upNotDown ? "UP" : "DOWN", jerkiness );
 }
 
-function zoomIn(imgId, jerkiness){
-	return zoomer(imgId, "IN", Math.abs(jerkiness) || 1);
+function zoomIn( quad, jerkiness ){
+	return zoomer( quad, "IN", Math.abs(jerkiness) || 1);
 }
 
-function zoomOut(imgId, jerkiness){
-	return zoomer(imgId, "OUT", Math.abs(jerkiness) || 1);
+function zoomOut( quad, jerkiness ){
+	return zoomer( quad, "OUT", Math.abs(jerkiness) || 1);
 }
 
-function paletteUp(imgId, jerkiness){
-	return rotatePalette(imgId, "UP", jerkiness);
+function paletteUp( quad, jerkiness){
+	return rotatePalette( quad, "UP", jerkiness );
 }
 
-function paletteDown(imgId, jerkiness){
-	return rotatePalette(imgId, "DOWN", jerkiness);
-}
-
-function _blit(img, context, src, dst){
-	// console.log("BLIT: ", src.x, src.y, src.dx, src.dy, dst.x, dst.y, dst.dx, dst.dy);
-	context.drawImage(img, src.x, src.y, src.dx, src.dy, dst.x, dst.y, dst.dx, dst.dy);
+function paletteDown( quad, jerkiness ){
+	return rotatePalette( quad, "DOWN", jerkiness );
 }
 
 // a pretty interesting mistake
+/*
 function stretchRightCompactor(imgId, speed){
 	var canvas = $('#cnv').get(0);
     var context = canvas.getContext('2d');
@@ -105,10 +97,11 @@ function stretchRightCompactor(imgId, speed){
 		if(x > 0){	//paint rest
 			context.drawImage(img, 0, 0, x, img.height, cx+1, 0, context.canvas.width-cx+1, context.canvas.height);
 		}
-		x = x + 1;	// TODO: Speed offset/increment > 1??		
+		x = x + 1;	// TODO: Speed offset/increment > 1??
 		if(x >= img.width){
 			x = 0;
 		}
 	}
 	var timer = setInterval(paint, speed);
 }
+*/
