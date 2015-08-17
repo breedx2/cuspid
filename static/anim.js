@@ -66,8 +66,8 @@ Animation.prototype._perFrame = function(){
 
 	this.options.renderer.render( scene, camera );
 
-	if(this.stats){
-		this.stats.update();	
+	if(this.options.stats){
+		this.options.stats.update();	
 	}
 }
 
