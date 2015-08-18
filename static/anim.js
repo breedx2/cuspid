@@ -1,44 +1,81 @@
 
+function Animation(options){
+	this.options = options;
+	this.running = false;
+	this.prevFrameTime = (new Date()).getTime();
+}
 
-function animate(options){
+Animation.prototype.start = function(){
+	if(this.running){
+		return console.log("NOT STARTING -- already running");
+	}
+	console.log("STARTING");
+	this.tickFunction = this.options.paint;
+	this.running = true;
+	this._perFrame();
+	return this;
+};
 
-	return {
-		options: options,
-		running: false,
-		start: function(){
-			this.tickFunction = this.options.paint;
-			this.running = true;
-			return this;
-		},
-		stop: function(){
-			this.running = false;
-			console.log("STOPPING");
-			return this;
-		},
-		deltaDuration: function(delta){
-			this.options.duration = Math.max(1, this.options.duration + delta);
-			this.restart();
-			return this;
-		},
-		duration: function(duration){
-			this.options.duration = duration;
-			this.restart();
-			return this;
-		},
-		restart: function(){
-			this.stop();
-			this.start();
-		},
-		pause: function(){
-			if(this.running){
-				this.stop();
-			}
-			else{
-				return this.start();
-			}
-		}
+Animation.prototype.stop = function(){
+	this.running = false;
+	console.log("STOPPING");
+	return this;
+};
+
+Animation.prototype.deltaDuration = function(delta){
+	this.options.duration = Math.max(1, this.options.duration + delta);
+	this.restart();
+	return this;
+};
+
+Animation.prototype.duration = function(duration){
+	this.options.duration = duration;
+	this.restart();
+	return this;
+};
+
+Animation.prototype.restart = function(){
+	this.stop();
+	this.start();
+};
+
+Animation.prototype.pause = function(){
+	if(this.running){
+		return this.stop();
+	}
+	return this.start();
+}
+
+Animation.prototype._perFrame = function(){
+	if(this.running){
+		requestAnimationFrame( this._perFrame.bind(this) );	
+	}
+
+	// Frame rate may not be constant 60fps. Time between frames determines how
+	// quickly to advance animations.
+	var now = (new Date()).getTime();
+	var elapsed = (now - this.prevFrameTime) * 0.001;	// ms to seconds
+	var timeMult = elapsed * 60.0;			// Animations are cooked at 60fps, I think? So timeMult is ~1.0 when computer is achieving 60fps
+	timeMult = Math.min( 4.0, timeMult );	// Prevent grievous skipping
+	this.prevFrameTime = now;
+
+	// Advance the animation
+	if(this.tickFunction){
+		this.tickFunction( timeMult );
+	}
+
+	this.options.renderer.render( scene, camera );
+
+	if(this.options.stats){
+		this.options.stats.update();	
 	}
 }
+
+Animation.prototype._render = function(){
+	this.options.renderer.render( this.options.scene, this.options.camera );
+}
+
+// TODO: Move all of these somewhere more sensical/useful
 
 function scrollLeft( quad, jerkiness){
 	return scrollHoriz( quad, jerkiness, true);
