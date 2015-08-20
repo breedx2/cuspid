@@ -1,5 +1,4 @@
 
-var DEFAULT_DURATION = 55;
 var animation = null;
 
 // ThreeJS variables
@@ -53,15 +52,15 @@ function init3D(){
 
 function handleKey(event){
 	console.log('I saw this key: ' + event.keyCode);
-	if(animation && (event.keyCode == 32)){
+	if(animation && (event.keyCode == 32)){	// space bar
 		animation.pause();
 	}
-	else if(animation && (event.keyCode == 187) && (event.shiftKey)){
-		console.log("Slowing animation speed");
+	else if(animation && (event.keyCode == 187) && (event.shiftKey)){	// plus '+'
+		console.log("Increasing animation speed");
 		animation.deltaDuration(5);
 	}
-	else if(animation && (event.keyCode == 189) && (!event.shiftKey)){
-		console.log("Increasing animation speed");
+	else if(animation && (event.keyCode == 189) && (!event.shiftKey)){	// minus '-'
+		console.log("Slowing animation speed");
 		animation.deltaDuration(-5);
 	}
 	else if((event.keyCode == 39) && (!event.shiftKey)){	//right arrow
@@ -143,7 +142,7 @@ function startFirstAnimation(){
 		stats: stats,
 		scene: scene,
 		camera: camera,
-		duration: 33,//DEFAULT_DURATION,
+		duration: DEFAULT_ANIM_DURATION,
 		// paint: scrollDown(id, 10)
 		// paint: boxScroll(id, "DOWN", 10, {x: 6, y: 0, dx: 120, dy: 80})
 		jerkiness: 5,

@@ -1,8 +1,10 @@
+const DEFAULT_ANIM_DURATION = 33;
 
 function Animation(options){
 	this.options = options;
 	this.running = false;
 	this.prevFrameTime = (new Date()).getTime();
+	this.animRequest = null;
 }
 
 Animation.prototype.start = function(){
@@ -17,20 +19,25 @@ Animation.prototype.start = function(){
 };
 
 Animation.prototype.stop = function(){
-	this.running = false;
 	console.log("STOPPING");
+	this.running = false;
+
+	// Cancel pending perFrame() calls
+	if( this.animRequest ) cancelAnimationFrame( this.animRequest );
+	this.animRequest = null;
+
 	return this;
 };
 
 Animation.prototype.deltaDuration = function(delta){
 	this.options.duration = Math.max(1, this.options.duration + delta);
-	this.restart();
+	//this.restart();
 	return this;
 };
 
 Animation.prototype.duration = function(duration){
 	this.options.duration = duration;
-	this.restart();
+	//this.restart();
 	return this;
 };
 
@@ -49,7 +56,7 @@ Animation.prototype.pause = function(){
 Animation.prototype._perFrame = function(){
 	if( !this.running ) return;	// we're dead
 
-	requestAnimationFrame( this._perFrame.bind(this) );
+	this.animRequest = requestAnimationFrame( this._perFrame.bind(this) );
 
 	// Frame rate may not be constant 60fps. Time between frames determines how
 	// quickly to advance animations.
@@ -57,6 +64,10 @@ Animation.prototype._perFrame = function(){
 	var elapsed = (now - this.prevFrameTime) * 0.001;	// ms to seconds
 	var timeMult = elapsed * 60.0;			// Animations are cooked at 60fps, I think? So timeMult is ~1.0 when computer is achieving 60fps
 	timeMult = Math.min( 4.0, timeMult );	// Prevent grievous skipping
+
+	// Faster/slower speed, depending on .options.duration.
+	timeMult *= (1.0/DEFAULT_ANIM_DURATION) * this.options.duration;
+
 	this.prevFrameTime = now;
 
 	// Advance the animation
