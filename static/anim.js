@@ -47,9 +47,9 @@ Animation.prototype.pause = function(){
 }
 
 Animation.prototype._perFrame = function(){
-	if(this.running){
-		requestAnimationFrame( this._perFrame.bind(this) );	
-	}
+	if( !this.running ) return;	// we're dead
+
+	requestAnimationFrame( this._perFrame.bind(this) );
 
 	// Frame rate may not be constant 60fps. Time between frames determines how
 	// quickly to advance animations.
@@ -67,7 +67,7 @@ Animation.prototype._perFrame = function(){
 	this.options.renderer.render( scene, camera );
 
 	if(this.options.stats){
-		this.options.stats.update();	
+		this.options.stats.update();
 	}
 }
 
