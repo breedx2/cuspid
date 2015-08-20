@@ -31,13 +31,11 @@ Animation.prototype.stop = function(){
 
 Animation.prototype.deltaDuration = function(delta){
 	this.options.duration = Math.max(1, this.options.duration + delta);
-	//this.restart();
 	return this;
 };
 
 Animation.prototype.duration = function(duration){
 	this.options.duration = duration;
-	//this.restart();
 	return this;
 };
 
