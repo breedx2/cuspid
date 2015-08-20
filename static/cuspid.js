@@ -1,5 +1,4 @@
 
-var DEFAULT_DURATION = 55;
 var animation = null;
 
 // ThreeJS variables
@@ -7,8 +6,9 @@ var scene, camera, renderer;
 var quad, texture;
 
 function cuspidLoad(){
-	// FPS stats. TODO: remove for production
+	// FPS stats
 	stats = new Stats();
+	stats.domElement.style.display = 'none';	// start hidden
 	stats.domElement.style.position = 'absolute';
 	stats.domElement.style.top = '0px';
 	document.body.appendChild( stats.domElement );
@@ -28,7 +28,7 @@ function cuspidLoad(){
 
 function init3D(){
 	// Load our texture
-	var texture = THREE.ImageUtils.loadTexture( '/static/cuspid_pow2.jpg' );
+	texture = THREE.ImageUtils.loadTexture( '/static/cuspid_pow2.jpg' );
 	texture.minFilter = texture.magFilter = THREE.LinearFilter;	// smoother
 	//texture.minFilter = texture.magFilter = THREE.NearestFilter;	// more aliasing
 	texture.wrapS = texture.wrapT = THREE.RepeatWrapping;	// image wraps around
@@ -52,15 +52,15 @@ function init3D(){
 
 function handleKey(event){
 	console.log('I saw this key: ' + event.keyCode);
-	if(animation && (event.keyCode == 32)){
+	if(animation && (event.keyCode == 32)){	// space bar
 		animation.pause();
 	}
-	else if(animation && (event.keyCode == 187) && (event.shiftKey)){
-		console.log("Slowing animation speed");
+	else if(animation && (event.keyCode == 187) && (event.shiftKey)){	// plus '+'
+		console.log("Increasing animation speed");
 		animation.deltaDuration(5);
 	}
-	else if(animation && (event.keyCode == 189) && (!event.shiftKey)){
-		console.log("Increasing animation speed");
+	else if(animation && (event.keyCode == 189) && (!event.shiftKey)){	// minus '-'
+		console.log("Slowing animation speed");
 		animation.deltaDuration(-5);
 	}
 	else if((event.keyCode == 39) && (!event.shiftKey)){	//right arrow
@@ -90,11 +90,23 @@ function handleKey(event){
 	else if(event.keyCode == 13){	//enter key
 		animation.options.paint();
 	}
+	else if(stats && (event.keyCode == 'F'.charCodeAt(0)) ){
+		// Toggle FPS visibility
+		var display = stats.domElement.style.display;
+		stats.domElement.style.display = (display==='none') ? 'block' : 'none';
+	}
+	else if(texture && (event.keyCode == 'I'.charCodeAt(0)) ) {
+		// Toggle smooth/pixelated image scaling
+		var filter = texture.minFilter;
+		console.log( 'eh?',filter );
+		texture.minFilter = texture.magFilter = (filter===THREE.LinearFilter) ? THREE.NearestFilter : THREE.LinearFilter;
+		texture.needsUpdate = true;	// Texture has changed, so tell ThreeJS to update it
+	}
 }
 
 function changeAnimation(func){
 	if(animation){
-		animation.stop();	
+		animation.stop();
 	}
 
 	// Reset quad uniforms and size
@@ -130,7 +142,7 @@ function startFirstAnimation(){
 		stats: stats,
 		scene: scene,
 		camera: camera,
-		duration: 33,//DEFAULT_DURATION,
+		duration: DEFAULT_ANIM_DURATION,
 		// paint: scrollDown(id, 10)
 		// paint: boxScroll(id, "DOWN", 10, {x: 6, y: 0, dx: 120, dy: 80})
 		jerkiness: 5,
