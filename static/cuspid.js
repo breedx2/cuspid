@@ -7,8 +7,9 @@ var scene, camera, renderer;
 var quad, texture;
 
 function cuspidLoad(){
-	// FPS stats. TODO: remove for production
+	// FPS stats
 	stats = new Stats();
+	stats.domElement.style.display = 'none';	// start hidden
 	stats.domElement.style.position = 'absolute';
 	stats.domElement.style.top = '0px';
 	document.body.appendChild( stats.domElement );
@@ -90,11 +91,16 @@ function handleKey(event){
 	else if(event.keyCode == 13){	//enter key
 		animation.options.paint();
 	}
+	else if(stats && (event.keyCode == 'F'.charCodeAt(0)) ){
+		// Toggle FPS visibility
+		var display = stats.domElement.style.display;
+		stats.domElement.style.display = (display==='none') ? 'block' : 'none';
+	}
 }
 
 function changeAnimation(func){
 	if(animation){
-		animation.stop();	
+		animation.stop();
 	}
 
 	// Reset quad uniforms and size
