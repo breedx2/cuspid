@@ -29,7 +29,7 @@ function cuspidLoad(){
 
 function init3D(){
 	// Load our texture
-	var texture = THREE.ImageUtils.loadTexture( '/static/cuspid_pow2.jpg' );
+	texture = THREE.ImageUtils.loadTexture( '/static/cuspid_pow2.jpg' );
 	texture.minFilter = texture.magFilter = THREE.LinearFilter;	// smoother
 	//texture.minFilter = texture.magFilter = THREE.NearestFilter;	// more aliasing
 	texture.wrapS = texture.wrapT = THREE.RepeatWrapping;	// image wraps around
@@ -95,6 +95,13 @@ function handleKey(event){
 		// Toggle FPS visibility
 		var display = stats.domElement.style.display;
 		stats.domElement.style.display = (display==='none') ? 'block' : 'none';
+	}
+	else if(texture && (event.keyCode == 'I'.charCodeAt(0)) ) {
+		// Toggle smooth/pixelated image scaling
+		var filter = texture.minFilter;
+		console.log( 'eh?',filter );
+		texture.minFilter = texture.magFilter = (filter===THREE.LinearFilter) ? THREE.NearestFilter : THREE.LinearFilter;
+		texture.needsUpdate = true;	// Texture has changed, so tell ThreeJS to update it
 	}
 }
 
