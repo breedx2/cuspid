@@ -1,4 +1,13 @@
 
+
+function zoomIn( quad, jerkiness ){
+	return zoomer( quad, "IN", Math.abs(jerkiness) || 1);
+}
+
+function zoomOut( quad, jerkiness ){
+	return zoomer( quad, "OUT", Math.abs(jerkiness) || 1);
+}
+
 function zoomer( quad, direction, jerkiness ){
 	var phase = 0.0;	// 0..1
 

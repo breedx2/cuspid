@@ -84,51 +84,6 @@ Animation.prototype._render = function(){
 	this.options.renderer.render( this.options.scene, this.options.camera );
 }
 
-// TODO: Move all of these somewhere more sensical/useful
-
-function scrollLeft( quad, jerkiness){
-	return scrollHoriz( quad, jerkiness, true);
-}
-
-function scrollRight( quad, jerkiness){
-	return scrollHoriz( quad, jerkiness, false);
-}
-
-function scrollHoriz( quad, jerkiness, leftNotRight){
-	jerkiness = Math.abs(jerkiness) || 1;
-	return boxScroll( quad, leftNotRight ? "LEFT" : "RIGHT", jerkiness );
-}
-
-function scrollDown( quad, jerkiness){
-	return scrollVert( quad, jerkiness, false);
-}
-
-function scrollUp( quad, jerkiness){
-	return scrollVert( quad, jerkiness, true);
-}
-
-//could probably combine this with horiz for code reuse/deduplication, but f it
-function scrollVert( quad, jerkiness, upNotDown){
-	jerkiness = Math.abs(jerkiness) || 1;
-	return boxScroll( quad, upNotDown ? "UP" : "DOWN", jerkiness );
-}
-
-function zoomIn( quad, jerkiness ){
-	return zoomer( quad, "IN", Math.abs(jerkiness) || 1);
-}
-
-function zoomOut( quad, jerkiness ){
-	return zoomer( quad, "OUT", Math.abs(jerkiness) || 1);
-}
-
-function paletteUp( quad, jerkiness){
-	return rotatePalette( quad, "UP", jerkiness );
-}
-
-function paletteDown( quad, jerkiness ){
-	return rotatePalette( quad, "DOWN", jerkiness );
-}
-
 // a pretty interesting mistake
 /*
 function stretchRightCompactor(imgId, speed){

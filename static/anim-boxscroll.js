@@ -1,4 +1,31 @@
 
+function scrollLeft( quad, jerkiness){
+	return scrollHoriz( quad, jerkiness, true);
+}
+
+function scrollRight( quad, jerkiness){
+	return scrollHoriz( quad, jerkiness, false);
+}
+
+function scrollHoriz( quad, jerkiness, leftNotRight){
+	jerkiness = Math.abs(jerkiness) || 1;
+	return boxScroll( quad, leftNotRight ? "LEFT" : "RIGHT", jerkiness );
+}
+
+function scrollDown( quad, jerkiness){
+	return scrollVert( quad, jerkiness, false);
+}
+
+function scrollUp( quad, jerkiness){
+	return scrollVert( quad, jerkiness, true);
+}
+
+//could probably combine this with horiz for code reuse/deduplication, but f it
+function scrollVert( quad, jerkiness, upNotDown){
+	jerkiness = Math.abs(jerkiness) || 1;
+	return boxScroll( quad, upNotDown ? "UP" : "DOWN", jerkiness );
+}
+
 function boxScroll( quad, direction, jerkiness ){
 	jerkiness = Math.abs(jerkiness) || 1;
 
