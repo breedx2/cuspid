@@ -118,6 +118,7 @@ function changeAnimation(func){
 		renderer: renderer,
 		scene: scene,
 		camera: camera,
+		stats: stats,
 		duration: animation.options.duration,
 		imageIds: animation.options.imageIds,
 		paint: func( quad, animation.options.jerkiness || 5),
