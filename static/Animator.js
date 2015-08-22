@@ -1,13 +1,13 @@
 const DEFAULT_ANIM_DURATION = 33;
 
-function Animation(options){
+function Animator(options){
 	this.options = options;
 	this.running = false;
 	this.prevFrameTime = (new Date()).getTime();
 	this.animRequest = null;
 }
 
-Animation.prototype.start = function(){
+Animator.prototype.start = function(){
 	if(this.running){
 		return console.log("NOT STARTING -- already running");
 	}
@@ -18,7 +18,7 @@ Animation.prototype.start = function(){
 	return this;
 };
 
-Animation.prototype.stop = function(){
+Animator.prototype.stop = function(){
 	console.log("STOPPING");
 	this.running = false;
 
@@ -29,29 +29,29 @@ Animation.prototype.stop = function(){
 	return this;
 };
 
-Animation.prototype.deltaDuration = function(delta){
+Animator.prototype.deltaDuration = function(delta){
 	this.options.duration = Math.max(1, this.options.duration + delta);
 	return this;
 };
 
-Animation.prototype.duration = function(duration){
+Animator.prototype.duration = function(duration){
 	this.options.duration = duration;
 	return this;
 };
 
-Animation.prototype.restart = function(){
+Animator.prototype.restart = function(){
 	this.stop();
 	this.start();
 };
 
-Animation.prototype.pause = function(){
+Animator.prototype.pause = function(){
 	if(this.running){
 		return this.stop();
 	}
 	return this.start();
 }
 
-Animation.prototype._perFrame = function(){
+Animator.prototype._perFrame = function(){
 	if( !this.running ) return;	// we're dead
 
 	this.animRequest = requestAnimationFrame( this._perFrame.bind(this) );
@@ -80,7 +80,7 @@ Animation.prototype._perFrame = function(){
 	}
 }
 
-Animation.prototype._render = function(){
+Animator.prototype._render = function(){
 	this.options.renderer.render( this.options.scene, this.options.camera );
 }
 

@@ -114,7 +114,7 @@ function changeAnimation(func){
 	quad.material.uniforms['uvOffset'].value.set( 0, 0 );
 	quad.scale.set( 1.0, 1.0, 1.0 );
 
-	animation = new Animation({
+	animation = new Animator({
 		renderer: renderer,
 		scene: scene,
 		camera: camera,
@@ -137,7 +137,7 @@ function setRenderSize(){
 }
 
 function startFirstAnimation(){
-	var animation = new Animation({
+	var animation = new Animator({
 		renderer: renderer,
 		stats: stats,
 		scene: scene,
