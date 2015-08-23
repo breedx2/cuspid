@@ -64,29 +64,29 @@ function handleKey(event){
 		animator.deltaDuration(-5);
 	}
 	else if((event.keyCode == 39) && (!event.shiftKey)){	//right arrow
-		changeAnimation(scrollRight);
+		changeAnimation(BoxScrollAnimation.scrollRight(quad, animator.options.jerkiness));
 	}
 	else if((event.keyCode == 37) && (!event.shiftKey)){	//left arrow
-		changeAnimation(scrollLeft);
+		changeAnimation(BoxScrollAnimation.scrollLeft(quad, animator.options.jerkiness));
 	}
 	else if((event.keyCode == 38) && (!event.shiftKey)){	//up arrow
-		changeAnimation(scrollUp);
+		changeAnimation(BoxScrollAnimation.scrollUp(quad, animator.options.jerkiness));
 	}
 	else if((event.keyCode == 40) && (!event.shiftKey)){	//down arrow
-		changeAnimation(scrollDown);
+		changeAnimation(BoxScrollAnimation.scrollDown(quad, animator.options.jerkiness));
 	}
 	else if((event.keyCode == 38) && (event.shiftKey)){		//shift up arrow
-		changeAnimation(null, ZoomAnimation.zoomIn(quad, animator.options.jerkiness));
+		changeAnimation(ZoomAnimation.zoomIn(quad, animator.options.jerkiness));
 	}
 	else if((event.keyCode == 40) && (event.shiftKey)){		//shift down arrow
-		changeAnimation(null, ZoomAnimation.zoomOut(quad, animator.options.jerkiness));
+		changeAnimation(ZoomAnimation.zoomOut(quad, animator.options.jerkiness));
 	}
 	else if((event.keyCode == 39) && (event.shiftKey)){		//shift right arrow
 		console.log(animator.options.jerkiness);
-		changeAnimation(null, PaletteAnimation.paletteUp(quad, animator.options.jerkiness));
+		changeAnimation(PaletteAnimation.paletteUp(quad, animator.options.jerkiness));
 	}
 	else if((event.keyCode == 37) && (event.shiftKey)){	//shift left arrow
-		changeAnimation(null, PaletteAnimation.paletteDown(quad, animator.options.jerkiness));
+		changeAnimation(PaletteAnimation.paletteDown(quad, animator.options.jerkiness));
 	}
 	else if(event.keyCode == 13){	//enter key
 		animator.options.paint();
@@ -105,7 +105,7 @@ function handleKey(event){
 	}
 }
 
-function changeAnimation(func, animation){
+function changeAnimation(animation){
 	if(animator){
 		animator.stop();
 	}
@@ -123,7 +123,6 @@ function changeAnimation(func, animation){
 		jerkiness: animator.options.jerkiness,
 		duration: animator.options.duration,
 		imageIds: animator.options.imageIds,
-		paint: func ? func( quad, animator.options.jerkiness || 5) : null,
 		animation: animation
 	});
 	animator.start();	

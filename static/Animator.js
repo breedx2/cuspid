@@ -12,7 +12,6 @@ Animator.prototype.start = function(){
 		return console.log("NOT STARTING -- already running");
 	}
 	console.log("STARTING");
-	this.tickFunction = this.options.paint;
 	this.running = true;
 	this._perFrame();
 	return this;
@@ -69,12 +68,7 @@ Animator.prototype._perFrame = function(){
 	this.prevFrameTime = now;
 
 	// Advance the animation
-	if(this.options.animation){
-		this.options.animation.tick(timeMult);
-	}
-	else if(this.tickFunction){
-		this.tickFunction( timeMult );
-	}
+	this.options.animation.tick(timeMult);
 
 	this.options.renderer.render( scene, camera );
 
