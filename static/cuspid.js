@@ -76,10 +76,10 @@ function handleKey(event){
 		changeAnimation(scrollDown);
 	}
 	else if((event.keyCode == 38) && (event.shiftKey)){		//shift up arrow
-		changeAnimation(zoomIn);
+		changeAnimation(null, ZoomAnimation.zoomIn(quad, animator.options.jerkiness));
 	}
 	else if((event.keyCode == 40) && (event.shiftKey)){		//shift down arrow
-		changeAnimation(zoomOut);
+		changeAnimation(null, ZoomAnimation.zoomOut(quad, animator.options.jerkiness));
 	}
 	else if((event.keyCode == 39) && (event.shiftKey)){		//shift right arrow
 		console.log(animator.options.jerkiness);

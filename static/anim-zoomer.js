@@ -1,36 +1,45 @@
 
-
-function zoomIn( quad, jerkiness ){
-	return zoomer( quad, "IN", Math.abs(jerkiness) || 1);
+function ZoomAnimation( quad, direction, jerkiness ){
+	this.quad = quad;
+	this.direction =  direction;
+	this.jerkiness = jerkiness;
+	this.phase = 0.0;	// 0..1
 }
 
-function zoomOut( quad, jerkiness ){
-	return zoomer( quad, "OUT", Math.abs(jerkiness) || 1);
+ZoomAnimation.prototype.tick = function(timeMult){
+	this.phase = this._computePhase(timeMult);
+	quad.scale.set(
+		1.0 + this.phase * 10.0,          // X (width)
+		1.0 + (this.phase * this.phase) * 80.0,  // Y (height) with quadratic easing (start slow, end fast)
+		1.0                        // Z never changes
+	);
 }
 
-function zoomer( quad, direction, jerkiness ){
-	var phase = 0.0;	// 0..1
-
-	var fn = function _zoomFunction( timeMult ){
-		var img = quad.material.uniforms['texture'].value.image;
-		switch(direction){
-			case "IN":     phase += (jerkiness / img.width) * timeMult; break;
-			case "OUT":    phase -= (jerkiness / img.width) * timeMult; break;
-			default:
-				throw new Error("Unknown direction " + direction + ", must be IN or OUT");
-				break;
-		}
-
-		// wrap phase between 0..1
-		if( phase >= 1.0 ) phase -= 1.0;
-		if( phase < 0.0 ) phase += 1.0;
-
-		quad.scale.set(
-			1.0 + phase*10.0,          // X (width)
-			1.0 + (phase*phase)*80.0,  // Y (height) with quadratic easing (start slow, end fast)
-			1.0                        // Z never changes
-		);
+ZoomAnimation.prototype._computePhase = function(timeMult){
+	var img = this.quad.material.uniforms['texture'].value.image;
+	var result = this.phase;	
+	switch(this.direction){
+		case "IN":
+			result += (this.jerkiness / img.width) * timeMult; 
+			break;
+		case "OUT":
+		    result -= (this.jerkiness / img.width) * timeMult; 
+		    break;
+		default:
+			throw new Error("Unknown direction " + this.direction + ", must be IN or OUT");
+			break;
 	}
 
-	return fn;
+	// wrap phase between 0..1
+	if( result >= 1.0 ) result -= 1.0;
+	if( result < 0.0 ) result += 1.0;
+	return result;
+}
+
+ZoomAnimation.zoomIn = function( quad, jerkiness ){
+	return new ZoomAnimation( quad, "IN", Math.abs(jerkiness) || 1);
+}
+
+ZoomAnimation.zoomOut = function( quad, jerkiness ){
+	return new ZoomAnimation( quad, "OUT", Math.abs(jerkiness) || 1);
 }
