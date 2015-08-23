@@ -1,5 +1,5 @@
 
-var animation = null;
+var animator = null;
 
 // ThreeJS variables
 var scene, camera, renderer;
@@ -23,7 +23,7 @@ function cuspidLoad(){
 
 	$('body').get(0).addEventListener('keydown', handleKey);
 
-	animation = startFirstAnimation();
+	animator = startFirstAnimation();
 }
 
 function init3D(){
@@ -52,16 +52,16 @@ function init3D(){
 
 function handleKey(event){
 	console.log('I saw this key: ' + event.keyCode);
-	if(animation && (event.keyCode == 32)){	// space bar
-		animation.pause();
+	if(animator && (event.keyCode == 32)){	// space bar
+		animator.pause();
 	}
-	else if(animation && (event.keyCode == 187) && (event.shiftKey)){	// plus '+'
+	else if(animator && (event.keyCode == 187) && (event.shiftKey)){	// plus '+'
 		console.log("Increasing animation speed");
-		animation.deltaDuration(5);
+		animator.deltaDuration(5);
 	}
-	else if(animation && (event.keyCode == 189) && (!event.shiftKey)){	// minus '-'
+	else if(animator && (event.keyCode == 189) && (!event.shiftKey)){	// minus '-'
 		console.log("Slowing animation speed");
-		animation.deltaDuration(-5);
+		animator.deltaDuration(-5);
 	}
 	else if((event.keyCode == 39) && (!event.shiftKey)){	//right arrow
 		changeAnimation(scrollRight);
@@ -82,13 +82,14 @@ function handleKey(event){
 		changeAnimation(zoomOut);
 	}
 	else if((event.keyCode == 39) && (event.shiftKey)){		//shift right arrow
-		changeAnimation(paletteUp);
+		console.log(animator.options.jerkiness);
+		changeAnimation(null, PaletteAnimation.paletteUp(quad, animator.options.jerkiness));
 	}
 	else if((event.keyCode == 37) && (event.shiftKey)){	//shift left arrow
-		changeAnimation(paletteDown);
+		changeAnimation(null, PaletteAnimation.paletteDown(quad, animator.options.jerkiness));
 	}
 	else if(event.keyCode == 13){	//enter key
-		animation.options.paint();
+		animator.options.paint();
 	}
 	else if(stats && (event.keyCode == 'F'.charCodeAt(0)) ){
 		// Toggle FPS visibility
@@ -104,9 +105,9 @@ function handleKey(event){
 	}
 }
 
-function changeAnimation(func){
-	if(animation){
-		animation.stop();
+function changeAnimation(func, animation){
+	if(animator){
+		animator.stop();
 	}
 
 	// Reset quad uniforms and size
@@ -114,16 +115,18 @@ function changeAnimation(func){
 	quad.material.uniforms['uvOffset'].value.set( 0, 0 );
 	quad.scale.set( 1.0, 1.0, 1.0 );
 
-	animation = new Animator({
+	animator = new Animator({
 		renderer: renderer,
 		scene: scene,
 		camera: camera,
 		stats: stats,
-		duration: animation.options.duration,
-		imageIds: animation.options.imageIds,
-		paint: func( quad, animation.options.jerkiness || 5),
+		jerkiness: animator.options.jerkiness,
+		duration: animator.options.duration,
+		imageIds: animator.options.imageIds,
+		paint: func ? func( quad, animator.options.jerkiness || 5) : null,
+		animation: animation
 	});
-	animation.start();
+	animator.start();	
 }
 
 function setRenderSize(){
@@ -138,7 +141,7 @@ function setRenderSize(){
 }
 
 function startFirstAnimation(){
-	var animation = new Animator({
+	var animator = new Animator({
 		renderer: renderer,
 		stats: stats,
 		scene: scene,
@@ -148,8 +151,9 @@ function startFirstAnimation(){
 		// paint: boxScroll(id, "DOWN", 10, {x: 6, y: 0, dx: 120, dy: 80})
 		jerkiness: 5,
 		// paint: zoomer(id, "OUT", 5)
-		paint: rotatePalette( quad, "DOWN", 21 ),
+		animation: new PaletteAnimation(quad, 'DOWN', 21)
+		// paint: rotatePalette( quad, "DOWN", 21 ),
 	});
-	animation.start();
-	return animation;
+	animator.start();
+	return animator;
 }

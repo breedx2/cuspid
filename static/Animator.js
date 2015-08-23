@@ -69,7 +69,10 @@ Animator.prototype._perFrame = function(){
 	this.prevFrameTime = now;
 
 	// Advance the animation
-	if(this.tickFunction){
+	if(this.options.animation){
+		this.options.animation.tick(timeMult);
+	}
+	else if(this.tickFunction){
 		this.tickFunction( timeMult );
 	}
 

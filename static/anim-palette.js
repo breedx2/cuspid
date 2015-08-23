@@ -1,18 +1,22 @@
 
 //ok not really palette, more like a rolling intensity or something
 
-
-function paletteUp( quad, jerkiness){
-	return rotatePalette( quad, "UP", jerkiness );
+function PaletteAnimation(quad, direction, jerkiness){
+	this.quad = quad;
+	this.direction = direction;
+	this.jerkiness = jerkiness;
 }
 
-function paletteDown( quad, jerkiness ){
-	return rotatePalette( quad, "DOWN", jerkiness );
+PaletteAnimation.prototype.tick = function(timeMult){
+	var dir = (this.jerkiness/0xff) * ((this.direction==='DOWN') ? -1 : 1) * timeMult;
+	this.quad.material.uniforms['colorCycle'].value += dir;
 }
 
-function rotatePalette( quad, direction, jerkiness ){
-	return function ( timeMult ){
-		var dir = (jerkiness/0xff) * ((direction==='DOWN') ? -1 : 1) * timeMult;
-		quad.material.uniforms['colorCycle'].value += dir;
-	}
+PaletteAnimation.paletteUp = function( quad, jerkiness){
+	return new PaletteAnimation( quad, "UP", jerkiness );
 }
+
+PaletteAnimation.paletteDown = function( quad, jerkiness ){
+	return new PaletteAnimation( quad, "DOWN", jerkiness );
+}
+
