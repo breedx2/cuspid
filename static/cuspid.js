@@ -150,7 +150,7 @@ function startFirstAnimation(){
 		// paint: boxScroll(id, "DOWN", 10, {x: 6, y: 0, dx: 120, dy: 80})
 		jerkiness: 5,
 		// paint: zoomer(id, "OUT", 5)
-		animation: new PaletteAnimation(quad, 'DOWN', 21)
+		animation: new CompositeAnimation([new BoxScrollAnimation(quad, "LEFT", 5), new PaletteAnimation(quad, 'DOWN', 0.5)])
 		// paint: rotatePalette( quad, "DOWN", 21 ),
 	});
 	animator.start();

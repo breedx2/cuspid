@@ -11,6 +11,9 @@ BoxScrollAnimation.prototype.tick = function(timeMult){
 	// GL texture coordinates (UVs) are floating point numbers in range 0..1,
 	// so divide jerkiness by the source img width/height
 	var img = this.quad.material.uniforms['texture'].value.image;
+	if(!img){
+		return;
+	}
 	switch( this.direction ) {
 		case 'LEFT':  this.offset.x = this.jerkiness / img.width; break;
 		case 'RIGHT': this.offset.x = -this.jerkiness / img.width; break;
