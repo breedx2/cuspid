@@ -1,18 +1,29 @@
 
-function ZoomAnimation( quad, direction, jerkiness ){
+function ZoomAnimation( quad, direction, jerkiness, easing ){
 	this.quad = quad;
 	this.direction =  direction;
 	this.jerkiness = jerkiness;
 	this.phase = 0.0;	// 0..1
+	this.easing = easing || 'QUADRATIC';
 }
 
 ZoomAnimation.prototype.tick = function(timeMult){
+	var scale = this._computeScale(timeMult);
+	quad.scale.copy(scale);
+}
+
+ZoomAnimation.prototype._computeScale = function(timeMult){
 	this.phase = this._computePhase(timeMult);
-	quad.scale.set(
-		1.0 + this.phase * 10.0,          // X (width)
-		1.0 + (this.phase * this.phase) * 80.0,  // Y (height) with quadratic easing (start slow, end fast)
-		1.0                        // Z never changes
-	);
+	switch(this.easing){
+		case 'QUADRATIC':
+			var x = 1.0 + this.phase * 10.0; //width
+			var y = 1.0 + (this.phase * this.phase) * 80.0; //height (start slow, end fast)
+			return new THREE.Vector3(x, y, 1.0);
+		case 'LINEAR':
+			break;
+		default:
+			console.log("UNKNOWN EASING: " + this.easing);
+	}
 }
 
 ZoomAnimation.prototype._computePhase = function(timeMult){
