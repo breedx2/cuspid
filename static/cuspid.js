@@ -13,41 +13,45 @@ function cuspidLoad(){
 	stats.domElement.style.top = '0px';
 	document.body.appendChild( stats.domElement );
 
-	init3D();
-
-	// After 3D is ready: resize canvas and renderer.
-	window.onresize = function(event){
+	init3D(function(){
+		// After 3D is ready: resize canvas and renderer.
+		window.onresize = function(event){
+			setRenderSize();
+		}
 		setRenderSize();
-	}
-	setRenderSize();
 
+		console.log("Starting animation");
+		animator = startFirstAnimation();
+	});
 	$('body').get(0).addEventListener('keydown', handleKey);
-
-	animator = startFirstAnimation();
 }
 
-function init3D(){
+function init3D(callback){
 	// Load our texture
-	texture = THREE.ImageUtils.loadTexture( '/static/cuspid_pow2.jpg' );
-	texture.minFilter = texture.magFilter = THREE.LinearFilter;	// smoother
-	//texture.minFilter = texture.magFilter = THREE.NearestFilter;	// more aliasing
-	texture.wrapS = texture.wrapT = THREE.RepeatWrapping;	// image wraps around
-	texture.format = THREE.LuminanceFormat;	// we only need 1 channel for grayscale
+	var sourceUrl = '/static/bloody20sunday.jpg';
+	sourceUrl = '/static/cuspid.jpg';
+	ImageLoader.loadAndCrop(sourceUrl, function(image){
+		console.log("Image was loaded and cropped/scaled");
+		texture = new THREE.Texture(image, THREE.UVMapping, THREE.RepeatWrapping, 
+			THREE.RepeatWrapping, THREE.LinearFilter, THREE.LinearFilter,
+			THREE.LuminanceFormat);
+		texture.needsUpdate = true;
 
-	// Create 3D scene using OrthographicCamera, which looks 'flat' (no perspective).
-	// Set the viewport to expand from the origin, 1.0 in each cardinal direction.
-	scene = new THREE.Scene();
-	camera = new THREE.OrthographicCamera( -1.0, 1.0, 1.0, -1.0, -100, 100 );	// left, right, top, bottom, near, far
+		// Create 3D scene using OrthographicCamera, which looks 'flat' (no perspective).
+		// Set the viewport to expand from the origin, 1.0 in each cardinal direction.
+		scene = new THREE.Scene();
+		camera = new THREE.OrthographicCamera( -1.0, 1.0, 1.0, -1.0, -100, 100 );	// left, right, top, bottom, near, far
+		// Draw a single quad with our texture.
+		// Width & height are both 2.0, to completely fill our viewport (-1.0...1.0)
+		var quadGeom = new THREE.PlaneBufferGeometry( 2.0, 2.0 );
+		var quadMaterial = createCuspidShaderMaterial( texture );
+		quad = new THREE.Mesh( quadGeom, quadMaterial );
+		scene.add( quad );
 
-	// Draw a single quad with our texture.
-	// Width & height are both 2.0, to completely fill our viewport (-1.0...1.0)
-	var quadGeom = new THREE.PlaneBufferGeometry( 2.0, 2.0 );
-	var quadMaterial = createCuspidShaderMaterial( texture );
-	quad = new THREE.Mesh( quadGeom, quadMaterial );
-	scene.add( quad );
-
-	var canvas = $('#cnv').get(0);
-	renderer = new THREE.WebGLRenderer({ antialias:false, precision:'mediump', canvas:canvas, autoClear:false });
+		var canvas = $('#cnv').get(0);
+		renderer = new THREE.WebGLRenderer({ antialias:false, precision:'mediump', canvas:canvas, autoClear:false });
+		callback();
+	});
 }
 
 function handleKey(event){
