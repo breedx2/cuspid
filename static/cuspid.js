@@ -13,41 +13,60 @@ function cuspidLoad(){
 	stats.domElement.style.top = '0px';
 	document.body.appendChild( stats.domElement );
 
-	init3D();
+	init3D()
+		.then(() => {
+			// After 3D is ready: resize canvas and renderer.
+			window.onresize = function(event){
+				setRenderSize();
+			}
+			setRenderSize();
+			console.log("DEBUG: QUAD ==> " + quad);
 
-	// After 3D is ready: resize canvas and renderer.
-	window.onresize = function(event){
-		setRenderSize();
-	}
-	setRenderSize();
-
+			console.log("Starting animation");
+			animator = startFirstAnimation();
+		});
 	$('body').get(0).addEventListener('keydown', handleKey);
-
-	animator = startFirstAnimation();
 }
 
 function init3D(){
 	// Load our texture
-	texture = THREE.ImageUtils.loadTexture( '/static/cuspid_pow2.jpg' );
-	texture.minFilter = texture.magFilter = THREE.LinearFilter;	// smoother
-	//texture.minFilter = texture.magFilter = THREE.NearestFilter;	// more aliasing
-	texture.wrapS = texture.wrapT = THREE.RepeatWrapping;	// image wraps around
-	texture.format = THREE.LuminanceFormat;	// we only need 1 channel for grayscale
+	return ImageLoader.loadAndCrop('/static/bloody20sunday.jpg')
+		.then(image => {
+			console.log("Image was loaded and cropped/scaled");
+			// texture = THREE.ImageUtils.loadTexture( '/static/cuspid_pow2.jpg' );
+			//texture = THREE.ImageUtils.loadTexture( '/static/bloody20sunday.jpg', null,
+			// texture = THREE.ImageUtils.loadTexture( dataUrl, null,
+			// 	function(){
+			// 		console.log("Texture loaded.");
+			// 	},
+			// 	function(err){
+			// 		console.log("Error loading texture: " + JSON.stringify(err));
+			// 	} 
+			// );
+			console.log(`DEBUG: ${image.width} x ${image.height}`);
+			texture = new THREE.Texture(image, THREE.UVMapping, THREE.MirroredWrapping, 
+				THREE.MirroredWrapping, THREE.LinearFilter, THREE.LinearFilter,
+				THREE.LuminanceFormat);
 
-	// Create 3D scene using OrthographicCamera, which looks 'flat' (no perspective).
-	// Set the viewport to expand from the origin, 1.0 in each cardinal direction.
-	scene = new THREE.Scene();
-	camera = new THREE.OrthographicCamera( -1.0, 1.0, 1.0, -1.0, -100, 100 );	// left, right, top, bottom, near, far
+			// texture.minFilter = texture.magFilter = THREE.LinearFilter;	// smoother
+			// //texture.minFilter = texture.magFilter = THREE.NearestFilter;	// more aliasing
+			// texture.wrapS = texture.wrapT = THREE.MirroredWrapping; //THREE.RepeatWrapping;	// image wraps around
+			// texture.format = THREE.LuminanceFormat;	// we only need 1 channel for grayscale
 
-	// Draw a single quad with our texture.
-	// Width & height are both 2.0, to completely fill our viewport (-1.0...1.0)
-	var quadGeom = new THREE.PlaneBufferGeometry( 2.0, 2.0 );
-	var quadMaterial = createCuspidShaderMaterial( texture );
-	quad = new THREE.Mesh( quadGeom, quadMaterial );
-	scene.add( quad );
+			// Create 3D scene using OrthographicCamera, which looks 'flat' (no perspective).
+			// Set the viewport to expand from the origin, 1.0 in each cardinal direction.
+			scene = new THREE.Scene();
+			camera = new THREE.OrthographicCamera( -1.0, 1.0, 1.0, -1.0, -100, 100 );	// left, right, top, bottom, near, far
+			// Draw a single quad with our texture.
+			// Width & height are both 2.0, to completely fill our viewport (-1.0...1.0)
+			var quadGeom = new THREE.PlaneBufferGeometry( 2.0, 2.0 );
+			var quadMaterial = createCuspidShaderMaterial( texture );
+			quad = new THREE.Mesh( quadGeom, quadMaterial );
+			scene.add( quad );
 
-	var canvas = $('#cnv').get(0);
-	renderer = new THREE.WebGLRenderer({ antialias:false, precision:'mediump', canvas:canvas, autoClear:false });
+			var canvas = $('#cnv').get(0);
+			renderer = new THREE.WebGLRenderer({ antialias:false, precision:'mediump', canvas:canvas, autoClear:false });
+		});
 }
 
 function handleKey(event){
@@ -150,7 +169,8 @@ function startFirstAnimation(){
 		// paint: boxScroll(id, "DOWN", 10, {x: 6, y: 0, dx: 120, dy: 80})
 		jerkiness: 5,
 		// paint: zoomer(id, "OUT", 5)
-		animation: new CompositeAnimation([new BoxScrollAnimation(quad, "LEFT", 5), new PaletteAnimation(quad, 'DOWN', 0.5)])
+		//animation: new CompositeAnimation([new BoxScrollAnimation(quad, "LEFT", 5), new PaletteAnimation(quad, 'DOWN', 0.5)])
+		animation: new BoxScrollAnimation(quad, "LEFT", 5)
 		// paint: rotatePalette( quad, "DOWN", 21 ),
 	});
 	animator.start();

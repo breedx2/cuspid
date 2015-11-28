@@ -9,9 +9,9 @@ function Animator(options){
 
 Animator.prototype.start = function(){
 	if(this.running){
-		return console.log("NOT STARTING -- already running");
+		return console.log("ANIMATOR NOT STARTING -- already running");
 	}
-	console.log("STARTING");
+	console.log("STARTING ANIMATOR");
 	this.running = true;
 	this._perFrame();
 	return this;
