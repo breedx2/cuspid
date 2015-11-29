@@ -60,6 +60,26 @@ Animator.prototype.deltaZoom = function(amount){
 	}
 }
 
+Animator.prototype.deltaY = function(amount){
+	if('deltaY' in this.options.animation){
+		console.log('Adjusting delta Y by ' + amount);
+		this.options.animation.deltaY(amount);
+	}
+	else {
+		console.log('This animation does not support delta Y positioning');
+	}
+}
+
+Animator.prototype.deltaX = function(amount){
+	if('deltaX' in this.options.animation){
+		console.log('Adjusting delta X by ' + amount);
+		this.options.animation.deltaX(amount);
+	}
+	else {
+		console.log('This animation does not support delta X positioning');
+	}
+}
+
 Animator.prototype._perFrame = function(){
 	if( !this.running ) return;	// we're dead
 
