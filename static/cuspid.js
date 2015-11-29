@@ -29,7 +29,6 @@ function cuspidLoad(){
 function init3D(callback){
 	// Load our texture
 	var sourceUrl = '/static/bloody20sunday.jpg';
-	sourceUrl = '/static/cuspid.jpg';
 	ImageLoader.loadAndCrop(sourceUrl, function(image){
 		console.log("Image was loaded and cropped/scaled");
 		texture = new THREE.Texture(image, THREE.UVMapping, THREE.RepeatWrapping, 
@@ -92,8 +91,18 @@ function handleKey(event){
 	else if((event.keyCode == 37) && (event.shiftKey)){	//shift left arrow
 		changeAnimation(PaletteAnimation.paletteDown(quad, animator.options.jerkiness));
 	}
-	else if(event.keyCode == 13){	//enter key
+	else if(event.keyCode == 13){   //enter key
 		animator.options.paint();
+	}
+	else if(event.keyCode == 'Z'.charCodeAt(0)){
+		if(!event.shiftKey){	//zoom in
+			console.log('Zoom in');
+			animator.deltaZoom(0.1);
+		}
+		else {
+			console.log('Zoom out');
+			animator.deltaZoom(-0.1);
+		}
 	}
 	else if(stats && (event.keyCode == 'F'.charCodeAt(0)) ){
 		// Toggle FPS visibility
