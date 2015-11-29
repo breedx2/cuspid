@@ -29,7 +29,6 @@ function cuspidLoad(){
 function init3D(callback){
 	// Load our texture
 	var sourceUrl = '/static/bloody20sunday.jpg';
-	sourceUrl = '/static/cuspid.jpg';
 	ImageLoader.loadAndCrop(sourceUrl, function(image){
 		console.log("Image was loaded and cropped/scaled");
 		texture = new THREE.Texture(image, THREE.UVMapping, THREE.RepeatWrapping, 
@@ -67,33 +66,67 @@ function handleKey(event){
 		console.log("Slowing animation speed");
 		animator.deltaDuration(-5);
 	}
-	else if((event.keyCode == 39) && (!event.shiftKey)){	//right arrow
-		changeAnimation(BoxScrollAnimation.scrollRight(quad, animator.options.jerkiness));
-	}
-	else if((event.keyCode == 37) && (!event.shiftKey)){	//left arrow
+	else if(event.keyCode == 37){				//left arrow
+		if(event.shiftKey && event.ctrlKey){
+			return console.log("UNBOUND");
+		}
+		if(event.shiftKey){
+			return changeAnimation(PaletteAnimation.paletteDown(quad, animator.options.jerkiness));
+		}
+		if(event.ctrlKey){
+			return animator.deltaX(-0.1);
+		}
 		changeAnimation(BoxScrollAnimation.scrollLeft(quad, animator.options.jerkiness));
 	}
-	else if((event.keyCode == 38) && (!event.shiftKey)){	//up arrow
+	else if(event.keyCode == 39){				//right arrow
+		if(event.shiftKey && event.ctrlKey){
+			return console.log("UNBOUND");
+		}
+		if(event.shiftKey){
+			console.log(animator.options.jerkiness);
+			return changeAnimation(PaletteAnimation.paletteUp(quad, animator.options.jerkiness));
+		}
+		if(event.ctrlKey){
+			return animator.deltaX(0.1);
+		}
+		changeAnimation(BoxScrollAnimation.scrollRight(quad, animator.options.jerkiness));
+	}
+	else if(event.keyCode == 38){				//up arrow
+		if(event.shiftKey && event.ctrlKey){	//ctrl+shift up arrow
+			return console.log("UNBOUND");
+		}
+		if(event.shiftKey){						//shift up arrow
+			return changeAnimation(ZoomAnimation.zoomIn(quad, animator.options.jerkiness));	
+		}
+		if(event.ctrlKey){						//control up arrow
+			return animator.deltaY(-0.1);
+		}
 		changeAnimation(BoxScrollAnimation.scrollUp(quad, animator.options.jerkiness));
 	}
-	else if((event.keyCode == 40) && (!event.shiftKey)){	//down arrow
+	else if(event.keyCode == 40){				//down arrow
+		if(event.shiftKey && event.ctrlKey){	//ctrl+shift down arrow
+			return console.log("UNBOUND");
+		}
+		if(event.shiftKey){						//shift down arrow
+			changeAnimation(ZoomAnimation.zoomOut(quad, animator.options.jerkiness));
+		}
+		if(event.ctrlKey){						//control down arrow
+			return animator.deltaY(0.1);
+		}
 		changeAnimation(BoxScrollAnimation.scrollDown(quad, animator.options.jerkiness));
 	}
-	else if((event.keyCode == 38) && (event.shiftKey)){		//shift up arrow
-		changeAnimation(ZoomAnimation.zoomIn(quad, animator.options.jerkiness));
-	}
-	else if((event.keyCode == 40) && (event.shiftKey)){		//shift down arrow
-		changeAnimation(ZoomAnimation.zoomOut(quad, animator.options.jerkiness));
-	}
-	else if((event.keyCode == 39) && (event.shiftKey)){		//shift right arrow
-		console.log(animator.options.jerkiness);
-		changeAnimation(PaletteAnimation.paletteUp(quad, animator.options.jerkiness));
-	}
-	else if((event.keyCode == 37) && (event.shiftKey)){	//shift left arrow
-		changeAnimation(PaletteAnimation.paletteDown(quad, animator.options.jerkiness));
-	}
-	else if(event.keyCode == 13){	//enter key
+	else if(event.keyCode == 13){   //enter key
 		animator.options.paint();
+	}
+	else if(event.keyCode == 'Z'.charCodeAt(0)){
+		if(!event.shiftKey){	//zoom in
+			console.log('Zoom in');
+			animator.deltaZoom(0.1);
+		}
+		else {
+			console.log('Zoom out');
+			animator.deltaZoom(-0.1);
+		}
 	}
 	else if(stats && (event.keyCode == 'F'.charCodeAt(0)) ){
 		// Toggle FPS visibility

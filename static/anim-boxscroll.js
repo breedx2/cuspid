@@ -4,6 +4,8 @@ function BoxScrollAnimation( quad, direction, jerkiness ){
 	this.direction = direction;
 	this.jerkiness = Math.abs(jerkiness) || 1;
 	this.offset = new THREE.Vector2( 0, 0 );
+	this.zoom = 1.0;
+	this.position = { x: 0, y: 0};
 }
 
 BoxScrollAnimation.prototype.tick = function(timeMult){
@@ -26,6 +28,20 @@ BoxScrollAnimation.prototype.tick = function(timeMult){
 
 	this.offset.multiplyScalar( timeMult );
 	quad.material.uniforms['uvOffset'].value.add( this.offset );
+	quad.scale.copy(new THREE.Vector3(this.zoom, this.zoom, 1.0));
+	quad.position.copy(new THREE.Vector3(this.position.x, this.position.y, 0.0));
+}
+
+BoxScrollAnimation.prototype.deltaZoom = function( amount ){
+	this.zoom += amount;
+}
+
+BoxScrollAnimation.prototype.deltaY = function( amount ){
+	this.position.y += amount;
+}
+
+BoxScrollAnimation.prototype.deltaX = function( amount ){
+	this.position.x += amount;
 }
 
 BoxScrollAnimation.scrollLeft = function( quad, jerkiness){
