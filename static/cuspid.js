@@ -108,7 +108,7 @@ function handleKey(event){
 			return console.log("UNBOUND");
 		}
 		if(event.shiftKey){						//shift down arrow
-			changeAnimation(ZoomAnimation.zoomOut(quad, animator.options.jerkiness));
+			return changeAnimation(ZoomAnimation.zoomOut(quad, animator.options.jerkiness));
 		}
 		if(event.ctrlKey){						//control down arrow
 			return animator.deltaY(0.1);
