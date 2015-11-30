@@ -1,6 +1,11 @@
 
 var ImageLoader = {
+	_cache: {},
 	loadAndCrop: function(url, callback){
+		if(ImageLoader._cache[url]){
+			console.log(`Image ${url} loaded from cache!`);
+			return callback(ImageLoader._cache[url]);
+		}
 		var img = new Image();
 		img.onload = function() {
 			console.log("Image loaded. Original dimensions: " + img.width + "x" + img.height);
@@ -34,6 +39,7 @@ var ImageLoader = {
 			result.onload = function() {
 				$('body').append(result);
 				cnv.remove();
+				ImageLoader._cache[url] = result;
 				callback(result);
 			};
 			result.src = base64ImageData;
