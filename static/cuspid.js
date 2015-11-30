@@ -30,6 +30,7 @@ function init3D(callback){
 	// Load our texture
 	var sourceUrl = '/static/bloody20sunday.jpg';
 	ImageLoader.loadAndCrop(sourceUrl, function(image){
+		image.url = sourceUrl;
 		console.log("Image was loaded and cropped/scaled");
 		texture = new THREE.Texture(image, THREE.UVMapping, THREE.RepeatWrapping, 
 			THREE.RepeatWrapping, THREE.LinearFilter, THREE.LinearFilter,
@@ -57,6 +58,28 @@ function handleKey(event){
 	console.log('I saw this key: ' + event.keyCode);
 	if(animator && (event.keyCode == 32)){	// space bar
 		animator.pause();
+	}
+	else if(event.keyCode == 'N'.charCodeAt(0)){
+		// THIS IS A TOTAL HACK THAT MUST BE REPLACED WITH REAL MANAGEMENT
+		var curUrl = animator.options.animation.quad.material.uniforms['texture'].value.image.url;
+		// hard coding for now...
+		var sourceUrl = curUrl == '/static/cuspid.jpg' ? '/static/bloody20sunday.jpg' : '/static/cuspid.jpg';
+		ImageLoader.loadAndCrop(sourceUrl, function(image){
+			image.url = sourceUrl;
+			console.log("Image was loaded and cropped/scaled");
+			texture = new THREE.Texture(image, THREE.UVMapping, THREE.RepeatWrapping, 
+				THREE.RepeatWrapping, THREE.LinearFilter, THREE.LinearFilter,
+				THREE.LuminanceFormat);
+			texture.needsUpdate = true;
+			var quadGeom = new THREE.PlaneBufferGeometry( 2.0, 2.0 );
+			var quadMaterial = createCuspidShaderMaterial( texture );
+			var oldQuad = quad;
+			quad = new THREE.Mesh( quadGeom, quadMaterial );
+			//sneak the new quad into the existing animator's animation
+			animator.options.animation.quad = quad;
+			scene.add( quad );
+			scene.remove(oldQuad);
+		});
 	}
 	else if(animator && (event.keyCode == 187) && (event.shiftKey)){	// plus '+'
 		console.log("Increasing animation speed");
