@@ -27,7 +27,7 @@ BoxScrollAnimation.prototype.tick = function(timeMult){
 	}
 
 	this.offset.multiplyScalar( timeMult );
-	quad.material.uniforms['uvOffset'].value.add( this.offset );
+	//quad.material.uniforms['uvOffset'].value.add( this.offset );
 	quad.scale.copy(new THREE.Vector3(this.zoom, this.zoom, 1.0));
 	quad.position.copy(new THREE.Vector3(this.position.x, this.position.y, 0.0));
 }

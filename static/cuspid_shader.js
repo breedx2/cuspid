@@ -7,7 +7,7 @@ function createCuspidShaderMaterial( firstTexture ){
 		"uniform mat4 projectionMatrix;",
 		"attribute vec3 position;",
 		"attribute vec2 uv;",
-		"uniform vec2 uvOffset;",
+		//"uniform vec2 uvOffset;",
 		"varying vec2 v_uv;",	// better performance if values are pre-computed in the vertex shader
 
 		"void main()	{",
@@ -15,7 +15,8 @@ function createCuspidShaderMaterial( firstTexture ){
 		"	gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );",
 
 		// Pre-compute the UV coordinates for texture sampling
-		" v_uv = uv + uvOffset;",
+		//" v_uv = uv + uvOffset;",
+		" v_uv = uv;",
 		"}",
 	];
 	var vertexShaderGLSL = vertexShader_ar.join("\n");
@@ -38,7 +39,7 @@ function createCuspidShaderMaterial( firstTexture ){
 
 	var uniforms = {
 		texture:    { type: 't', value: firstTexture },
-		uvOffset:   { type: 'v2', value: new THREE.Vector2( 0, 0 ) },
+		//uvOffset:   { type: 'v2', value: new THREE.Vector2( 0, 0 ) },
 		colorCycle: { type: 'f', value: 0.0 },
 	};
 

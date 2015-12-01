@@ -32,7 +32,7 @@ function init3D(callback){
 	ImageLoader.loadAndCrop(sourceUrl, function(image){
 		image.url = sourceUrl;
 		console.log("Image was loaded and cropped/scaled");
-		texture = new THREE.Texture(image, THREE.UVMapping, THREE.RepeatWrapping, 
+		texture = new THREE.Texture(image, THREE.UVMapping, THREE.RepeatWrapping,
 			THREE.RepeatWrapping, THREE.LinearFilter, THREE.LinearFilter,
 			THREE.LuminanceFormat);
 		texture.needsUpdate = true;
@@ -67,7 +67,7 @@ function handleKey(event){
 		ImageLoader.loadAndCrop(sourceUrl, function(image){
 			image.url = sourceUrl;
 			console.log("Image was loaded and cropped/scaled");
-			texture = new THREE.Texture(image, THREE.UVMapping, THREE.RepeatWrapping, 
+			texture = new THREE.Texture(image, THREE.UVMapping, THREE.RepeatWrapping,
 				THREE.RepeatWrapping, THREE.LinearFilter, THREE.LinearFilter,
 				THREE.LuminanceFormat);
 			texture.needsUpdate = true;
@@ -119,7 +119,7 @@ function handleKey(event){
 			return console.log("UNBOUND");
 		}
 		if(event.shiftKey){						//shift up arrow
-			return changeAnimation(ZoomAnimation.zoomIn(quad, animator.options.jerkiness));	
+			return changeAnimation(ZoomAnimation.zoomIn(quad, animator.options.jerkiness));
 		}
 		if(event.ctrlKey){						//control up arrow
 			return animator.deltaY(-0.1);
@@ -172,7 +172,7 @@ function changeAnimation(animation){
 
 	// Reset quad uniforms and size
 	quad.material.uniforms['colorCycle'].value = 0.0;
-	quad.material.uniforms['uvOffset'].value.set( 0, 0 );
+	//quad.material.uniforms['uvOffset'].value.set( 0, 0 );
 	quad.scale.set( 1.0, 1.0, 1.0 );
 
 	animator = new Animator({
@@ -185,7 +185,7 @@ function changeAnimation(animation){
 		imageIds: animator.options.imageIds,
 		animation: animation
 	});
-	animator.start();	
+	animator.start();
 }
 
 function setRenderSize(){
@@ -210,7 +210,7 @@ function startFirstAnimation(){
 		// paint: boxScroll(id, "DOWN", 10, {x: 6, y: 0, dx: 120, dy: 80})
 		jerkiness: 5,
 		// paint: zoomer(id, "OUT", 5)
-		animation: new CompositeAnimation([new BoxScrollAnimation(quad, "LEFT", 5), new PaletteAnimation(quad, 'DOWN', 0.5)])
+		animation: new CompositeAnimation([new ZoomAnimation(quad, "IN", Math.abs(3) || 1), new PaletteAnimation(quad, 'DOWN', 0.5)])
 		// paint: rotatePalette( quad, "DOWN", 21 ),
 	});
 	animator.start();
