@@ -17,10 +17,10 @@ BoxScrollAnimation.prototype.tick = function(timeMult){
 		return;
 	}
 	switch( this.direction ) {
-		case 'LEFT':  this.offset.x = this.jerkiness / img.width; break;
-		case 'RIGHT': this.offset.x = -this.jerkiness / img.width; break;
-		case 'UP':    this.offset.y = -this.jerkiness / img.height; break;
-		case 'DOWN':  this.offset.y = this.jerkiness / img.height; break;
+		case 'LEFT':  this.offset.x = this.jerkiness / 512; break;
+		case 'RIGHT': this.offset.x = -this.jerkiness / 512; break;
+		case 'UP':    this.offset.y = -this.jerkiness / 512; break;
+		case 'DOWN':  this.offset.y = this.jerkiness / 512; break;
 		default:
 			throw new Error("Unknown direction: " + this.direction);
 			break;
@@ -33,15 +33,23 @@ BoxScrollAnimation.prototype.tick = function(timeMult){
 }
 
 BoxScrollAnimation.prototype.deltaZoom = function( amount ){
-	this.zoom += amount;
+	this.zoom = Math.max(1.0, this.zoom + amount);
+	this.deltaX(0);
+	this.deltaY(0);
 }
 
 BoxScrollAnimation.prototype.deltaY = function( amount ){
-	this.position.y += amount;
+	this.position.y = this._clampPos(this.position.y, amount);
 }
 
 BoxScrollAnimation.prototype.deltaX = function( amount ){
-	this.position.x += amount;
+	this.position.x = this._clampPos(this.position.x, amount);
+}
+
+BoxScrollAnimation.prototype._clampPos = function(cur, amount){
+	var min = -1 * (this.zoom - 1.0);
+	var max = this.zoom - 1.0;
+	return Math.max(Math.min(cur + amount, max), min)
 }
 
 BoxScrollAnimation.scrollLeft = function( quad, jerkiness){
