@@ -15,7 +15,7 @@ BoxScrollAnimation.prototype.tick = function(timeMult){
 
 	// GL texture coordinates (UVs) are floating point numbers in range 0..1,
 	// so divide jerkiness by the source img width/height
-	var img = this.quad.material.uniforms['texture'].value.image;
+	let img = this.quad.material.uniforms['texture'].value.image;
 	if(!img){
 		return;
 	}
@@ -50,8 +50,8 @@ BoxScrollAnimation.prototype.deltaX = function( amount ){
 }
 
 BoxScrollAnimation.prototype._clampPos = function(cur, amount){
-	var min = -1 * (this.zoom - 1.0);
-	var max = this.zoom - 1.0;
+	let min = -1 * (this.zoom - 1.0);
+	let max = this.zoom - 1.0;
 	return Math.max(Math.min(cur + amount, max), min)
 }
 

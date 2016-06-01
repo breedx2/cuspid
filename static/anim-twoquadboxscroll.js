@@ -27,7 +27,8 @@ TwoQuadBoxScrollAnimation.prototype.tick = function(timeMult){
 	}
 
 
-	if(this.position.x > 2){
+console.log(this.zoom);
+	if(this.position.x > (2 * this.zoom)){
 		this.position.x = 0;
 		let tmp = this.quad1;
 		this.quad1 = this.quad2;
@@ -40,7 +41,7 @@ TwoQuadBoxScrollAnimation.prototype.tick = function(timeMult){
 
 	this.quad2.scale.copy(new THREE.Vector3(this.zoom, this.zoom, 1.0));
 	let pos2 = {
-		x: this.position.x - 2,
+		x: this.position.x - (2 * this.zoom),
 		y: this.position.y //fixme
 
 	}
