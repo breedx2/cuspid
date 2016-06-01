@@ -1,4 +1,7 @@
 
+// a single-quad box-scroll animation that depends on THREE.RepeatWrapping in
+// the texture to look right
+
 function BoxScrollAnimation( quad, direction, jerkiness ){
 	this.quad = quad;
 	this.direction = direction;
@@ -27,9 +30,9 @@ BoxScrollAnimation.prototype.tick = function(timeMult){
 	}
 
 	this.offset.multiplyScalar( timeMult );
-	quad.material.uniforms['uvOffset'].value.add( this.offset );
-	quad.scale.copy(new THREE.Vector3(this.zoom, this.zoom, 1.0));
-	quad.position.copy(new THREE.Vector3(this.position.x, this.position.y, 0.0));
+	this.quad.material.uniforms['uvOffset'].value.add( this.offset );
+	this.quad.scale.copy(new THREE.Vector3(this.zoom, this.zoom, 1.0));
+	this.quad.position.copy(new THREE.Vector3(this.position.x, this.position.y, 0.0));
 }
 
 BoxScrollAnimation.prototype.deltaZoom = function( amount ){
