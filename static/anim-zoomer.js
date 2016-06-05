@@ -1,6 +1,7 @@
 
 function ZoomAnimation( quad, direction, jerkiness, easing ){
 	this.quad = quad;
+	this.quad.position.copy(new THREE.Vector3(0.0, 0.0, 0.0));
 	if(ZoomAnimation._DIR_MULT[direction] == null){
 		throw new Error("Unknown direction " + direction + ", must be IN or OUT");
 	}
@@ -19,7 +20,7 @@ function ZoomAnimation( quad, direction, jerkiness, easing ){
 
 ZoomAnimation.prototype.tick = function(timeMult){
 	var scale = this._computeScale(timeMult);
-	quad.scale.copy(scale);
+	this.quad.scale.copy(scale);
 }
 
 ZoomAnimation.prototype._computeScale = function(timeMult){
@@ -45,7 +46,7 @@ ZoomAnimation._DIR_MULT = { 'IN': -1, 'OUT': 1};
 ZoomAnimation.prototype._computePhaseQuadratic = function(timeMult){
 	var img = this.quad.material.uniforms['texture'].value.image;
 	var dir = ZoomAnimation._DIR_MULT[this.direction];
-	var result = this.phase + (dir * (this.jerkiness / img.width) * timeMult); 
+	var result = this.phase + (dir * (this.jerkiness / img.width) * timeMult);
 	return ZoomAnimation._wrap(result);
 };
 

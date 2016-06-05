@@ -1,4 +1,7 @@
 
+// a single-quad box-scroll animation that depends on THREE.RepeatWrapping in
+// the texture to look right
+
 function BoxScrollAnimation( quad, direction, jerkiness ){
 	this.quad = quad;
 	this.direction = direction;
@@ -12,7 +15,7 @@ BoxScrollAnimation.prototype.tick = function(timeMult){
 
 	// GL texture coordinates (UVs) are floating point numbers in range 0..1,
 	// so divide jerkiness by the source img width/height
-	var img = this.quad.material.uniforms['texture'].value.image;
+	let img = this.quad.material.uniforms['texture'].value.image;
 	if(!img){
 		return;
 	}
@@ -27,9 +30,9 @@ BoxScrollAnimation.prototype.tick = function(timeMult){
 	}
 
 	this.offset.multiplyScalar( timeMult );
-	quad.material.uniforms['uvOffset'].value.add( this.offset );
-	quad.scale.copy(new THREE.Vector3(this.zoom, this.zoom, 1.0));
-	quad.position.copy(new THREE.Vector3(this.position.x, this.position.y, 0.0));
+	this.quad.material.uniforms['uvOffset'].value.add( this.offset );
+	this.quad.scale.copy(new THREE.Vector3(this.zoom, this.zoom, 1.0));
+	this.quad.position.copy(new THREE.Vector3(this.position.x, this.position.y, 0.0));
 }
 
 BoxScrollAnimation.prototype.deltaZoom = function( amount ){
@@ -47,8 +50,8 @@ BoxScrollAnimation.prototype.deltaX = function( amount ){
 }
 
 BoxScrollAnimation.prototype._clampPos = function(cur, amount){
-	var min = -1 * (this.zoom - 1.0);
-	var max = this.zoom - 1.0;
+	let min = -1 * (this.zoom - 1.0);
+	let max = this.zoom - 1.0;
 	return Math.max(Math.min(cur + amount, max), min)
 }
 

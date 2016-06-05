@@ -7,15 +7,24 @@ function Animator(options){
 	this.animRequest = null;
 }
 
-Animator.prototype.start = function(){
+Animator.prototype.start = function(addQuads){
 	if(this.running){
 		return console.log("ANIMATOR NOT STARTING -- already running");
 	}
 	console.log("STARTING ANIMATOR");
 	this.running = true;
+	if(addQuads){
+		let self = this;
+		this._getQuads().forEach(quad => self.options.scene.add(quad));
+	}
 	this._perFrame();
 	return this;
 };
+
+Animator.prototype.stopAndReset = function(){
+	this.stop();
+	this._resetQuads();
+}
 
 Animator.prototype.stop = function(){
 	console.log("STOPPING");
@@ -27,6 +36,34 @@ Animator.prototype.stop = function(){
 
 	return this;
 };
+
+Animator.prototype._resetQuads = function(){
+	let quads = this._getQuads();
+	// Reset quad uniforms and size
+	quads.forEach(quad => {
+		// Reset the quad
+		console.log("REMOVING QUAD");
+		this.options.scene.remove(quad);
+		// scene.add(quad);
+		quad.material.uniforms['colorCycle'].value = 0.0;
+		quad.material.uniforms['uvOffset'].value.set( 0, 0 );
+		quad.scale.set( 1.0, 1.0, 1.0 );
+	});
+}
+
+Animator.prototype._getQuads = function(){
+	if(this.options.animation.quad){
+		return [this.options.animation.quad];
+	}
+	if(this.options.animation.quads){
+		return this.options.animation.quads;
+	}
+	//TODO FIXME hack until twoquad is fixed to use an array
+	if(this.options.animation.quad1){
+		return [this.options.animation.quad1, this.options.animation.quad2];
+	}
+	return [];
+}
 
 Animator.prototype.deltaDuration = function(delta){
 	this.options.duration = Math.max(1, this.options.duration + delta);
@@ -100,7 +137,7 @@ Animator.prototype._perFrame = function(){
 	// Advance the animation
 	this.options.animation.tick(timeMult);
 
-	this.options.renderer.render( scene, camera );
+	this._render( this.options.scene, this.options.camera );
 
 	if(this.options.stats){
 		this.options.stats.update();
