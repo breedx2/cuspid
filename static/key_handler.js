@@ -1,10 +1,10 @@
 
 class KeyHandler {
 
-    constructor(scene, animator, texture, stats, quads){
+    constructor(scene, animator, textures, stats, quads){
         this.scene = scene;
         this.animator = animator;
-        this.texture = texture;
+        this.textures = textures;
         this.stats = stats;
         this.quads = quads; //maybe this shouldn't be here?
     }
@@ -24,6 +24,7 @@ class KeyHandler {
     				let texture = buildTexture(image);
     				let oldQuad = this.quads[0];
     				this.quads[0] = buildQuad(texture);
+                    this.textures[0] = texture;
     				//sneak the new quad into the existing animator's animation
     				this.animator.options.animation.quad = this.quads[0];
     				this.scene.add( this.quads[0] );
@@ -105,12 +106,14 @@ class KeyHandler {
     		let display = this.stats.domElement.style.display;
     		this.stats.domElement.style.display = (display==='none') ? 'block' : 'none';
     	}
-    	else if(this.texture && (event.keyCode == 'I'.charCodeAt(0)) ) {
+    	else if(this.textures && (event.keyCode == 'I'.charCodeAt(0)) ) {
     		// Toggle smooth/pixelated image scaling
-    		let filter = this.texture.minFilter;
-    		console.log( 'eh?',filter );
-    		this.texture.minFilter = this.texture.magFilter = (filter===THREE.LinearFilter) ? THREE.NearestFilter : THREE.LinearFilter;
-    		this.texture.needsUpdate = true;	// Texture has changed, so tell ThreeJS to update it
+            this.textures.forEach(texture => {
+        		let filter = texture.minFilter;
+        		console.log( 'eh?',filter );
+        		texture.minFilter = texture.magFilter = (filter===THREE.LinearFilter) ? THREE.NearestFilter : THREE.LinearFilter;
+        		texture.needsUpdate = true;	// Texture has changed, so tell ThreeJS to update it
+            })
     	}
     	else if((event.keyCode == 'K'.charCodeAt(0)) || ((event.keyCode == 191) && event.shiftKey)){
     		toggleKeys();

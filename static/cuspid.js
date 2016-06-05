@@ -24,7 +24,7 @@ function cuspidLoad(){
 	startFirstAnimation()
 		.then(newAnimator => {
 			animator = newAnimator;
-			let keyHandler = new KeyHandler(scene, animator, texture, stats, quads);
+			let keyHandler = new KeyHandler(scene, animator, textures, stats, quads);
 			$('body').get(0).addEventListener('keydown', event => keyHandler.handleKey(event));
 			console.log("Animation started.")
 		});
