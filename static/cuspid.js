@@ -93,7 +93,7 @@ function handleKey(event){
 		if(event.ctrlKey){
 			return animator.deltaX(-0.1);
 		}
-		changeAnimation(BoxScrollAnimation.scrollLeft(quads[0], animator.options.jerkiness));
+		changeAnimation(TwoQuadBoxScrollAnimation.scrollLeft(quads[0], quads[1], animator.options.jerkiness));
 	}
 	else if(event.keyCode == 39){				//right arrow
 		if(event.shiftKey && event.ctrlKey){
@@ -106,7 +106,8 @@ function handleKey(event){
 		if(event.ctrlKey){
 			return animator.deltaX(0.1);
 		}
-		changeAnimation(BoxScrollAnimation.scrollRight(quads[0], animator.options.jerkiness));
+		//changeAnimation(BoxScrollAnimation.scrollRight(quads[0], animator.options.jerkiness));
+		changeAnimation(TwoQuadBoxScrollAnimation.scrollRight(quads[0], quads[1], animator.options.jerkiness));
 	}
 	else if(event.keyCode == 38){				//up arrow
 		if(event.shiftKey && event.ctrlKey){	//ctrl+shift up arrow
@@ -118,7 +119,8 @@ function handleKey(event){
 		if(event.ctrlKey){						//control up arrow
 			return animator.deltaY(-0.1);
 		}
-		changeAnimation(BoxScrollAnimation.scrollUp(quads[0], animator.options.jerkiness));
+		//changeAnimation(BoxScrollAnimation.scrollUp(quads[0], animator.options.jerkiness));
+		changeAnimation(TwoQuadBoxScrollAnimation.scrollUp(quads[0], quads[1], animator.options.jerkiness));
 	}
 	else if(event.keyCode == 40){				//down arrow
 		if(event.shiftKey && event.ctrlKey){	//ctrl+shift down arrow
@@ -130,7 +132,7 @@ function handleKey(event){
 		if(event.ctrlKey){						//control down arrow
 			return animator.deltaY(0.1);
 		}
-		changeAnimation(BoxScrollAnimation.scrollDown(quads[0], animator.options.jerkiness));
+		changeAnimation(TwoQuadBoxScrollAnimation.scrollDown(quads[0], quads[1], animator.options.jerkiness));
 	}
 	else if(event.keyCode == 13){   //enter key
 		animator.options.paint();
@@ -161,18 +163,19 @@ function handleKey(event){
 
 function changeAnimation(animation){
 	if(animator){
-		animator.stop();
+		animator.stopAndReset();
 	}
 
 	// Reset quad uniforms and size
-	quads.forEach(quad => {
-		//TODO: Figure this out, yeah....
-		// scene.remove(quad);
-		// scene.add(quad);
-		quad.material.uniforms['colorCycle'].value = 0.0;
-		quad.material.uniforms['uvOffset'].value.set( 0, 0 );
-		quad.scale.set( 1.0, 1.0, 1.0 );
-	});
+	// quads.forEach(quad => {
+	// 	//TODO: Figure this out, yeah....
+	// 	// scene.remove(quad);
+	// 	// scene.add(quad);
+	// 	// Reset the quad
+	// 	quad.material.uniforms['colorCycle'].value = 0.0;
+	// 	quad.material.uniforms['uvOffset'].value.set( 0, 0 );
+	// 	quad.scale.set( 1.0, 1.0, 1.0 );
+	// });
 
 	animator = new Animator({
 		renderer: renderer,
@@ -184,7 +187,7 @@ function changeAnimation(animation){
 		imageIds: animator.options.imageIds,
 		animation: animation
 	});
-	animator.start();
+	animator.start(true);
 }
 
 function setRenderSize(){
@@ -201,41 +204,31 @@ function setRenderSize(){
 function startFirstAnimation(){
 	// Load our texture
 	let sourceUrls = ['/static/cuspid.jpg', '/static/bloody20sunday.jpg'];
-	return Promise.all(sourceUrls.map(url => {
-		return ImageLoader.loadAndCrop(url)
-			.then(image => {
-				let texture = buildTexture(image);
-				textures.push(texture);
-				// Draw a single quad with our texture.
-				let quad = buildQuad(texture);
-				quads.push(quad);
-				return quad;
-			})
-	}))
-	.then(newQuads => {
-		console.log(`Loaded ${newQuads.length} quads`);
-		quads = newQuads;
-		newQuads.forEach(quad => scene.add(quad));
-		// scene.add( newQuads[0] );
-		let animator = new Animator({
-			renderer: renderer,
-			stats: stats,
-			scene: scene,
-			camera: camera,
-			duration: DEFAULT_ANIM_DURATION,
-			jerkiness: 5,
-			animation: new TwoQuadBoxScrollAnimation(newQuads[0], newQuads[1], "RIGHT", 5)
-			//		animation: new BoxScrollAnimation(quad, "RIGHT", 5)
-			/*new CompositeAnimation([
-				new BoxScrollAnimation(quad, "LEFT", 5),
-				new PaletteAnimation(quad, 'DOWN', 0.5),
-				new ZoomAnimation.zoomIn(quad, 5)
-			])*/
+	return loadQuadsFromUrls(sourceUrls)
+		.then(newQuads => {
+			console.log(`Loaded ${newQuads.length} quads`);
+			quads = newQuads;
+			newQuads.forEach(quad => scene.add(quad));
+			// scene.add( newQuads[0] );
+			let animator = new Animator({
+				renderer: renderer,
+				stats: stats,
+				scene: scene,
+				camera: camera,
+				duration: DEFAULT_ANIM_DURATION,
+				jerkiness: 5,
+				animation: TwoQuadBoxScrollAnimation.scrollRight(newQuads[0], newQuads[1], 5)
+				//		animation: new BoxScrollAnimation(quad, "RIGHT", 5)
+				/*new CompositeAnimation([
+					new BoxScrollAnimation(quad, "LEFT", 5),
+					new PaletteAnimation(quad, 'DOWN', 0.5),
+					new ZoomAnimation.zoomIn(quad, 5)
+				])*/
+			});
+			// animator.options.animation.quad = newQuads[0];
+			animator.start();
+			return animator;
 		});
-		animator.options.animation.quad = newQuads[0];
-		animator.start();
-		return animator;
-	});
 
 	// return ImageLoader.loadAndCrop(sourceUrls[0])
 	// 	.then(image => {
@@ -267,4 +260,18 @@ function startFirstAnimation(){
 	// 		animator.start();
 	// 		return animator;
 	// 	});
+}
+
+function loadQuadsFromUrls(sourceUrls){
+	return Promise.all(sourceUrls.map(url => {
+		return ImageLoader.loadAndCrop(url)
+			.then(image => {
+				let texture = buildTexture(image);
+				textures.push(texture);
+				// Draw a single quad with our texture.
+				let quad = buildQuad(texture);
+				quads.push(quad);
+				return quad;
+			})
+	}))
 }
