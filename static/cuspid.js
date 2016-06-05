@@ -93,7 +93,7 @@ function handleKey(event){
 		if(event.ctrlKey){
 			return animator.deltaX(-0.1);
 		}
-		changeAnimation(TwoQuadBoxScrollAnimation.scrollLeft(quads[0], quads[1], animator.options.jerkiness));
+		changeAnimation(TwoQuadBoxScrollAnimation.scrollLeft(quads, animator.options.jerkiness));
 	}
 	else if(event.keyCode == 39){				//right arrow
 		if(event.shiftKey && event.ctrlKey){
@@ -107,7 +107,7 @@ function handleKey(event){
 			return animator.deltaX(0.1);
 		}
 		//changeAnimation(BoxScrollAnimation.scrollRight(quads[0], animator.options.jerkiness));
-		changeAnimation(TwoQuadBoxScrollAnimation.scrollRight(quads[0], quads[1], animator.options.jerkiness));
+		changeAnimation(TwoQuadBoxScrollAnimation.scrollRight(quads, animator.options.jerkiness));
 	}
 	else if(event.keyCode == 38){				//up arrow
 		if(event.shiftKey && event.ctrlKey){	//ctrl+shift up arrow
@@ -120,7 +120,7 @@ function handleKey(event){
 			return animator.deltaY(-0.1);
 		}
 		//changeAnimation(BoxScrollAnimation.scrollUp(quads[0], animator.options.jerkiness));
-		changeAnimation(TwoQuadBoxScrollAnimation.scrollUp(quads[0], quads[1], animator.options.jerkiness));
+		changeAnimation(TwoQuadBoxScrollAnimation.scrollUp(quads, animator.options.jerkiness));
 	}
 	else if(event.keyCode == 40){				//down arrow
 		if(event.shiftKey && event.ctrlKey){	//ctrl+shift down arrow
@@ -132,7 +132,7 @@ function handleKey(event){
 		if(event.ctrlKey){						//control down arrow
 			return animator.deltaY(0.1);
 		}
-		changeAnimation(TwoQuadBoxScrollAnimation.scrollDown(quads[0], quads[1], animator.options.jerkiness));
+		changeAnimation(TwoQuadBoxScrollAnimation.scrollDown(quads, animator.options.jerkiness));
 	}
 	else if(event.keyCode == 13){   //enter key
 		animator.options.paint();
@@ -217,7 +217,7 @@ function startFirstAnimation(){
 				camera: camera,
 				duration: DEFAULT_ANIM_DURATION,
 				jerkiness: 5,
-				animation: TwoQuadBoxScrollAnimation.scrollRight(newQuads[0], newQuads[1], 5)
+				animation: TwoQuadBoxScrollAnimation.scrollRight(newQuads, 5)
 				//		animation: new BoxScrollAnimation(quad, "RIGHT", 5)
 				/*new CompositeAnimation([
 					new BoxScrollAnimation(quad, "LEFT", 5),

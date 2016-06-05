@@ -1,6 +1,7 @@
 
 function ZoomAnimation( quad, direction, jerkiness, easing ){
 	this.quad = quad;
+	this.quad.position.copy(new THREE.Vector3(0.0, 0.0, 0.0));
 	if(ZoomAnimation._DIR_MULT[direction] == null){
 		throw new Error("Unknown direction " + direction + ", must be IN or OUT");
 	}

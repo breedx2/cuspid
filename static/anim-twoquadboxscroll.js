@@ -1,7 +1,6 @@
 
-function TwoQuadBoxScrollAnimation( quad1, quad2, direction, jerkiness ){
-	this.quad1 = quad1;
-	this.quad2 = quad2;
+function TwoQuadBoxScrollAnimation( quads, direction, jerkiness ){
+	this.quads = quads;
 	this.direction = direction;
 	this.jerkiness = Math.abs(jerkiness) || 1;
 	this.offset = new THREE.Vector2( 0, 0 );
@@ -13,7 +12,7 @@ TwoQuadBoxScrollAnimation.prototype.tick = function(timeMult){
 
 	// GL texture coordinates (UVs) are floating point numbers in range 0..1,
 	// so divide jerkiness by the source img width/height
-	if(!this.quad1.material.uniforms['texture'].value.image){
+	if(!this.quads[0].material.uniforms['texture'].value.image){
 		return;
 	}
 	switch( this.direction ) {
@@ -39,18 +38,18 @@ TwoQuadBoxScrollAnimation.prototype.tick = function(timeMult){
 		this._swapQuads();
 	}
 	this.offset.multiplyScalar( timeMult );
-	this.quad1.material.uniforms['uvOffset'].value.add( this.offset );
-	this.quad1.scale.copy(new THREE.Vector3(this.zoom, this.zoom, 1.0));
-	this.quad1.position.copy(new THREE.Vector3(this.position.x, this.position.y, 0.0));
+	this.quads[0].material.uniforms['uvOffset'].value.add( this.offset );
+	this.quads[0].scale.copy(new THREE.Vector3(this.zoom, this.zoom, 1.0));
+	this.quads[0].position.copy(new THREE.Vector3(this.position.x, this.position.y, 0.0));
 
-	this.quad2.scale.copy(new THREE.Vector3(this.zoom, this.zoom, 1.0));
+	this.quads[1].scale.copy(new THREE.Vector3(this.zoom, this.zoom, 1.0));
 	let xmul = this._xmul();
 	let ymul = this._ymul();
 	let pos2 = {
 		x: this.position.x + (xmul * 2 * this.zoom),
 		y: this.position.y + (ymul * 2 * this.zoom)
 	}
-	this.quad2.position.copy(new THREE.Vector3(pos2.x, pos2.y, 0.0));
+	this.quads[1].position.copy(new THREE.Vector3(pos2.x, pos2.y, 0.0));
 }
 
 TwoQuadBoxScrollAnimation.prototype._xmul = function(){
@@ -68,9 +67,9 @@ TwoQuadBoxScrollAnimation.prototype._ymul = function(){
 }
 
 TwoQuadBoxScrollAnimation.prototype._swapQuads = function(){
-	let tmp = this.quad1;
-	this.quad1 = this.quad2;
-	this.quad2 = tmp;
+	let tmp = this.quads[0];
+	this.quads[0] = this.quads[1];
+	this.quads[1] = tmp;
 }
 
 TwoQuadBoxScrollAnimation.prototype.deltaZoom = function( amount ){
@@ -93,29 +92,29 @@ TwoQuadBoxScrollAnimation.prototype._clampPos = function(cur, amount){
 	return Math.max(Math.min(cur + amount, max), min)
 }
 
-TwoQuadBoxScrollAnimation.scrollLeft = function( quad1, quad2, jerkiness){
-	return TwoQuadBoxScrollAnimation.scrollHoriz( quad1, quad2, jerkiness, true);
+TwoQuadBoxScrollAnimation.scrollLeft = function( quads, jerkiness){
+	return TwoQuadBoxScrollAnimation.scrollHoriz( quads, jerkiness, true);
 }
 
-TwoQuadBoxScrollAnimation.scrollRight = function( quad1, quad2, jerkiness){
-	return TwoQuadBoxScrollAnimation.scrollHoriz( quad1, quad2, jerkiness, false);
+TwoQuadBoxScrollAnimation.scrollRight = function( quads, jerkiness){
+	return TwoQuadBoxScrollAnimation.scrollHoriz( quads, jerkiness, false);
 }
 
-TwoQuadBoxScrollAnimation.scrollHoriz = function( quad1, quad2, jerkiness, leftNotRight){
+TwoQuadBoxScrollAnimation.scrollHoriz = function( quads, jerkiness, leftNotRight){
 	jerkiness = Math.abs(jerkiness) || 1;
-	return new TwoQuadBoxScrollAnimation( quad1, quad2, leftNotRight ? "LEFT" : "RIGHT", jerkiness );
+	return new TwoQuadBoxScrollAnimation( quads, leftNotRight ? "LEFT" : "RIGHT", jerkiness );
 }
 
-TwoQuadBoxScrollAnimation.scrollDown = function( quad1, quad2, jerkiness){
-	return TwoQuadBoxScrollAnimation.scrollVert( quad1, quad2, jerkiness, false);
+TwoQuadBoxScrollAnimation.scrollDown = function( quads, jerkiness){
+	return TwoQuadBoxScrollAnimation.scrollVert( quads, jerkiness, false);
 }
 
-TwoQuadBoxScrollAnimation.scrollUp = function( quad1, quad2, jerkiness){
-	return TwoQuadBoxScrollAnimation.scrollVert( quad1, quad2, jerkiness, true);
+TwoQuadBoxScrollAnimation.scrollUp = function( quads, jerkiness){
+	return TwoQuadBoxScrollAnimation.scrollVert( quads, jerkiness, true);
 }
 
 //could probably combine this with horiz for code reuse/deduplication, but f it
-TwoQuadBoxScrollAnimation.scrollVert = function( quad1, quad2, jerkiness, upNotDown){
+TwoQuadBoxScrollAnimation.scrollVert = function( quads, jerkiness, upNotDown){
 	jerkiness = Math.abs(jerkiness) || 1;
-	return new TwoQuadBoxScrollAnimation( quad1, quad2, upNotDown ? "UP" : "DOWN", jerkiness );
+	return new TwoQuadBoxScrollAnimation( quads, upNotDown ? "UP" : "DOWN", jerkiness );
 }

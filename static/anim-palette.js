@@ -3,6 +3,7 @@
 
 function PaletteAnimation(quad, direction, jerkiness){
 	this.quad = quad;
+	this.quad.position.copy(new THREE.Vector3(0.0, 0.0, 0.0));
 	this.direction = direction;
 	this.jerkiness = jerkiness;
 }
@@ -19,4 +20,3 @@ PaletteAnimation.paletteUp = function( quad, jerkiness){
 PaletteAnimation.paletteDown = function( quad, jerkiness ){
 	return new PaletteAnimation( quad, "DOWN", jerkiness );
 }
-
