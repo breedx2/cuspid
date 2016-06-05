@@ -33,3 +33,30 @@ canvas#cnv {
 div#imagepool {
 	width: 200px;
 }
+
+div#keys {
+	max-width: 500px;
+	border: solid #dddddd 2px;
+	border-radius: 10px;
+	position: absolute;
+	margin-top: 100px;
+	margin-left: 3px;
+	padding-left: 40px;
+	padding-right: 40px;
+	padding-bottom: 25px;
+	z-index: 9;
+	color: white;
+	background-color: rgba(0, 0, 0, 0.7);
+	display: none;
+}
+
+div#keys img#key {
+	width: 75px;
+	position: absolute;
+	right: 3px;
+	top: 3px;
+}
+
+div#keys td.key {
+	width: 80px;
+}

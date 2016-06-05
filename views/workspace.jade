@@ -13,9 +13,11 @@ html
 		script(src="/static/anim-composite.js")
 		script(src="/static/Animator.js")
 		script(src="/static/cuspid_shader.js")
+		script(src="/static/gui.js")
 		script(src="/static/cuspid.js")
 	body(onload="cuspidLoad();")
 		div(id='top')
 			h1|_C_U_S_P_I_D_
+		include ./keys.jade
 		canvas(id='cnv')
 		div(id='imagepool')
