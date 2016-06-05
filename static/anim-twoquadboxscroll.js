@@ -73,9 +73,6 @@ TwoQuadBoxScrollAnimation.prototype._ymul = function(){
 
 TwoQuadBoxScrollAnimation.prototype._swapQuads = function(){
 	this.quads.push( this.quads.shift());
-	// let tmp = this.quads[0];
-	// this.quads[0] = this.quads[this.quads.length - 1];
-	// this.quads[this.quads.length - 1] = tmp;
 }
 
 TwoQuadBoxScrollAnimation.prototype.deltaZoom = function( amount ){
