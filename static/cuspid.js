@@ -24,9 +24,10 @@ function cuspidLoad(){
 	startFirstAnimation()
 		.then(newAnimator => {
 			animator = newAnimator;
+			let keyHandler = new KeyHandler(scene, animator, textures, stats, quads);
+			$('body').get(0).addEventListener('keydown', event => keyHandler.handleKey(event));
 			console.log("Animation started.")
 		});
-	$('body').get(0).addEventListener('keydown', handleKey);
 }
 
 function init3D(){
@@ -52,145 +53,6 @@ function buildTexture(image){
 		THREE.LuminanceFormat);
 	texture.needsUpdate = true;
 	return texture;
-}
-
-function handleKey(event){
-	console.log('I saw this key: ' + event.keyCode);
-	if(animator && (event.keyCode == 32)){	// space bar
-		animator.pause();
-	}
-	else if(event.keyCode == 'N'.charCodeAt(0)){
-		// THIS IS A TOTAL HACK THAT MUST BE REPLACED WITH REAL MANAGEMENT
-		let curUrl = animator.options.animation.quad.material.uniforms['texture'].value.image.url;
-		// hard coding for now...
-		let sourceUrl = curUrl == '/static/cuspid.jpg' ? '/static/bloody20sunday.jpg' : '/static/cuspid.jpg';
-		ImageLoader.loadAndCrop(sourceUrl)
-			.then(image => {
-				let texture = buildTexture(image);
-				let oldQuad = quads[0];
-				quads[0] = buildQuad(texture);
-				//sneak the new quad into the existing animator's animation
-				animator.options.animation.quad = quads[0];
-				scene.add( quads[0] );
-				scene.remove(oldQuad);
-			});
-	}
-	else if(animator && (event.keyCode == 187) && (event.shiftKey)){	// plus '+'
-		console.log("Increasing animation speed");
-		animator.deltaDuration(5);
-	}
-	else if(animator && (event.keyCode == 189) && (!event.shiftKey)){	// minus '-'
-		console.log("Slowing animation speed");
-		animator.deltaDuration(-5);
-	}
-	else if(event.keyCode == 37){				//left arrow
-		if(event.shiftKey && event.ctrlKey){
-			return console.log("UNBOUND");
-		}
-		if(event.shiftKey){
-			return changeAnimation(PaletteAnimation.paletteDown(quads[0], animator.options.jerkiness));
-		}
-		if(event.ctrlKey){
-			return animator.deltaX(-0.1);
-		}
-		changeAnimation(TwoQuadBoxScrollAnimation.scrollLeft(quads, animator.options.jerkiness));
-	}
-	else if(event.keyCode == 39){				//right arrow
-		if(event.shiftKey && event.ctrlKey){
-			return console.log("UNBOUND");
-		}
-		if(event.shiftKey){
-			console.log(animator.options.jerkiness);
-			return changeAnimation(PaletteAnimation.paletteUp(quads[0], animator.options.jerkiness));
-		}
-		if(event.ctrlKey){
-			return animator.deltaX(0.1);
-		}
-		//changeAnimation(BoxScrollAnimation.scrollRight(quads[0], animator.options.jerkiness));
-		changeAnimation(TwoQuadBoxScrollAnimation.scrollRight(quads, animator.options.jerkiness));
-	}
-	else if(event.keyCode == 38){				//up arrow
-		if(event.shiftKey && event.ctrlKey){	//ctrl+shift up arrow
-			return console.log("UNBOUND");
-		}
-		if(event.shiftKey){						//shift up arrow
-			return changeAnimation(ZoomAnimation.zoomIn(quads[0], animator.options.jerkiness));
-		}
-		if(event.ctrlKey){						//control up arrow
-			return animator.deltaY(-0.1);
-		}
-		//changeAnimation(BoxScrollAnimation.scrollUp(quads[0], animator.options.jerkiness));
-		changeAnimation(TwoQuadBoxScrollAnimation.scrollUp(quads, animator.options.jerkiness));
-	}
-	else if(event.keyCode == 40){				//down arrow
-		if(event.shiftKey && event.ctrlKey){	//ctrl+shift down arrow
-			return console.log("UNBOUND");
-		}
-		if(event.shiftKey){						//shift down arrow
-			return changeAnimation(ZoomAnimation.zoomOut(quads[0], animator.options.jerkiness));
-		}
-		if(event.ctrlKey){						//control down arrow
-			return animator.deltaY(0.1);
-		}
-		changeAnimation(TwoQuadBoxScrollAnimation.scrollDown(quads, animator.options.jerkiness));
-	}
-	else if(event.keyCode == 13){   //enter key
-		animator.options.paint();
-	}
-	else if(event.keyCode == 'Z'.charCodeAt(0)){
-		if(event.shiftKey){	//zoom in
-			console.log('Zoom out');
-			animator.deltaZoom(-0.1);
-		}
-		else {
-			console.log('Zoom in');
-			animator.deltaZoom(0.1);
-		}
-	}
-	else if(stats && (event.keyCode == 'F'.charCodeAt(0)) ){
-		// Toggle FPS visibility
-		let display = stats.domElement.style.display;
-		stats.domElement.style.display = (display==='none') ? 'block' : 'none';
-	}
-	else if(texture && (event.keyCode == 'I'.charCodeAt(0)) ) {
-		// Toggle smooth/pixelated image scaling
-		let filter = texture.minFilter;
-		console.log( 'eh?',filter );
-		texture.minFilter = texture.magFilter = (filter===THREE.LinearFilter) ? THREE.NearestFilter : THREE.LinearFilter;
-		texture.needsUpdate = true;	// Texture has changed, so tell ThreeJS to update it
-	}
-	else if((event.keyCode == 'K'.charCodeAt(0)) || ((event.keyCode == 191) && event.shiftKey)){
-		toggleKeys();
-	}
-}
-
-function changeAnimation(animation){
-	if(animator){
-		animator.stopAndReset();
-	}
-
-	// Reset quad uniforms and size
-	// quads.forEach(quad => {
-	// 	//TODO: Figure this out, yeah....
-	// 	// scene.remove(quad);
-	// 	// scene.add(quad);
-	// 	// Reset the quad
-	// 	quad.material.uniforms['colorCycle'].value = 0.0;
-	// 	quad.material.uniforms['uvOffset'].value.set( 0, 0 );
-	// 	quad.scale.set( 1.0, 1.0, 1.0 );
-	// });
-
-	animator = new Animator({
-		renderer: renderer,
-		scene: scene,
-		camera: camera,
-		stats: stats,
-		jerkiness: animator.options.jerkiness,
-		duration: animator.options.duration,
-		imageIds: animator.options.imageIds,
-		animation: animation
-	});
-	animator.start(true);
 }
 
 function setRenderSize(){
