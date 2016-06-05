@@ -10,6 +10,7 @@ function TwoQuadBoxScrollAnimation( quads, direction, jerkiness ){
 
 TwoQuadBoxScrollAnimation.prototype.tick = function(timeMult){
 
+	this.quads.slice(2).forEach( quad => quad.position.copy(new THREE.Vector3(-2 * this.zoom, 0, 0.0)));
 	// GL texture coordinates (UVs) are floating point numbers in range 0..1,
 	// so divide jerkiness by the source img width/height
 	if(!this.quads[0].material.uniforms['texture'].value.image){
@@ -71,9 +72,10 @@ TwoQuadBoxScrollAnimation.prototype._ymul = function(){
 }
 
 TwoQuadBoxScrollAnimation.prototype._swapQuads = function(){
-	let tmp = this.quads[0];
-	this.quads[0] = this.quads[1];
-	this.quads[1] = tmp;
+	this.quads.push( this.quads.shift());
+	// let tmp = this.quads[0];
+	// this.quads[0] = this.quads[this.quads.length - 1];
+	// this.quads[this.quads.length - 1] = tmp;
 }
 
 TwoQuadBoxScrollAnimation.prototype.deltaZoom = function( amount ){

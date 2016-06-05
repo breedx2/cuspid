@@ -68,7 +68,7 @@ function setRenderSize(){
 
 function startFirstAnimation(){
 	// Load our texture
-	let sourceUrls = ['/static/cuspid.jpg', '/static/bloody20sunday.jpg'];
+	let sourceUrls = ['/static/cuspid.jpg', '/static/corpse001.jpg', '/static/bloody20sunday.jpg', '/static/chupacabra001.jpg'];
 	return loadQuadsFromUrls(sourceUrls)
 		.then(newQuads => {
 			console.log(`Loaded ${newQuads.length} quads`);
