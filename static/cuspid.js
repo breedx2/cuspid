@@ -7,6 +7,8 @@ var quads = [];
 var textures = [];
 var texture;
 
+const IMAGE_URLS = ['/static/cuspid.jpg', '/static/corpse001.jpg', '/static/bloody20sunday.jpg', '/static/chupacabra001.jpg'];
+
 function cuspidLoad(){
 	// FPS stats
 	stats = new Stats();
@@ -68,13 +70,11 @@ function setRenderSize(){
 
 function startFirstAnimation(){
 	// Load our texture
-	let sourceUrls = ['/static/cuspid.jpg', '/static/corpse001.jpg', '/static/bloody20sunday.jpg', '/static/chupacabra001.jpg'];
-	return loadQuadsFromUrls(sourceUrls)
+	return loadQuadsFromUrls(IMAGE_URLS)
 		.then(newQuads => {
 			console.log(`Loaded ${newQuads.length} quads`);
 			quads = newQuads;
 			newQuads.forEach(quad => scene.add(quad));
-			// scene.add( newQuads[0] );
 			let animator = new Animator({
 				renderer: renderer,
 				stats: stats,

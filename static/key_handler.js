@@ -15,21 +15,15 @@ class KeyHandler {
     		this.animator.pause();
     	}
     	else if(event.keyCode == 'N'.charCodeAt(0)){
-    		// THIS IS A TOTAL HACK THAT MUST BE REPLACED WITH REAL MANAGEMENT
-    		let curUrl = this.animator.options.animation.quad.material.uniforms['texture'].value.image.url;
-    		// hard coding for now...
-    		let sourceUrl = curUrl == '/static/cuspid.jpg' ? '/static/bloody20sunday.jpg' : '/static/cuspid.jpg';
-    		ImageLoader.loadAndCrop(sourceUrl)
-    			.then(image => {
-    				let texture = buildTexture(image);
-    				let oldQuad = this.quads[0];
-    				this.quads[0] = buildQuad(texture);
-                    this.textures[0] = texture;
-    				//sneak the new quad into the existing animator's animation
-    				this.animator.options.animation.quad = this.quads[0];
-    				this.scene.add( this.quads[0] );
-    				this.scene.remove(oldQuad);
-    			});
+
+            // THIS IS STILL A TOTAL HACK THAT SHOULD BE FIXED...
+            let oldQuad = this.quads.shift();
+        	this.quads.push( oldQuad);
+            //sneak the new quad into the existing animator's animation
+            this.quads[0].position.copy(new THREE.Vector3(0, 0, 0.0));
+			this.animator.options.animation.quad = this.quads[0];
+			this.scene.add( this.quads[0] );
+			this.scene.remove(oldQuad);
     	}
     	else if(animator && (event.keyCode == 187) && (event.shiftKey)){	// plus '+'
     		console.log("Increasing animation speed");
