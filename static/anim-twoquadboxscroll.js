@@ -37,6 +37,10 @@ TwoQuadBoxScrollAnimation.prototype.tick = function(timeMult){
 		this.position.y = 0;
 		this._swapQuads();
 	}
+	if((this.direction == 'DOWN') && (this.position.y < (-2 * this.zoom))){
+		this.position.y = 0;
+		this._swapQuads();
+	}
 	this.offset.multiplyScalar( timeMult );
 	this.quads[0].material.uniforms['uvOffset'].value.add( this.offset );
 	this.quads[0].scale.copy(new THREE.Vector3(this.zoom, this.zoom, 1.0));
