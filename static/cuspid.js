@@ -159,6 +159,9 @@ function handleKey(event){
 		texture.minFilter = texture.magFilter = (filter===THREE.LinearFilter) ? THREE.NearestFilter : THREE.LinearFilter;
 		texture.needsUpdate = true;	// Texture has changed, so tell ThreeJS to update it
 	}
+	else if((event.keyCode == 'K'.charCodeAt(0)) || ((event.keyCode == 191) && event.shiftKey)){
+		toggleKeys();
+	}
 }
 
 function changeAnimation(animation){
