@@ -47,7 +47,7 @@ class KeyHandler {
     			return this._changeAnimation(PaletteAnimation.paletteDown(this.quads[0], this.animator.options.jerkiness));
     		}
     		if(event.ctrlKey){
-    			return animator.deltaX(-0.1);
+    			return this.animator.deltaX(-0.1);
     		}
     		this._changeAnimation(TwoQuadBoxScrollAnimation.scrollLeft(this.quads, this.animator.options.jerkiness));
     	}
