@@ -92,9 +92,7 @@ class TwoQuadBoxScrollAnimation {
 	}
 
 	deltaX( amount ){
-		console.log('PRE: ' + this.position.x);
 		this.position.x = this._clampPos(this.position.x, amount);
-		console.log('post: ' + this.position.x);
 	}
 
 	_clampPos(cur, amount){
