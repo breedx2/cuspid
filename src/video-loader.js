@@ -6,7 +6,7 @@ class VideoLoader {
   static load(url) {
     return new Promise((fulfill, reject) => {
       if (cache[url]) {
-        console.log(`Image ${url} loaded from cache!`);
+        console.log(`Video ${url} loaded from cache!`);
         return fulfill(cache[url]);
       }
       const video = newVideo(url);
