@@ -4,6 +4,7 @@ const Stats = require('./vendor/threejs/stats.min');
 const $ = require('jquery');
 const THREE = require('three');
 const ImageLoader = require('./image-loader');
+const VideoLoader = require('./video-loader');
 const cuspidShader = require('./cuspid_shader');
 const Animator = require('./Animator');
 const TwoQuadBoxScrollAnimation = require('./anim-twoquadboxscroll');
@@ -18,7 +19,8 @@ var textures = [];
 var texture;
 var stats;
 
-const IMAGE_URLS = ['/static/cuspid.jpg', '/static/corpse001.jpg', '/static/bloody20sunday.jpg', '/static/chupacabra001.jpg'];
+// const IMAGE_URLS = ['/static/cuspid.jpg', '/static/corpse001.jpg', '/static/bloody20sunday.jpg', '/static/chupacabra001.jpg'];
+const IMAGE_URLS = ['/static/cuspid.jpg', '/static/big_buck_bunny.webm', '/static/bloody20sunday.jpg'];
 
 function cuspidLoad(){
 	createStats();
@@ -63,15 +65,6 @@ function buildQuad(texture){
 	let quadGeom = new THREE.PlaneBufferGeometry( 2.0, 2.0 );
 	let quadMaterial = cuspidShader.createCuspidShaderMaterial( texture );
 	return new THREE.Mesh( quadGeom, quadMaterial );
-}
-
-function buildTexture(image){
-	let wrap = THREE.ClampToEdgeWrapping; //THREE.RepeatWrapping;
-	let texture = new THREE.Texture(image, THREE.UVMapping, wrap, wrap,
-		THREE.LinearFilter, THREE.LinearFilter,
-		THREE.LuminanceFormat);
-	texture.needsUpdate = true;
-	return texture;
 }
 
 function setRenderSize(){
@@ -146,16 +139,48 @@ function startFirstAnimation(){
 
 function loadQuadsFromUrls(sourceUrls){
 	return Promise.all(sourceUrls.map(url => {
+		if(url.endsWith('.webm') || url.endsWith('.ogv') || url.endsWith('.mp4')){
+			return VideoLoader.load(url)
+				.then(buildTextureQuad(buildVideoTexture));
+		}
 		return ImageLoader.loadAndCrop(url)
-			.then(image => {
-				let texture = buildTexture(image);
-				textures.push(texture);
-				// Draw a single quad with our texture.
-				let quad = buildQuad(texture);
-				quads.push(quad);
-				return quad;
-			})
+			.then(buildTextureQuad(buildImageTexture));
 	}))
+	.then(results => results.filter(x => x != null))
+	.catch(err => {
+		console.log(err);
+	});
+}
+
+function buildTextureQuad(textureFn){
+	return content => {
+		let texture = textureFn(content);
+		textures.push(texture);
+		// Draw a single quad with our texture.
+		let quad = buildQuad(texture);
+		quads.push(quad);
+		return quad;
+	};
+}
+
+function buildImageTexture(image){
+	const wrap = THREE.ClampToEdgeWrapping; //THREE.RepeatWrapping;
+	const texture = new THREE.Texture(image, THREE.UVMapping, wrap, wrap,
+		THREE.LinearFilter, THREE.LinearFilter,
+		THREE.LuminanceFormat);
+	texture.needsUpdate = true;
+	return texture;
+}
+
+function buildVideoTexture(video){
+	const wrap = THREE.ClampToEdgeWrapping;
+	const texture = new THREE.VideoTexture(
+		video, THREE.UVMapping, wrap, wrap,
+		THREE.LinearFilter, THREE.LinearFilter,
+		THREE.LuminanceFormat
+	 );
+	texture.needsUpdate = true;
+	return texture;
 }
 
 if (document.readyState != 'loading'){
