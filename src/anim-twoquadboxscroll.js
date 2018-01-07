@@ -21,7 +21,8 @@ class TwoQuadBoxScrollAnimation {
 	}
 
 	tick(timeMult){
-		this.quads.slice(2).forEach( quad => quad.position.copy(new THREE.Vector3(-2 * this.zoom, 0, 0.0)));
+		// First, ensure that all non-visible quads are positioned well away from viewport
+		this.quads.slice(2).forEach( quad => quad.position.copy(new THREE.Vector3(-1000000, 0, 0.0)));
 		// GL texture coordinates (UVs) are floating point numbers in range 0..1,
 		// so divide jerkiness by the source img width/height
 		if(!this.quads[0].material.uniforms['texture'].value.image){
@@ -99,22 +100,6 @@ class TwoQuadBoxScrollAnimation {
 
 	deltaZoom( amount ){
 		this.zoom = Math.max(1.0, this.zoom + amount);
-		this.deltaX(0);
-		this.deltaY(0);
-	}
-
-	deltaY( amount ){
-		this.position.y = this._clampPos(this.position.y, amount);
-	}
-
-	deltaX( amount ){
-		this.position.x = this._clampPos(this.position.x, amount);
-	}
-
-	_clampPos(cur, amount){
-		var min = -1 * (this.zoom - 1.0);
-		var max = this.zoom - 1.0;
-		return Math.max(Math.min(cur + amount, max), min)
 	}
 
 	static scrollLeft( quads, jerkiness){
