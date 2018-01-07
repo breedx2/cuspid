@@ -141,29 +141,26 @@ function loadQuadsFromUrls(sourceUrls){
 	return Promise.all(sourceUrls.map(url => {
 		if(url.endsWith('.webm') || url.endsWith('.ogv') || url.endsWith('.mp4')){
 			return VideoLoader.load(url)
-				.then(video => {
-					let texture = buildVideoTexture(video);
-					textures.push(texture);
-					// Draw a single quad with our texture.
-					let quad = buildQuad(texture);
-					quads.push(quad);
-					return quad;
-				});
+				.then(buildTextureQuad(buildVideoTexture));
 		}
 		return ImageLoader.loadAndCrop(url)
-			.then(image => {
-				let texture = buildImageTexture(image);
-				textures.push(texture);
-				// Draw a single quad with our texture.
-				let quad = buildQuad(texture);
-				quads.push(quad);
-				return quad;
-			})
+			.then(buildTextureQuad(buildImageTexture));
 	}))
 	.then(results => results.filter(x => x != null))
 	.catch(err => {
 		console.log(err);
 	});
+}
+
+function buildTextureQuad(textureFn){
+	return content => {
+		let texture = textureFn(content);
+		textures.push(texture);
+		// Draw a single quad with our texture.
+		let quad = buildQuad(texture);
+		quads.push(quad);
+		return quad;
+	};
 }
 
 function buildImageTexture(image){
