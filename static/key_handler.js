@@ -10,108 +10,141 @@ class KeyHandler {
     }
 
     handleKey(event){
-    	console.log('I saw this key: ' + event.keyCode);
-    	if(animator && (event.keyCode == 32)){	// space bar
-    		this.animator.pause();
-    	}
-    	else if(event.keyCode == 'N'.charCodeAt(0)){
+      console.log(event);
+      const handler = this._keyMap()[event.key];
+      if(!handler){
+        return console.log('unbound');
+      }
+      return handler(event);
+    }
 
-            // THIS IS STILL A TOTAL HACK THAT SHOULD BE FIXED...
-            let oldQuad = this.quads.shift();
-        	this.quads.push( oldQuad);
-            //sneak the new quad into the existing animator's animation
-            this.quads[0].position.copy(new THREE.Vector3(0, 0, 0.0));
-			this.animator.options.animation.quad = this.quads[0];
-			this.scene.add( this.quads[0] );
-			this.scene.remove(oldQuad);
-    	}
-    	else if(animator && (event.keyCode == 187) && (event.shiftKey)){	// plus '+'
-    		console.log("Increasing animation speed");
-    		this.animator.deltaDuration(5);
-    	}
-    	else if(animator && (event.keyCode == 189) && (!event.shiftKey)){	// minus '-'
-    		console.log("Slowing animation speed");
-    		this.animator.deltaDuration(-5);
-    	}
-    	else if(event.keyCode == 37){				//left arrow
-    		if(event.shiftKey && event.ctrlKey){
-    			return console.log("UNBOUND");
-    		}
-    		if(event.shiftKey){
-    			return this._changeAnimation(PaletteAnimation.paletteDown(this.quads[0], this.animator.options.jerkiness));
-    		}
-    		if(event.ctrlKey){
-    			return this.animator.deltaX(-0.1);
-    		}
-    		this._changeAnimation(TwoQuadBoxScrollAnimation.scrollLeft(this.quads, this.animator.options.jerkiness));
-    	}
-    	else if(event.keyCode == 39){				//right arrow
-    		if(event.shiftKey && event.ctrlKey){
-    			return console.log("UNBOUND");
-    		}
-    		if(event.shiftKey){
-    			console.log(this.animator.options.jerkiness);
-    			return this._changeAnimation(PaletteAnimation.paletteUp(this.quads[0], this.animator.options.jerkiness));
-    		}
-    		if(event.ctrlKey){
-    			return this.animator.deltaX(0.1);
-    		}
-    		this._changeAnimation(TwoQuadBoxScrollAnimation.scrollRight(this.quads, this.animator.options.jerkiness));
-    	}
-    	else if(event.keyCode == 38){				//up arrow
-    		if(event.shiftKey && event.ctrlKey){	//ctrl+shift up arrow
-    			return console.log("UNBOUND");
-    		}
-    		if(event.shiftKey){						//shift up arrow
-    			return this._changeAnimation(ZoomAnimation.zoomIn(this.quads[0], this.animator.options.jerkiness));
-    		}
-    		if(event.ctrlKey){						//control up arrow
-    			return this.animator.deltaY(-0.1);
-    		}
-    		this._changeAnimation(TwoQuadBoxScrollAnimation.scrollUp(this.quads, this.animator.options.jerkiness));
-    	}
-    	else if(event.keyCode == 40){				//down arrow
-    		if(event.shiftKey && event.ctrlKey){	//ctrl+shift down arrow
-    			return console.log("UNBOUND");
-    		}
-    		if(event.shiftKey){						//shift down arrow
-    			return this._changeAnimation(ZoomAnimation.zoomOut(this.quads[0], this.animator.options.jerkiness));
-    		}
-    		if(event.ctrlKey){						//control down arrow
-    			return this.animator.deltaY(0.1);
-    		}
-    		this._changeAnimation(TwoQuadBoxScrollAnimation.scrollDown(this.quads, this.animator.options.jerkiness));
-    	}
-    	else if(event.keyCode == 13){   //enter key
-    		this.animator.options.paint();
-    	}
-    	else if(event.keyCode == 'Z'.charCodeAt(0)){
-    		if(event.shiftKey){	//zoom in
-    			console.log('Zoom out');
-    			this.animator.deltaZoom(-0.1);
-    		}
-    		else {
-    			console.log('Zoom in');
-    			this.animator.deltaZoom(0.1);
-    		}
-    	}
-    	else if(this.stats && (event.keyCode == 'F'.charCodeAt(0)) ){
-    		// Toggle FPS visibility
-    		let display = this.stats.domElement.style.display;
-    		this.stats.domElement.style.display = (display==='none') ? 'block' : 'none';
-    	}
-    	else if(this.textures && (event.keyCode == 'I'.charCodeAt(0)) ) {
-    		// Toggle smooth/pixelated image scaling
-            this.textures.forEach(texture => {
-        		let filter = texture.minFilter;
-        		console.log( 'eh?',filter );
-        		texture.minFilter = texture.magFilter = (filter===THREE.LinearFilter) ? THREE.NearestFilter : THREE.LinearFilter;
-        		texture.needsUpdate = true;	// Texture has changed, so tell ThreeJS to update it
-            })
-    	}
-    	else if((event.keyCode == 'K'.charCodeAt(0)) || ((event.keyCode == 191) && event.shiftKey)){
-    		toggleKeys();
-    	}
+    _keyMap(){
+      return {
+        ' ': this._pause.bind(this),
+        '+': this._speedUp.bind(this),
+        '-': this._slowDown.bind(this),
+        'z': this._zoomOut.bind(this),
+        'Z': this._zoomIn.bind(this),
+        'f': this._toggleFps.bind(this),
+        'i': this._toggleInterpolation.bind(this),
+        'k': event => toggleKeys(),
+        'n': this._nextImage.bind(this),
+        'ArrowLeft': this._leftArrow.bind(this),
+        'ArrowRight': this._rightArrow.bind(this),
+        'ArrowUp': this._upArrow.bind(this),
+        'ArrowDown': this._downArrow.bind(this),
+        'Enter': this._paint.bind(this)
+      }
+    }
+
+    _pause(event){
+    	this.animator.pause();
+    }
+
+    _speedUp(event){
+      console.log("Increasing animation speed");
+      this.animator.deltaDuration(5);
+    }
+
+    _slowDown(event){
+      console.log("Slowing animation speed");
+      this.animator.deltaDuration(-5);
+    }
+
+    _zoomOut(event){
+      console.log('Zoom out');
+      this.animator.deltaZoom(-0.1);
+    }
+
+    _zoomIn(event){
+      console.log('Zoom in');
+      this.animator.deltaZoom(0.1);
+    }
+
+    _toggleFps(event){
+      if(!this.stats){
+        return;
+      }
+      const display = this.stats.domElement.style.display;
+      this.stats.domElement.style.display = (display==='none') ? 'block' : 'none';
+    }
+
+    // Toggle smooth/pixelated image scaling
+    _toggleInterpolation(event){
+      this.textures.forEach(texture => {
+        let filter = texture.minFilter;
+        console.log( 'eh?',filter );
+        texture.minFilter = texture.magFilter = (filter===THREE.LinearFilter) ? THREE.NearestFilter : THREE.LinearFilter;
+        texture.needsUpdate = true;	// Texture has changed, so tell ThreeJS to update it
+      });
+    }
+
+    _nextImage(event){
+      // THIS IS STILL A TOTAL HACK THAT SHOULD BE FIXED...
+      let oldQuad = this.quads.shift();
+      this.quads.push(oldQuad);
+      //sneak the new quad into the existing animator's animation
+      this.quads[0].position.copy(new THREE.Vector3(0, 0, 0.0));
+      this.animator.options.animation.quad = this.quads[0];
+      this.scene.add(this.quads[0]);
+      this.scene.remove(oldQuad);
+    }
+
+    _leftArrow(event){
+      if(event.shiftKey && event.ctrlKey){
+        return console.log("UNBOUND");
+      }
+      if(event.shiftKey){
+        return this._changeAnimation(PaletteAnimation.paletteDown(this.quads[0], this.animator.options.jerkiness));
+      }
+      if(event.ctrlKey){
+        return this.animator.deltaX(-0.1);
+      }
+      this._changeAnimation(TwoQuadBoxScrollAnimation.scrollLeft(this.quads, this.animator.options.jerkiness));
+    }
+
+    _rightArrow(event){
+      if(event.shiftKey && event.ctrlKey){
+        return console.log("UNBOUND");
+      }
+      if(event.shiftKey){
+        console.log(this.animator.options.jerkiness);
+        return this._changeAnimation(PaletteAnimation.paletteUp(this.quads[0], this.animator.options.jerkiness));
+      }
+      if(event.ctrlKey){
+        return this.animator.deltaX(0.1);
+      }
+      this._changeAnimation(TwoQuadBoxScrollAnimation.scrollRight(this.quads, this.animator.options.jerkiness));
+    }
+
+    _upArrow(event){
+      if(event.shiftKey && event.ctrlKey){	//ctrl+shift up arrow
+        return console.log("UNBOUND");
+      }
+      if(event.shiftKey){						//shift up arrow
+        return this._changeAnimation(ZoomAnimation.zoomIn(this.quads[0], this.animator.options.jerkiness));
+      }
+      if(event.ctrlKey){						//control up arrow
+        return this.animator.deltaY(-0.1);
+      }
+      this._changeAnimation(TwoQuadBoxScrollAnimation.scrollUp(this.quads, this.animator.options.jerkiness));
+    }
+
+    _paint(event){
+      this.animator.options.paint();
+    }
+
+    _downArrow(event){
+      if(event.shiftKey && event.ctrlKey){	//ctrl+shift down arrow
+        return console.log("UNBOUND");
+      }
+      if(event.shiftKey){						//shift down arrow
+        return this._changeAnimation(ZoomAnimation.zoomOut(this.quads[0], this.animator.options.jerkiness));
+      }
+      if(event.ctrlKey){						//control down arrow
+        return this.animator.deltaY(0.1);
+      }
+      this._changeAnimation(TwoQuadBoxScrollAnimation.scrollDown(this.quads, this.animator.options.jerkiness));
     }
 
     _changeAnimation(animation){
@@ -130,5 +163,4 @@ class KeyHandler {
     	});
     	this.animator.start(true);
     }
-
 }
