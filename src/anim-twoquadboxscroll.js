@@ -2,6 +2,13 @@
 
 const THREE = require('three');
 
+const REVERSE = {
+	LEFT: 'RIGHT',
+	RIGHT: 'LEFT',
+	DOWN: 'UP',
+	UP: 'DOWN',
+}
+
 class TwoQuadBoxScrollAnimation {
 
 	constructor( quads, direction, jerkiness ){
@@ -14,9 +21,6 @@ class TwoQuadBoxScrollAnimation {
 	}
 
 	tick(timeMult){
-
-		// console.log('tick ' + JSON.stringify(this.position));
-
 		this.quads.slice(2).forEach( quad => quad.position.copy(new THREE.Vector3(-2 * this.zoom, 0, 0.0)));
 		// GL texture coordinates (UVs) are floating point numbers in range 0..1,
 		// so divide jerkiness by the source img width/height
@@ -61,6 +65,18 @@ class TwoQuadBoxScrollAnimation {
 			y: this.position.y + (ymul * 2 * this.zoom)
 		}
 		this.quads[1].position.copy(new THREE.Vector3(pos2.x, pos2.y, 0.0));
+	}
+
+	reverse(){
+		console.log('reversing direction');
+		this.direction = REVERSE[this.direction];
+		if(this.direction === 'LEFT' || this.direction === 'RIGHT'){
+		  this.position.x = this.position.x + (-2 * this._xmul());
+		}
+		else {
+		  this.position.y = this.position.y + (-2 * this._ymul());
+		}
+		this.quads = this.quads.slice(0,2).reverse().concat(this.quads.slice(2).reverse());
 	}
 
 	_xmul(){
