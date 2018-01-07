@@ -71,10 +71,10 @@ class TwoQuadBoxScrollAnimation {
 		console.log('reversing direction');
 		this.direction = REVERSE[this.direction];
 		if(this.direction === 'LEFT' || this.direction === 'RIGHT'){
-		  this.position.x = this.position.x + (-2 * this._xmul());
+		  this.position.x = this.position.x + (-2 * this.zoom * this._xmul());
 		}
 		else {
-		  this.position.y = this.position.y + (-2 * this._ymul());
+		  this.position.y = this.position.y + (-2 * this.zoom * this._ymul());
 		}
 		this.quads = this.quads.slice(0,2).reverse().concat(this.quads.slice(2).reverse());
 	}
