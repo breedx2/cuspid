@@ -1,11 +1,21 @@
+'use strict';
+
+const THREE = require('three');
+const toggleKeys = require('./gui').toggleKeys;
+const Animator = require('./Animator');
+const TwoQuadBoxScrollAnimation = require('./anim-twoquadboxscroll');
+const ZoomAnimation = require('./anim-zoomer');
+const PaletteAnimation = require('./anim-palette');
 
 class KeyHandler {
 
-    constructor(scene, animator, textures, stats, quads){
+    constructor(scene, camera, animator, textures, stats, renderer, quads){
         this.scene = scene;
+        this.camera = camera;
         this.animator = animator;
         this.textures = textures;
         this.stats = stats;
+        this.renderer = renderer;
         this.quads = quads; //maybe this shouldn't be here?
     }
 
@@ -152,10 +162,10 @@ class KeyHandler {
     		this.animator.stopAndReset();
     	}
     	this.animator = new Animator({
-    		renderer: renderer,
-    		scene: scene,
-    		camera: camera,
-    		stats: stats,
+    		renderer: this.renderer,
+    		scene: this.scene,
+    		camera: this.camera,
+    		stats: this.stats,
     		jerkiness: this.animator.options.jerkiness,
     		duration: this.animator.options.duration,
     		imageIds: this.animator.options.imageIds,
@@ -164,3 +174,5 @@ class KeyHandler {
     	this.animator.start(true);
     }
 }
+
+module.exports = KeyHandler;

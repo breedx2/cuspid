@@ -1,3 +1,13 @@
+'use strict';
+
+const Stats = require('./vendor/threejs/stats.min');
+const $ = require('jquery');
+const THREE = require('three');
+const ImageLoader = require('./image-loader');
+const cuspidShader = require('./cuspid_shader');
+const Animator = require('./Animator');
+const TwoQuadBoxScrollAnimation = require('./anim-twoquadboxscroll');
+const KeyHandler = require('./key_handler');
 
 var animator = null;
 
@@ -6,17 +16,12 @@ var scene, camera, renderer;
 var quads = [];
 var textures = [];
 var texture;
+var stats;
 
 const IMAGE_URLS = ['/static/cuspid.jpg', '/static/corpse001.jpg', '/static/bloody20sunday.jpg', '/static/chupacabra001.jpg'];
 
 function cuspidLoad(){
-	// FPS stats
-	stats = new Stats();
-	stats.domElement.style.display = 'none';	// start hidden
-	stats.domElement.style.position = 'absolute';
-	stats.domElement.style.top = '0px';
-	document.body.appendChild( stats.domElement );
-
+	createStats();
 	init3D();
 	window.onresize = function(event){
 		setRenderSize();
@@ -26,10 +31,22 @@ function cuspidLoad(){
 	startFirstAnimation()
 		.then(newAnimator => {
 			animator = newAnimator;
-			let keyHandler = new KeyHandler(scene, animator, textures, stats, quads);
+			let keyHandler = new KeyHandler(scene, camera, animator, textures, stats, renderer, quads);
 			$('body').get(0).addEventListener('keydown', event => keyHandler.handleKey(event));
 			console.log("Animation started.")
+		})
+		.catch(err => {
+			console.log(`ERROR: ${err}`);
 		});
+}
+
+function createStats(){
+  // FPS stats
+	stats = new Stats();
+	stats.domElement.style.display = 'none';	// start hidden
+	stats.domElement.style.position = 'absolute';
+	stats.domElement.style.top = '0px';
+	document.body.appendChild( stats.domElement );
 }
 
 function init3D(){
@@ -44,7 +61,7 @@ function init3D(){
 function buildQuad(texture){
 	// Width & height are both 2.0, to completely fill our viewport (-1.0...1.0)
 	let quadGeom = new THREE.PlaneBufferGeometry( 2.0, 2.0 );
-	let quadMaterial = createCuspidShaderMaterial( texture );
+	let quadMaterial = cuspidShader.createCuspidShaderMaterial( texture );
 	return new THREE.Mesh( quadGeom, quadMaterial );
 }
 
@@ -75,12 +92,12 @@ function startFirstAnimation(){
 			console.log(`Loaded ${newQuads.length} quads`);
 			quads = newQuads;
 			newQuads.forEach(quad => scene.add(quad));
-			let animator = new Animator({
+			const animator = new Animator({
 				renderer: renderer,
 				stats: stats,
 				scene: scene,
 				camera: camera,
-				duration: DEFAULT_ANIM_DURATION,
+				duration: Animator.defaultAnimDuration(),
 				jerkiness: 5,
 				animation: TwoQuadBoxScrollAnimation.scrollRight(newQuads, 5)
 				//		animation: new BoxScrollAnimation(quad, "RIGHT", 5)
@@ -139,4 +156,11 @@ function loadQuadsFromUrls(sourceUrls){
 				return quad;
 			})
 	}))
+}
+
+if (document.readyState != 'loading'){
+  cuspidLoad();
+}
+else{
+	document.addEventListener('DOMContentLoaded', cuspidLoad);
 }
