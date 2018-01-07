@@ -1,3 +1,7 @@
+'use strict';
+
+const THREE = require('three');
+
 function createCuspidShaderMaterial( firstTexture ){
 	var vertexShader_ar = [
 		"precision mediump float;",
@@ -51,3 +55,7 @@ function createCuspidShaderMaterial( firstTexture ){
 		side: THREE.DoubleSide	// don't test culling
 	});
 }
+
+module.exports = {
+	createCuspidShaderMaterial
+};

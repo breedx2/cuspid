@@ -1,5 +1,8 @@
+'use strict';
 
-var ImageLoader = {
+const $ = require('jquery');
+
+const ImageLoader = {
 	_cache: {},
 	loadAndCrop: function(url){
 		return new Promise( (fulfill, reject) => {
@@ -68,3 +71,5 @@ var ImageLoader = {
 		}
 	}
 }
+
+module.exports = ImageLoader;

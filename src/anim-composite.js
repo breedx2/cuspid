@@ -1,4 +1,6 @@
+'use strict';
 
+const THREE = require('three');
 function CompositeAnimation(animations){
 	this.animations = animations;
 }
@@ -8,3 +10,5 @@ CompositeAnimation.prototype.tick = function(timeMult){
 		delegate.tick(timeMult);
 	});
 }
+
+module.exports = CompositeAnimation;

@@ -1,4 +1,6 @@
+'use strict';
 
+const THREE = require('three');
 //ok not really palette, more like a rolling intensity or something
 
 function PaletteAnimation(quad, direction, jerkiness){
@@ -20,3 +22,5 @@ PaletteAnimation.paletteUp = function( quad, jerkiness){
 PaletteAnimation.paletteDown = function( quad, jerkiness ){
 	return new PaletteAnimation( quad, "DOWN", jerkiness );
 }
+
+module.exports = PaletteAnimation;

@@ -2,21 +2,8 @@ html
 	head
 		title|cuspid workspace
 		link(rel="stylesheet", href="/static/cuspid.css")
-		script(src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js")
-		script(src="/static/vendor/threejs/three.js")
-		script(src="/static/vendor/threejs/stats.min.js")
-		script(src="/static/image-loader.js")
-		script(src="/static/anim-twoquadboxscroll.js")
-		script(src="/static/anim-boxscroll.js")
-		script(src="/static/anim-zoomer.js")
-		script(src="/static/anim-palette.js")
-		script(src="/static/anim-composite.js")
-		script(src="/static/Animator.js")
-		script(src="/static/cuspid_shader.js")
-		script(src="/static/key_handler.js")
-		script(src="/static/gui.js")
-		script(src="/static/cuspid.js")
-	body(onload="cuspidLoad();")
+		script(src="/static/bundle.js")
+	body
 		div(id='top')
 			h1|_C_U_S_P_I_D_
 		include ./keys.jade

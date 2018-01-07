@@ -1,4 +1,6 @@
+'use strict';
 
+const THREE = require('three');
 // a single-quad box-scroll animation that depends on THREE.RepeatWrapping in
 // the texture to look right
 
@@ -81,3 +83,5 @@ BoxScrollAnimation.scrollVert = function( quad, jerkiness, upNotDown){
 	jerkiness = Math.abs(jerkiness) || 1;
 	return new BoxScrollAnimation( quad, upNotDown ? "UP" : "DOWN", jerkiness );
 }
+
+module.exports = BoxScrollAnimation;

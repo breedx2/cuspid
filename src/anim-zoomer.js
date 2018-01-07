@@ -1,3 +1,6 @@
+'use strict';
+
+const THREE = require('three');
 
 function ZoomAnimation( quad, direction, jerkiness, easing ){
 	this.quad = quad;
@@ -80,3 +83,5 @@ ZoomAnimation.zoomIn = function( quad, jerkiness ){
 ZoomAnimation.zoomOut = function( quad, jerkiness ){
 	return new ZoomAnimation( quad, "OUT", Math.abs(jerkiness) || 1);
 }
+
+module.exports = ZoomAnimation;
