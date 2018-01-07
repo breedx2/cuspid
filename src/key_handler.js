@@ -110,6 +110,11 @@ class KeyHandler {
       if(event.ctrlKey){
         return this.animator.deltaX(-0.1);
       }
+      if(TwoQuadBoxScrollAnimation.prototype.isPrototypeOf(this.animator.options.animation)){
+        if(this.animator.options.animation.direction === 'RIGHT'){
+          return this.animator.options.animation.reverse();
+        }
+      }
       this._changeAnimation(TwoQuadBoxScrollAnimation.scrollLeft(this.quads, this.animator.options.jerkiness));
     }
 
@@ -124,6 +129,11 @@ class KeyHandler {
       if(event.ctrlKey){
         return this.animator.deltaX(0.1);
       }
+      if(TwoQuadBoxScrollAnimation.prototype.isPrototypeOf(this.animator.options.animation)){
+        if(this.animator.options.animation.direction === 'LEFT'){
+          return this.animator.options.animation.reverse();
+        }
+      }
       this._changeAnimation(TwoQuadBoxScrollAnimation.scrollRight(this.quads, this.animator.options.jerkiness));
     }
 
@@ -136,6 +146,11 @@ class KeyHandler {
       }
       if(event.ctrlKey){						//control up arrow
         return this.animator.deltaY(-0.1);
+      }
+      if(TwoQuadBoxScrollAnimation.prototype.isPrototypeOf(this.animator.options.animation)){
+        if(this.animator.options.animation.direction === 'DOWN'){
+          return this.animator.options.animation.reverse();
+        }
       }
       this._changeAnimation(TwoQuadBoxScrollAnimation.scrollUp(this.quads, this.animator.options.jerkiness));
     }
@@ -153,6 +168,11 @@ class KeyHandler {
       }
       if(event.ctrlKey){						//control down arrow
         return this.animator.deltaY(0.1);
+      }
+      if(TwoQuadBoxScrollAnimation.prototype.isPrototypeOf(this.animator.options.animation)){
+        if(this.animator.options.animation.direction === 'UP'){
+          return this.animator.options.animation.reverse();
+        }
       }
       this._changeAnimation(TwoQuadBoxScrollAnimation.scrollDown(this.quads, this.animator.options.jerkiness));
     }
