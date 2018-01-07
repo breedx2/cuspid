@@ -20,7 +20,7 @@ class VideoLoader {
 }
 
 function newVideo(url) {
-  var video = document.createElement("video");
+  const video = document.createElement("video");
   video.autoplay = true;
   video.loop = true;
   //TODO: Don't hard code these!
