@@ -37,6 +37,7 @@ class KeyHandler {
         'z': this._zoomOut.bind(this),
         'Z': this._zoomIn.bind(this),
         'f': this._toggleFps.bind(this),
+        'd': this._toggleDotShader.bind(this),
         'i': this._toggleInterpolation.bind(this),
         'k': event => toggleKeys(),
         'n': this._nextImage.bind(this),
@@ -95,6 +96,10 @@ class KeyHandler {
         texture.minFilter = texture.magFilter = (filter===THREE.LinearFilter) ? THREE.NearestFilter : THREE.LinearFilter;
         texture.needsUpdate = true;	// Texture has changed, so tell ThreeJS to update it
       });
+    }
+
+    _toggleDotShader(event){
+      this.animator.toggleDotShader();
     }
 
     _nextImage(event){

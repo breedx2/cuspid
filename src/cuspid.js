@@ -10,13 +10,6 @@ const Animator = require('./Animator');
 const TwoQuadBoxScrollAnimation = require('./anim-twoquadboxscroll');
 const ImageSequence = require('./anim-image-sequence');
 const KeyHandler = require('./key_handler');
-require('three/CopyShader');      //monkey patches THREE
-require('three/EffectComposer');  //monkey patches THREE, has to come before passes
-require('three/ShaderPass');      //monkey patches THREE
-require('three/DotScreenShader');	//monkey patches THREE
-require('three/DotScreenPass');	  //monkey patches THREE
-require('three/RenderPass');	    //monkey patches THREE
-require('three/TexturePass');	    //monkey patches THREE
 
 var animator = null;
 

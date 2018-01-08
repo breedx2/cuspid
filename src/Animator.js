@@ -10,7 +10,7 @@ class Animator{
 		this.running = false;
 		this.prevFrameTime = (new Date()).getTime();
 		this.animRequest = null;
-		this.composer = effectComposer.build(options);
+		this.effectComposer = effectComposer.build(options);
 	}
 
 	static defaultAnimDuration(){ return DEFAULT_ANIM_DURATION; }
@@ -95,6 +95,10 @@ class Animator{
 		return this.start();
 	}
 
+	toggleDotShader(){
+		this.effectComposer.toggleDotShader();
+	}
+
 	deltaZoom(amount){
 		if('deltaZoom' in this.options.animation){
 			console.log('Adjusting zoom by ' + amount);
@@ -141,8 +145,7 @@ class Animator{
 		this.options.animation.tick(timeMult);
 
 		this._render( this.options.scene, this.options.camera );
-
-		this._renderPostEffects();
+		this.effectComposer.render();
 
 		if(this.options.stats){
 			this.options.stats.update();
@@ -151,10 +154,6 @@ class Animator{
 
 	_render(){
 		this.options.renderer.render( this.options.scene, this.options.camera );
-	}
-
-	_renderPostEffects(){
-		this.composer.render(this.composer.clock.getDelta());
 	}
 }
 
