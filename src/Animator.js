@@ -99,6 +99,10 @@ class Animator{
 		this.effectComposer.toggleDotShader();
 	}
 
+	deltaDotScale(amount){
+		this.effectComposer.deltaDotScale(amount);
+	}
+
 	deltaZoom(amount){
 		if('deltaZoom' in this.options.animation){
 			console.log('Adjusting zoom by ' + amount);

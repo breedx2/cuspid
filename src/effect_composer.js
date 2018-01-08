@@ -42,7 +42,8 @@ class EffectComposer {
     }
 
     deltaDotScale(amount){
-
+      this.options.dotScale = Math.max(0.05, this.options.dotScale + amount);
+      this.composer = buildComposer(this.options, this.enabled);
     }
 
     _anyEnabled(){
@@ -66,9 +67,9 @@ function buildComposer(options, enabled = []){
   composer.addPass( new THREE.RenderPass( options.scene, options.camera ) );
 
   if(enabled.includes(DOT_SHADER)){
-    const angle = options.dotAngle || 0.5;
-  	const scale = options.dotScale || 0.5;
-  	const dotScreenPass = new THREE.DotScreenPass(new THREE.Vector2(0, 0), angle, scale);
+    options.dotAngle = options.dotAngle || 0.5;
+    options.dotScale = options.dotScale || 0.5;
+  	const dotScreenPass = new THREE.DotScreenPass(new THREE.Vector2(0, 0), options.dotAngle, options.dotScale);
     composer.addPass( dotScreenPass);
   }
 
