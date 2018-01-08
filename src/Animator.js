@@ -1,5 +1,6 @@
 'use strict';
 
+const effectComposer = require('./effect_composer');
 const DEFAULT_ANIM_DURATION = 33;
 
 class Animator{
@@ -9,7 +10,7 @@ class Animator{
 		this.running = false;
 		this.prevFrameTime = (new Date()).getTime();
 		this.animRequest = null;
-		this.composer = buildEffectComposer(options);
+		this.composer = effectComposer.build(options);
 	}
 
 	static defaultAnimDuration(){ return DEFAULT_ANIM_DURATION; }
@@ -107,21 +108,17 @@ class Animator{
 	deltaY(amount){
 		if('deltaY' in this.options.animation){
 			console.log('Adjusting delta Y by ' + amount);
-			this.options.animation.deltaY(amount);
+			return this.options.animation.deltaY(amount);
 		}
-		else {
-			console.log('This animation does not support delta Y positioning');
-		}
+		console.log('This animation does not support delta Y positioning');
 	}
 
 	deltaX(amount){
 		if('deltaX' in this.options.animation){
 			console.log('Adjusting delta X by ' + amount);
-			this.options.animation.deltaX(amount);
+			return this.options.animation.deltaX(amount);
 		}
-		else {
-			console.log('This animation does not support delta X positioning');
-		}
+		console.log('This animation does not support delta X positioning');
 	}
 
 	_perFrame(){
@@ -131,9 +128,9 @@ class Animator{
 
 		// Frame rate may not be constant 60fps. Time between frames determines how
 		// quickly to advance animations.
-		var now = (new Date()).getTime();
-		var elapsed = (now - this.prevFrameTime) * 0.001;	// ms to seconds
-		var timeMult = elapsed * 60.0;			// Animations are cooked at 60fps, I think? So timeMult is ~1.0 when computer is achieving 60fps
+		const now = (new Date()).getTime();
+		const elapsed = (now - this.prevFrameTime) * 0.001;	// ms to seconds
+		let timeMult = elapsed * 60.0;			// Animations are cooked at 60fps, I think? So timeMult is ~1.0 when computer is achieving 60fps
 		timeMult = Math.min( 4.0, timeMult );	// Prevent grievous skipping
 
 		// Faster/slower speed, depending on .options.duration.
@@ -159,28 +156,6 @@ class Animator{
 	_renderPostEffects(){
 		this.composer.render(this.composer.clock.getDelta());
 	}
-}
-
-function buildEffectComposer(options){
-	const rtParameters = {
-		minFilter: THREE.LinearFilter,
-		magFilter: THREE.LinearFilter,
-		format: THREE.RGBFormat,
-		stencilBuffer: true
-	};
-	const webGlTarget = new THREE.WebGLRenderTarget(window.innerWidth, window.innerHeight, rtParameters);
-	const composer = new THREE.EffectComposer(options.renderer, webGlTarget);
-	const angle = 0.5;
-	const scale = 0.5;
-	const dotScreenPass = new THREE.DotScreenPass(new THREE.Vector2(0, 0), angle, scale);
-	composer.addPass( new THREE.RenderPass( options.scene, options.camera ) );
-	composer.addPass( dotScreenPass);
-
-	const effectCopy = new THREE.ShaderPass(THREE.CopyShader);
-	effectCopy.renderToScreen = true;
-	composer.addPass(effectCopy);
-	composer.clock = new THREE.Clock();
-	return composer;
 }
 
 module.exports = Animator;
