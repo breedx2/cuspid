@@ -14,7 +14,6 @@ class ImageSequence {
 	}
 
 	tick(timeMult){
-    console.log(`timeMult ${timeMult} lastRender ${this.lastRender}`);
     const now = new Date().getTime();
     if(now - this.lastRender > this.time){
       this.quads.slice(1).forEach( quad => quad.position.copy(new THREE.Vector3(-1000000, 0, 0.0)));
