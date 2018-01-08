@@ -6,6 +6,7 @@ const Animator = require('./Animator');
 const TwoQuadBoxScrollAnimation = require('./anim-twoquadboxscroll');
 const ZoomAnimation = require('./anim-zoomer');
 const PaletteAnimation = require('./anim-palette');
+const ImageSequence = require('./anim-image-sequence');
 
 class KeyHandler {
 
@@ -39,6 +40,7 @@ class KeyHandler {
         'i': this._toggleInterpolation.bind(this),
         'k': event => toggleKeys(),
         'n': this._nextImage.bind(this),
+        's': event => this._changeAnimation(ImageSequence.build(this.quads)),
         'ArrowLeft': this._leftArrow.bind(this),
         'ArrowRight': this._rightArrow.bind(this),
         'ArrowUp': this._upArrow.bind(this),
@@ -53,11 +55,17 @@ class KeyHandler {
 
     _speedUp(event){
       console.log("Increasing animation speed");
+      if(this._currentlyImageSequence){
+        return this.animator.options.animation.faster(25);
+      }
       this.animator.deltaDuration(5);
     }
 
     _slowDown(event){
       console.log("Slowing animation speed");
+      if(this._currentlyImageSequence){
+        return this.animator.options.animation.slower(25);
+      }
       this.animator.deltaDuration(-5);
     }
 
@@ -93,7 +101,7 @@ class KeyHandler {
       if(this._currentlyBoxScrolling()){
         return console.log('skipping next for box scroll');
       }
-      // THIS IS STILL A TOTAL HACK THAT SHOULD BE FIXED...
+      // THIS IS STILL A TOTAL HACK THAT SHOULD BE ENCAPSULATED ELSEWHERE...
       let oldQuad = this.quads.shift();
       this.quads.push(oldQuad);
       //sneak the new quad into the existing animator's animation
@@ -142,6 +150,10 @@ class KeyHandler {
 
     _currentlyBoxScrolling(){
       return TwoQuadBoxScrollAnimation.prototype.isPrototypeOf(this.animator.options.animation);
+    }
+
+    _currentlyImageSequence(){
+      return ImageSequence.prototype.isPrototypeOf(this.animator.options.animation);
     }
 
     _upArrow(event){

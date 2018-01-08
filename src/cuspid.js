@@ -8,6 +8,7 @@ const VideoLoader = require('./video-loader');
 const cuspidShader = require('./cuspid_shader');
 const Animator = require('./Animator');
 const TwoQuadBoxScrollAnimation = require('./anim-twoquadboxscroll');
+const ImageSequence = require('./anim-image-sequence');
 const KeyHandler = require('./key_handler');
 
 var animator = null;
@@ -60,13 +61,6 @@ function init3D(){
 	renderer = new THREE.WebGLRenderer({ antialias:false, precision:'mediump', canvas:canvas, autoClear:false });
 }
 
-function buildQuad(texture){
-	// Width & height are both 2.0, to completely fill our viewport (-1.0...1.0)
-	let quadGeom = new THREE.PlaneBufferGeometry( 2.0, 2.0 );
-	let quadMaterial = cuspidShader.createCuspidShaderMaterial( texture );
-	return new THREE.Mesh( quadGeom, quadMaterial );
-}
-
 function setRenderSize(){
 	let w = window.innerWidth - 10;
 	let h = window.innerHeight - 10;
@@ -92,7 +86,8 @@ function startFirstAnimation(){
 				camera: camera,
 				duration: Animator.defaultAnimDuration(),
 				jerkiness: 5,
-				animation: TwoQuadBoxScrollAnimation.scrollRight(newQuads, 5)
+				animation: ImageSequence.build(newQuads)
+				// animation: TwoQuadBoxScrollAnimation.scrollRight(newQuads, 5)
 				//		animation: new BoxScrollAnimation(quad, "RIGHT", 5)
 				/*new CompositeAnimation([
 					new BoxScrollAnimation(quad, "LEFT", 5),
@@ -148,7 +143,7 @@ function loadQuadsFromUrls(sourceUrls){
 	}))
 	.then(results => results.filter(x => x != null))
 	.catch(err => {
-		console.log(err);
+		console.error(`ERROR: ${err}`);
 	});
 }
 
@@ -181,6 +176,13 @@ function buildVideoTexture(video){
 	 );
 	texture.needsUpdate = true;
 	return texture;
+}
+
+function buildQuad(texture){
+	// Width & height are both 2.0, to completely fill our viewport (-1.0...1.0)
+	let quadGeom = new THREE.PlaneBufferGeometry( 2.0, 2.0 );
+	let quadMaterial = cuspidShader.createCuspidShaderMaterial( texture );
+	return new THREE.Mesh( quadGeom, quadMaterial );
 }
 
 if (document.readyState != 'loading'){
