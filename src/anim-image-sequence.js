@@ -2,6 +2,8 @@
 
 const THREE = require('three');
 
+const DEFAULT_TIME = 500;
+
 class ImageSequence {
 
 	constructor( quads, time ){
@@ -37,7 +39,7 @@ class ImageSequence {
     this.time = time;
   }
 
-  static build(quads, time){
+  static build(quads, time = DEFAULT_TIME){
     return new ImageSequence(quads, time);
   }
 

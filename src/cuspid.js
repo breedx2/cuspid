@@ -86,7 +86,7 @@ function startFirstAnimation(){
 				camera: camera,
 				duration: Animator.defaultAnimDuration(),
 				jerkiness: 5,
-				animation: ImageSequence.build(newQuads, 500)
+				animation: ImageSequence.build(newQuads)
 				// animation: TwoQuadBoxScrollAnimation.scrollRight(newQuads, 5)
 				//		animation: new BoxScrollAnimation(quad, "RIGHT", 5)
 				/*new CompositeAnimation([

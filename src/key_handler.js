@@ -40,6 +40,7 @@ class KeyHandler {
         'i': this._toggleInterpolation.bind(this),
         'k': event => toggleKeys(),
         'n': this._nextImage.bind(this),
+        's': event => this._changeAnimation(ImageSequence.build(this.quads)),
         'ArrowLeft': this._leftArrow.bind(this),
         'ArrowRight': this._rightArrow.bind(this),
         'ArrowUp': this._upArrow.bind(this),
@@ -100,7 +101,7 @@ class KeyHandler {
       if(this._currentlyBoxScrolling()){
         return console.log('skipping next for box scroll');
       }
-      // THIS IS STILL A TOTAL HACK THAT SHOULD BE FIXED...
+      // THIS IS STILL A TOTAL HACK THAT SHOULD BE ENCAPSULATED ELSEWHERE...
       let oldQuad = this.quads.shift();
       this.quads.push(oldQuad);
       //sneak the new quad into the existing animator's animation
