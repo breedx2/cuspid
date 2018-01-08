@@ -55,7 +55,7 @@ class KeyHandler {
 
     _speedUp(event){
       console.log("Increasing animation speed");
-      if(this._currentlyImageSequence){
+      if(this._currentlyImageSequence()){
         return this.animator.options.animation.faster(25);
       }
       this.animator.deltaDuration(5);

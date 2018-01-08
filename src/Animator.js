@@ -9,6 +9,7 @@ class Animator{
 		this.running = false;
 		this.prevFrameTime = (new Date()).getTime();
 		this.animRequest = null;
+		this.composer = buildEffectComposer(options);
 	}
 
 	static defaultAnimDuration(){ return DEFAULT_ANIM_DURATION; }
@@ -144,6 +145,8 @@ class Animator{
 
 		this._render( this.options.scene, this.options.camera );
 
+		this._renderPostEffects();
+
 		if(this.options.stats){
 			this.options.stats.update();
 		}
@@ -152,29 +155,32 @@ class Animator{
 	_render(){
 		this.options.renderer.render( this.options.scene, this.options.camera );
 	}
+
+	_renderPostEffects(){
+		this.composer.render(this.composer.clock.getDelta());
+	}
 }
 
-// a pretty interesting mistake
-/*
-function stretchRightCompactor(imgId, speed){
-	var canvas = $('#cnv').get(0);
-    var context = canvas.getContext('2d');
-    var img = $('#' + imgId).get(0);
-	var x = 0;
-	function paint(){
-		var xp = x * 1.0 / img.width;
-		var cx = context.canvas.width * xp;
-		context.drawImage(img, x, 0, img.width-x, img.height, 0, 0, cx, context.canvas.height);
-		if(x > 0){	//paint rest
-			context.drawImage(img, 0, 0, x, img.height, cx+1, 0, context.canvas.width-cx+1, context.canvas.height);
-		}
-		x = x + 1;	// TODO: Speed offset/increment > 1??
-		if(x >= img.width){
-			x = 0;
-		}
-	}
-	var timer = setInterval(paint, speed);
+function buildEffectComposer(options){
+	const rtParameters = {
+		minFilter: THREE.LinearFilter,
+		magFilter: THREE.LinearFilter,
+		format: THREE.RGBFormat,
+		stencilBuffer: true
+	};
+	const webGlTarget = new THREE.WebGLRenderTarget(window.innerWidth, window.innerHeight, rtParameters);
+	const composer = new THREE.EffectComposer(options.renderer, webGlTarget);
+	const angle = 0.5;
+	const scale = 0.5;
+	const dotScreenPass = new THREE.DotScreenPass(new THREE.Vector2(0, 0), angle, scale);
+	composer.addPass( new THREE.RenderPass( options.scene, options.camera ) );
+	composer.addPass( dotScreenPass);
+
+	const effectCopy = new THREE.ShaderPass(THREE.CopyShader);
+	effectCopy.renderToScreen = true;
+	composer.addPass(effectCopy);
+	composer.clock = new THREE.Clock();
+	return composer;
 }
-*/
 
 module.exports = Animator;
