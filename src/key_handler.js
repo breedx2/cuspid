@@ -90,6 +90,9 @@ class KeyHandler {
     }
 
     _nextImage(event){
+      if(this._currentlyBoxScrolling()){
+        return console.log('skipping next for box scroll');
+      }
       // THIS IS STILL A TOTAL HACK THAT SHOULD BE FIXED...
       let oldQuad = this.quads.shift();
       this.quads.push(oldQuad);
@@ -110,7 +113,7 @@ class KeyHandler {
       if(event.ctrlKey){
         return this.animator.deltaX(-0.1);
       }
-      if(TwoQuadBoxScrollAnimation.prototype.isPrototypeOf(this.animator.options.animation)){
+      if(this._currentlyBoxScrolling()){
         if(this.animator.options.animation.direction === 'RIGHT'){
           return this.animator.options.animation.reverse();
         }
@@ -129,12 +132,16 @@ class KeyHandler {
       if(event.ctrlKey){
         return this.animator.deltaX(0.1);
       }
-      if(TwoQuadBoxScrollAnimation.prototype.isPrototypeOf(this.animator.options.animation)){
+      if(this._currentlyBoxScrolling()){
         if(this.animator.options.animation.direction === 'LEFT'){
           return this.animator.options.animation.reverse();
         }
       }
       this._changeAnimation(TwoQuadBoxScrollAnimation.scrollRight(this.quads, this.animator.options.jerkiness));
+    }
+
+    _currentlyBoxScrolling(){
+      return TwoQuadBoxScrollAnimation.prototype.isPrototypeOf(this.animator.options.animation);
     }
 
     _upArrow(event){
