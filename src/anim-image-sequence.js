@@ -29,7 +29,7 @@ class ImageSequence {
   }
 
   slower(amount){
-    this.time = this.time + amount);
+    this.time = this.time + amount;
     return this;
   }
 
