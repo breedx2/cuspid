@@ -37,9 +37,12 @@ class KeyHandler {
         'z': this._zoomOut.bind(this),
         'Z': this._zoomIn.bind(this),
         'f': this._toggleFps.bind(this),
+        'd': event => this.animator.toggleDotShader(),
         'i': this._toggleInterpolation.bind(this),
         'k': event => toggleKeys(),
         'n': this._nextImage.bind(this),
+        'q': event => this._deltaDotScale(-0.02),
+        'w': event => this._deltaDotScale(0.02),
         's': event => this._changeAnimation(ImageSequence.build(this.quads)),
         'ArrowLeft': this._leftArrow.bind(this),
         'ArrowRight': this._rightArrow.bind(this),
@@ -55,7 +58,7 @@ class KeyHandler {
 
     _speedUp(event){
       console.log("Increasing animation speed");
-      if(this._currentlyImageSequence){
+      if(this._currentlyImageSequence()){
         return this.animator.options.animation.faster(25);
       }
       this.animator.deltaDuration(5);
@@ -95,6 +98,10 @@ class KeyHandler {
         texture.minFilter = texture.magFilter = (filter===THREE.LinearFilter) ? THREE.NearestFilter : THREE.LinearFilter;
         texture.needsUpdate = true;	// Texture has changed, so tell ThreeJS to update it
       });
+    }
+
+    _deltaDotScale(amount){
+      this.animator.deltaDotScale(amount);
     }
 
     _nextImage(event){

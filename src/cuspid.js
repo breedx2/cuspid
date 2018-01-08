@@ -57,8 +57,14 @@ function init3D(){
 	// Set the viewport to expand from the origin, 1.0 in each cardinal direction.
 	scene = new THREE.Scene();
 	camera = new THREE.OrthographicCamera( -1.0, 1.0, 1.0, -1.0, -100, 100 );	// left, right, top, bottom, near, far
-	let canvas = $('#cnv').get(0);
-	renderer = new THREE.WebGLRenderer({ antialias:false, precision:'mediump', canvas:canvas, autoClear:false });
+	const canvas = $('#cnv').get(0);
+
+	renderer = new THREE.WebGLRenderer({
+		antialias: false,
+		precision: 'mediump',
+		canvas: canvas,
+		autoClear: false
+	});
 }
 
 function setRenderSize(){
