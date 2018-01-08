@@ -10,9 +10,6 @@ class ImageSequence {
 		this.quads = quads;
     this.lastRender = 0;
 		this.time = time;
-		// this.offset = new THREE.Vector2( 0, 0 );
-		// this.zoom = 1.0;
-		// this.position = { x: 0, y: 0};
 	}
 
 	tick(timeMult){
