@@ -6,6 +6,7 @@ const Animator = require('./Animator');
 const TwoQuadBoxScrollAnimation = require('./anim-twoquadboxscroll');
 const ZoomAnimation = require('./anim-zoomer');
 const PaletteAnimation = require('./anim-palette');
+const ImageSequence = require('./anim-image-sequence');
 
 class KeyHandler {
 
@@ -53,11 +54,17 @@ class KeyHandler {
 
     _speedUp(event){
       console.log("Increasing animation speed");
+      if(this._currentlyImageSequence){
+        return this.animator.options.animation.faster(25);
+      }
       this.animator.deltaDuration(5);
     }
 
     _slowDown(event){
       console.log("Slowing animation speed");
+      if(this._currentlyImageSequence){
+        return this.animator.options.animation.slower(25);
+      }
       this.animator.deltaDuration(-5);
     }
 
@@ -142,6 +149,10 @@ class KeyHandler {
 
     _currentlyBoxScrolling(){
       return TwoQuadBoxScrollAnimation.prototype.isPrototypeOf(this.animator.options.animation);
+    }
+
+    _currentlyImageSequence(){
+      return ImageSequence.prototype.isPrototypeOf(this.animator.options.animation);
     }
 
     _upArrow(event){
