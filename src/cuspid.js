@@ -105,37 +105,6 @@ function startFirstAnimation(){
 			animator.start();
 			return animator;
 		});
-
-	// return ImageLoader.loadAndCrop(sourceUrls[0])
-	// 	.then(image => {
-	// 		texture = buildTexture(image);
-	//
-	// 		// Draw a single quad with our texture.
-	// 		let quad = buildQuad(texture);
-	// 		quads.push(quad);
-	// 		scene.add( quads[0] );
-	// 		return quads[0];
-	// 	})
-	// 	.then(quad => {
-	// 		let animator = new Animator({
-	// 			renderer: renderer,
-	// 			stats: stats,
-	// 			scene: scene,
-	// 			camera: camera,
-	// 			duration: DEFAULT_ANIM_DURATION,
-	// 			jerkiness: 5,
-	// 			animation: new TwoQuadBoxScrollAnimation(quad, null, "RIGHT", 5)
-	// 			//		animation: new BoxScrollAnimation(quad, "RIGHT", 5)
-	// 			/*new CompositeAnimation([
-	// 				new BoxScrollAnimation(quad, "LEFT", 5),
-	// 				new PaletteAnimation(quad, 'DOWN', 0.5),
-	// 				new ZoomAnimation.zoomIn(quad, 5)
-	// 			])*/
-	// 		});
-	// 		animator.options.animation.quad = quads[0];
-	// 		animator.start();
-	// 		return animator;
-	// 	});
 }
 
 function loadQuadsFromUrls(sourceUrls){
