@@ -104,17 +104,15 @@ class Animator{
 	}
 
 	deltaZoom(amount){
-		if('deltaZoom' in this.options.animation){
+		if(this.options.animation.deltaZoom){
 			console.log('Adjusting zoom by ' + amount);
-			this.options.animation.deltaZoom(amount);
+			return this.options.animation.deltaZoom(amount);
 		}
-		else {
-			console.log('This animation does not support zooming');
-		}
+		console.log('This animation does not support zooming');
 	}
 
 	deltaY(amount){
-		if('deltaY' in this.options.animation){
+		if(this.options.animation.deltaY){
 			console.log('Adjusting delta Y by ' + amount);
 			return this.options.animation.deltaY(amount);
 		}
@@ -122,7 +120,7 @@ class Animator{
 	}
 
 	deltaX(amount){
-		if('deltaX' in this.options.animation){
+		if(this.options.animation.deltaX){
 			console.log('Adjusting delta X by ' + amount);
 			return this.options.animation.deltaX(amount);
 		}

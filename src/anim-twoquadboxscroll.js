@@ -102,6 +102,20 @@ class TwoQuadBoxScrollAnimation {
 		this.zoom = Math.max(1.0, this.zoom + amount);
 	}
 
+	deltaY( amount ){
+		this.position.y = this._clampPos(this.position.y, amount);
+	}
+
+	deltaX( amount ){
+		this.position.x = this._clampPos(this.position.x, amount);
+	}
+
+	_clampPos(cur, amount) {
+	  var min = -1 * (this.zoom - 1.0);
+	  var max = this.zoom - 1.0;
+	  return Math.max(Math.min(cur + amount, max), min)
+	}
+
 	static scrollLeft( quads, jerkiness){
 		return TwoQuadBoxScrollAnimation.scrollHoriz( quads, jerkiness, true);
 	}
