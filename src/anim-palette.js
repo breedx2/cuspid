@@ -13,7 +13,7 @@ class PaletteAnimation {
 	}
 
 	tick(timeMult){
-		var dir = (this.jerkiness/0xff) * ((this.direction==='DOWN') ? -1 : 1) * timeMult;
+		const dir = (this.jerkiness/0xff) * ((this.direction==='DOWN') ? -1 : 1) * timeMult;
 		this.quad.material.uniforms['colorCycle'].value += dir;
 	}
 
