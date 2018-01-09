@@ -109,10 +109,12 @@ class TwoQuadBoxScrollAnimation {
 	}
 
 	deltaY( amount ){
+		if(this._isVertical()) return;
 		this.position.y = this._clampPos(this.position.y, amount);
 	}
 
 	deltaX( amount ){
+		if(this._isHorizontal()) return;
 		this.position.x = this._clampPos(this.position.x, amount);
 	}
 
