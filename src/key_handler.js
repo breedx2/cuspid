@@ -66,7 +66,7 @@ class KeyHandler {
 
     _slowDown(event){
       console.log("Slowing animation speed");
-      if(this._currentlyImageSequence){
+      if(this._currentlyImageSequence()){
         return this.animator.options.animation.slower(25);
       }
       this.animator.deltaDuration(-5);
