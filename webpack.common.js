@@ -14,6 +14,8 @@ module.exports = {
       'three/CopyShader': path.join(__dirname, 'node_modules/three/examples/js/shaders/CopyShader.js'),
       'three/DotScreenShader': path.join(__dirname, 'node_modules/three/examples/js/shaders/DotScreenShader.js'),
       'three/DotScreenPass': path.join(__dirname, 'node_modules/three/examples/js/postprocessing/DotScreenPass.js'),
+      'three/DigitalGlitch': path.join(__dirname, 'node_modules/three/examples/js/shaders/DigitalGlitch.js'),
+      'three/GlitchPass': path.join(__dirname, 'node_modules/three/examples/js/postprocessing/GlitchPass.js'),
       'three/RenderPass': path.join(__dirname, 'node_modules/three/examples/js/postprocessing/RenderPass.js'),
     }
   },
