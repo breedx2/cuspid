@@ -81,14 +81,14 @@ class TwoQuadBoxScrollAnimation {
 	}
 
 	_xmul(){
-		if((this.direction == 'UP') || (this.direction == 'DOWN')){
+		if(this._isVertical()){
 			return 0;
 		}
 		return (this.direction == 'RIGHT') ? -1 : 1;
 	}
 
 	_ymul(){
-		if((this.direction == 'LEFT') || (this.direction == 'RIGHT')){
+		if(this._isHorizontal()){
 			return 0;
 		}
 		return (this.direction == 'UP') ? -1 : 1;
@@ -100,6 +100,12 @@ class TwoQuadBoxScrollAnimation {
 
 	deltaZoom( amount ){
 		this.zoom = Math.max(1.0, this.zoom + amount);
+		if(this._isHorizontal()){
+			this.position.y = this._clampPos(this.position.y, 0);
+		}
+		else{
+			this.position.x = this._clampPos(this.position.x, 0);
+		}
 	}
 
 	deltaY( amount ){
@@ -114,6 +120,14 @@ class TwoQuadBoxScrollAnimation {
 	  var min = -1 * (this.zoom - 1.0);
 	  var max = this.zoom - 1.0;
 	  return Math.max(Math.min(cur + amount, max), min)
+	}
+
+	_isHorizontal(){
+		return ['LEFT', 'RIGHT'].includes(this.direction);
+	}
+
+	_isVertical(){
+		return ['UP', 'DOWN'].includes(this.direction);
 	}
 
 	static scrollLeft( quads, jerkiness){
