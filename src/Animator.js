@@ -95,8 +95,12 @@ class Animator{
 		return this.start();
 	}
 
-	toggleDotShader(){
-		this.effectComposer.toggleDotShader();
+	toggleDotPass(){
+		this.effectComposer.toggleDotPass();
+	}
+
+	toggleGlitchPass(){
+		this.effectComposer.toggleGlitchPass();
 	}
 
 	deltaDotScale(amount){
