@@ -46,7 +46,7 @@ class Animator{
 	};
 
 	_resetQuads(){
-		let quads = this._getQuads();
+		const quads = this._getQuads();
 		// Reset quad uniforms and size
 		quads.forEach(quad => {
 			// Reset the quad
