@@ -15,6 +15,8 @@ class PaletteAnimation {
 		this.zoom = 1.0;
 		this.position = {x: 0, y: 0};
 		this.deltaZoom = zoomNudge.deltaZoom.bind(this);
+		this.deltaX = zoomNudge.deltaX.bind(this);
+		this.deltaY = zoomNudge.deltaY.bind(this);
 	}
 
 	tick(timeMult){
@@ -22,26 +24,6 @@ class PaletteAnimation {
 		this.quad.material.uniforms['colorCycle'].value += dir;
 		this.quad.position.copy(new THREE.Vector3(this.position.x, this.position.y, 0.0));
 		this.quad.scale.copy(new THREE.Vector3(this.zoom, this.zoom, 1.0));
-	}
-
-	// deltaZoom( amount ){
-	// 	this.zoom = Math.max(1.0, this.zoom + amount);
-	// 	this.position.x = this._clampPos(this.position.x, 0);
-	// 	this.position.y = this._clampPos(this.position.y, 0);
-	// }
-
-	deltaY( amount ){
-		this.position.y = this._clampPos(this.position.y, amount);
-	}
-
-	deltaX( amount ){
-		this.position.x = this._clampPos(this.position.x, amount);
-	}
-
-	_clampPos(cur, amount) {
-	  var min = -1 * (this.zoom - 1.0);
-	  var max = this.zoom - 1.0;
-	  return Math.max(Math.min(cur + amount, max), min)
 	}
 
 	static paletteUp( quad, jerkiness){
