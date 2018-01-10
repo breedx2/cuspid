@@ -1,6 +1,8 @@
 'use strict';
 
 const THREE = require('three');
+const zoomNudge = require('./zoom_nudge');
+const clampPos = require('./clamp_pos');
 
 const REVERSE = {
 	LEFT: 'RIGHT',
@@ -101,27 +103,21 @@ class TwoQuadBoxScrollAnimation {
 	deltaZoom( amount ){
 		this.zoom = Math.max(1.0, this.zoom + amount);
 		if(this._isHorizontal()){
-			this.position.y = this._clampPos(this.position.y, 0);
+			this.position.y = clampPos(this.zoom, this.position.y, 0);
 		}
 		else{
-			this.position.x = this._clampPos(this.position.x, 0);
+			this.position.x = clampPos(this.zoom, this.position.x, 0);
 		}
 	}
 
 	deltaY( amount ){
 		if(this._isVertical()) return;
-		this.position.y = this._clampPos(this.position.y, amount);
+		zoomNudge.deltaY.bind(this)(amount);
 	}
 
 	deltaX( amount ){
 		if(this._isHorizontal()) return;
-		this.position.x = this._clampPos(this.position.x, amount);
-	}
-
-	_clampPos(cur, amount) {
-	  var min = -1 * (this.zoom - 1.0);
-	  var max = this.zoom - 1.0;
-	  return Math.max(Math.min(cur + amount, max), min)
+		zoomNudge.deltaX.bind(this)(amount);
 	}
 
 	_isHorizontal(){
