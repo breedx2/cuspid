@@ -1,6 +1,8 @@
 'use strict';
 
 const THREE = require('three');
+const zoomNudge = require('./zoom_nudge');
+
 //ok not really palette, more like a rolling intensity or something
 
 class PaletteAnimation {
@@ -12,6 +14,7 @@ class PaletteAnimation {
 		this.jerkiness = jerkiness;
 		this.zoom = 1.0;
 		this.position = {x: 0, y: 0};
+		this.deltaZoom = zoomNudge.deltaZoom.bind(this);
 	}
 
 	tick(timeMult){
@@ -21,11 +24,11 @@ class PaletteAnimation {
 		this.quad.scale.copy(new THREE.Vector3(this.zoom, this.zoom, 1.0));
 	}
 
-	deltaZoom( amount ){
-		this.zoom = Math.max(1.0, this.zoom + amount);
-		this.position.x = this._clampPos(this.position.x, 0);
-		this.position.y = this._clampPos(this.position.y, 0);
-	}
+	// deltaZoom( amount ){
+	// 	this.zoom = Math.max(1.0, this.zoom + amount);
+	// 	this.position.x = this._clampPos(this.position.x, 0);
+	// 	this.position.y = this._clampPos(this.position.y, 0);
+	// }
 
 	deltaY( amount ){
 		this.position.y = this._clampPos(this.position.y, amount);
