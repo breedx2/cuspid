@@ -10,6 +10,7 @@ const Animator = require('./Animator');
 const TwoQuadBoxScrollAnimation = require('./anim-twoquadboxscroll');
 const ImageSequence = require('./anim-image-sequence');
 const KeyHandler = require('./key_handler');
+const wsEvents = require('./ws-events');
 
 var animator = null;
 
@@ -26,6 +27,7 @@ const IMAGE_URLS = ['/static/cuspid.jpg', '/static/big_buck_bunny.webm', '/stati
 function cuspidLoad(){
 	createStats();
 	init3D();
+	wsEvents.start();
 	window.onresize = function(event){
 		setRenderSize();
 	}

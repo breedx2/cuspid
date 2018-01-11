@@ -17,11 +17,12 @@ module.exports = {
       'three/DigitalGlitch': path.join(__dirname, 'node_modules/three/examples/js/shaders/DigitalGlitch.js'),
       'three/GlitchPass': path.join(__dirname, 'node_modules/three/examples/js/postprocessing/GlitchPass.js'),
       'three/RenderPass': path.join(__dirname, 'node_modules/three/examples/js/postprocessing/RenderPass.js'),
+      'osc': path.join(__dirname, 'node_modules/osc/src/osc.js'),
     }
   },
   plugins: [
     new webpack.ProvidePlugin({
       'THREE': 'three'
     }),
-  ]
+  ],
 };
