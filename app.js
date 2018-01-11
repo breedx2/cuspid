@@ -20,7 +20,7 @@ app.get('/workspace', function(req, res){
 app.listen(8080);
 console.log("Server listening on port 8080");
 
-const clientMap = {};
+const idToClients = {};
 
 // EXTERNAL CONTROL OSC PORT
 const oscUdpPort = 1984;
@@ -30,7 +30,7 @@ var udpPort = new osc.UDPPort({
 });
 udpPort.on('message', message => {
 	console.log('got message: ', message);
-	clientMap['tony99'].forEach(ws => {
+	idToClients['tony99'].forEach(ws => {
 		ws.send(JSON.stringify(message));
 	});
 });
@@ -42,15 +42,21 @@ app.ws('/controls', (ws, req) => {
 	});
 	ws.on('close', e => {
 		console.log(`client websocket closed. ${e}`);
-		clientMap[id]
+		for (const [clientId, clientList] of Object.entries(idToClients)) {
+			const index = clientList.indexOf(ws);
+			if(index >= 0){
+				console.log(`Removing client from ${clientId}`);
+				clientList.splice(index, 1);
+			}
+		}
 	});
   ws.on('message', msg => {
 		if(msg.match(/^listen::/)){
 			const id = msg.replace(/^listen::/, '');
-			if(_.isEmpty(clientMap[id])){
-				clientMap[id] = [];
+			if(_.isEmpty(idToClients[id])){
+				idToClients[id] = [];
 			}
-			clientMap[id].push(ws);
+			idToClients[id].push(ws);
 			console.log(`Added new client for ${id}`);
 			return ws.send(`ok::${id}`);
 		}
