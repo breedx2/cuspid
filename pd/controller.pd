@@ -1,7 +1,7 @@
 #N canvas 172 166 566 482 10;
 #X text 367 368 client name;
 #X obj 47 369 hsl 128 15 1 33 1 0 empty empty empty -2 -8 0 10 -262144
--1 -1 7817 1;
+-1 -1 0 1;
 #X text 66 384 zoom;
 #N canvas 827 157 362 627 addr 0;
 #X obj 184 552 outlet;
@@ -88,9 +88,9 @@
 #X connect 6 0 7 0;
 #X connect 7 0 2 0;
 #X restore 327 454 pd OSC;
-#X msg 393 239 togglePause;
-#X msg 401 258 pause 0;
-#X msg 410 280 pause 1;
+#X msg 375 144 togglePause;
+#X msg 383 163 pause 0;
+#X msg 392 185 pause 1;
 #X msg 17 197 speedUp \$1;
 #X floatatom 17 176 5 0 0 0 - - -, f 5;
 #X floatatom 92 176 5 0 0 0 - - -, f 5;
@@ -111,6 +111,11 @@
 #X msg 246 36 right;
 #X obj 240 111 symbol;
 #X floatatom 103 392 5 0 0 0 - - -, f 5;
+#X msg 300 59 paletteDown;
+#X msg 301 84 paletteUp;
+#X msg 382 60 zoomIn;
+#X msg 383 85 zoomOut;
+#X msg 417 237 nextImage;
 #X connect 1 0 4 0;
 #X connect 1 0 26 0;
 #X connect 3 0 6 0;
@@ -135,3 +140,8 @@
 #X connect 23 0 25 0;
 #X connect 24 0 25 0;
 #X connect 25 0 19 0;
+#X connect 27 0 25 0;
+#X connect 28 0 25 0;
+#X connect 29 0 25 0;
+#X connect 30 0 25 0;
+#X connect 31 0 3 0;

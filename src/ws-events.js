@@ -34,6 +34,8 @@ class WsEvents {
       return this._switchMode(oscEvent.args[0]);
     case `/${id}/togglePause`:
       return this.eventActions.pause();
+    case `/${id}/nextImage`:
+      return this.eventActions.nextImage();
     case `/${id}/pause`:
       return this.eventActions.pause(oscEvent.args[0]);
     case `/${id}/speedUp`:
