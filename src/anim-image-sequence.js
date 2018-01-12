@@ -13,6 +13,7 @@ class ImageSequence {
     this.zoom = 1.0;
     this.position = { x: 0, y: 0 };
     this.deltaZoom = zoomNudge.deltaZoom.bind(this);
+    this.setZoom = zoomNudge.setZoom.bind(this);
     this.deltaX = zoomNudge.deltaX.bind(this);
     this.deltaY = zoomNudge.deltaY.bind(this);
   }

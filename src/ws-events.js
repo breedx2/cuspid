@@ -55,7 +55,7 @@ class WsEvents {
      left: () => this.eventActions.modeLeft(),
      right: () => this.eventActions.modeRight(),
      zoomIn: () => this.eventActions.modeZoomIn(),
-     zoomDown: () => this.eventActions.modeZoomDown(),
+     zoomOut: () => this.eventActions.modeZoomOut(),
      paletteUp: () => this.eventActions.modePaletteUp(),
      paletteDown: () => this.eventActions.modePaletteDown(),
      imageSequence: () => this.eventActions.modeImageSequence()
