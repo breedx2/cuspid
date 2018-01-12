@@ -74,12 +74,18 @@ class EventActions {
     this.stats.domElement.style.display = (display==='none') ? 'block' : 'none';
   }
 
-  toggleDotPass(){
-    this.animator.toggleDotPass();
+  toggleDotPass(what){
+    if(typeof what === 'undefined'){
+      return this.animator.toggleDotPass();
+    }
+    what == 1 ? this.animator.enableDotPass() : this.animator.disableDotPass();
   }
 
-  toggleGlitchPass(){
-    this.animator.toggleGlitchPass();
+  toggleGlitchPass(what){
+    if(typeof what === 'undefined'){
+      return this.animator.toggleGlitchPass();
+    }
+    what == 1 ? this.animator.enableGlitchPass() : this.animator.disableGlitchPass();
   }
 
   // Toggle smooth/pixelated image scaling

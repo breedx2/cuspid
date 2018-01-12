@@ -1,5 +1,5 @@
 #N canvas 172 166 566 482 10;
-#X text 367 368 client name;
+#X text 416 386 client name;
 #X obj 47 369 hsl 128 15 1 33 1 0 empty empty empty -2 -8 0 10 -262144
 -1 -1 0 1;
 #X text 66 384 zoom;
@@ -70,7 +70,7 @@
 #X connect 26 1 21 0;
 #X restore 327 417 pd addr;
 #X msg 44 402 zoom \$1;
-#X msg 369 385 symbol tony99;
+#X msg 418 403 symbol tony99;
 #N canvas 914 269 337 283 OSC 0;
 #X msg 103 192 disconnect;
 #X obj 79 218 netsend -u -b;
@@ -115,7 +115,13 @@
 #X msg 301 84 paletteUp;
 #X msg 382 60 zoomIn;
 #X msg 383 85 zoomOut;
-#X msg 417 237 nextImage;
+#X msg 412 221 nextImage;
+#X msg 419 243 toggleDotPass;
+#X msg 449 317 toggleGlitchPass;
+#X msg 428 267 dotPass 0;
+#X msg 439 291 dotPass 1;
+#X msg 462 341 glitchPass 0;
+#X msg 483 364 glitchPass 1;
 #X connect 1 0 4 0;
 #X connect 1 0 26 0;
 #X connect 3 0 6 0;
@@ -145,3 +151,9 @@
 #X connect 29 0 25 0;
 #X connect 30 0 25 0;
 #X connect 31 0 3 0;
+#X connect 32 0 3 0;
+#X connect 33 0 3 0;
+#X connect 34 0 3 0;
+#X connect 35 0 3 0;
+#X connect 36 0 3 0;
+#X connect 37 0 3 0;

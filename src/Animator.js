@@ -105,8 +105,24 @@ class Animator{
 		this.effectComposer.toggleDotPass();
 	}
 
+	enableDotPass(){
+		this.effectComposer.enableDotPass();
+	}
+
+	disableDotPass(){
+		this.effectComposer.disableDotPass();
+	}
+
 	toggleGlitchPass(){
 		this.effectComposer.toggleGlitchPass();
+	}
+
+	enableGlitchPass(){
+		this.effectComposer.enableGlitchPass();
+	}
+
+	disableGlitchPass(){
+		this.effectComposer.disableGlitchPass();
 	}
 
 	deltaDotScale(amount){
