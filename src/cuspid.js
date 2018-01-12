@@ -10,6 +10,7 @@ const Animator = require('./Animator');
 const TwoQuadBoxScrollAnimation = require('./anim-twoquadboxscroll');
 const ImageSequence = require('./anim-image-sequence');
 const KeyHandler = require('./key_handler');
+const EventActions = require('./event_actions');
 const wsEvents = require('./ws-events');
 
 var animator = null;
@@ -36,7 +37,8 @@ function cuspidLoad(){
 	startFirstAnimation()
 		.then(newAnimator => {
 			animator = newAnimator;
-			let keyHandler = new KeyHandler(scene, camera, animator, textures, stats, renderer, quads);
+			const eventActions = new EventActions(scene, camera, animator, textures, stats, renderer, quads);
+			const keyHandler = new KeyHandler(eventActions);
 			$('body').get(0).addEventListener('keydown', event => keyHandler.handleKey(event));
 			console.log("Animation started.")
 		})
