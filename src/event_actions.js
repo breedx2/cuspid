@@ -39,6 +39,11 @@ class EventActions {
     this.animator.deltaDuration(-1 * amount);
   }
 
+  speed(delay){
+    console.log(`setting duration to ${delay}`);
+    this.animator.duration(delay);
+  }
+
   zoomOut(amount = -0.1){
     console.log(`Zoom out ${amount}`);
     this.animator.deltaZoom(amount);

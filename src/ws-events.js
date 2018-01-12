@@ -36,6 +36,12 @@ class WsEvents {
       return this.eventActions.pause();
     case `/${id}/pause`:
       return this.eventActions.pause(oscEvent.args[0]);
+    case `/${id}/speedUp`:
+      return this.eventActions.speedUp(oscEvent.args[0]);
+    case `/${id}/speed`:
+      return this.eventActions.speed(oscEvent.args[0]);
+    case `/${id}/slowDown`:
+      return this.eventActions.slowDown(oscEvent.args[0]);
    }
    console.log(oscEvent)
  }

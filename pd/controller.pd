@@ -1,8 +1,8 @@
-#N canvas 238 100 566 482 10;
-#X text 372 275 client name;
-#X obj 52 276 hsl 128 15 0 2 0 0 empty empty empty -2 -8 0 10 -262144
+#N canvas 249 126 566 482 10;
+#X text 367 368 client name;
+#X obj 47 369 hsl 128 15 0 2 0 0 empty empty empty -2 -8 0 10 -262144
 -1 -1 0 1;
-#X text 71 291 zoom;
+#X text 66 384 zoom;
 #N canvas 827 157 362 627 addr 0;
 #X obj 184 552 outlet;
 #X obj 286 29 inlet;
@@ -68,13 +68,13 @@
 #X connect 25 0 0 0;
 #X connect 26 0 0 0;
 #X connect 26 1 21 0;
-#X restore 332 324 pd addr;
-#X msg 250 77 mode up;
-#X msg 249 106 mode down;
-#X msg 49 309 zoom \$1;
-#X msg 374 292 symbol tony99;
-#X msg 182 93 mode left;
-#X msg 315 88 mode right;
+#X restore 327 417 pd addr;
+#X msg 211 20 mode up;
+#X msg 210 49 mode down;
+#X msg 44 402 zoom \$1;
+#X msg 369 385 symbol tony99;
+#X msg 143 36 mode left;
+#X msg 276 31 mode right;
 #N canvas 914 269 337 283 OSC 0;
 #X msg 103 192 disconnect;
 #X obj 79 218 netsend -u -b;
@@ -91,10 +91,22 @@
 #X connect 5 0 4 0;
 #X connect 6 0 7 0;
 #X connect 7 0 2 0;
-#X restore 332 361 pd OSC;
-#X msg 357 134 togglePause;
-#X msg 373 160 pause 0;
-#X msg 382 182 pause 1;
+#X restore 327 454 pd OSC;
+#X msg 420 71 togglePause;
+#X msg 428 90 pause 0;
+#X msg 437 112 pause 1;
+#X msg 17 197 speedUp \$1;
+#X floatatom 17 176 5 0 0 0 - - -, f 5;
+#X floatatom 92 176 5 0 0 0 - - -, f 5;
+#X msg 92 197 slowDown \$1;
+#X obj 17 157 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 91 157 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X floatatom 170 176 5 0 0 0 - - -, f 5;
+#X obj 169 157 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X msg 170 197 speed \$1;
 #X connect 1 0 6 0;
 #X connect 3 0 10 0;
 #X connect 4 0 3 0;
@@ -106,3 +118,12 @@
 #X connect 11 0 3 0;
 #X connect 12 0 3 0;
 #X connect 13 0 3 0;
+#X connect 14 0 3 0;
+#X connect 15 0 14 0;
+#X connect 16 0 17 0;
+#X connect 17 0 3 0;
+#X connect 18 0 15 0;
+#X connect 19 0 16 0;
+#X connect 20 0 22 0;
+#X connect 21 0 20 0;
+#X connect 22 0 3 0;
