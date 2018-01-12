@@ -101,7 +101,11 @@ class TwoQuadBoxScrollAnimation {
 	}
 
 	deltaZoom( amount ){
-		this.zoom = Math.max(1.0, this.zoom + amount);
+		this.setZoom(this.zoom + amount);
+	}
+
+	setZoom( zoomLevel ){
+		this.zoom = Math.max(1.0, zoomLevel);
 		if(this._isHorizontal()){
 			this.position.y = clampPos(this.zoom, this.position.y, 0);
 		}

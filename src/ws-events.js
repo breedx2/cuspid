@@ -42,6 +42,8 @@ class WsEvents {
       return this.eventActions.speed(oscEvent.args[0]);
     case `/${id}/slowDown`:
       return this.eventActions.slowDown(oscEvent.args[0]);
+    case `/${id}/zoom`:
+      return this.eventActions.zoom(oscEvent.args[0]);
    }
    console.log(oscEvent)
  }

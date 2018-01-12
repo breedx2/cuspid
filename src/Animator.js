@@ -98,7 +98,7 @@ class Animator{
 		if(what === 1){
 			return this.start();
 		}
-		return this.stop();		
+		return this.stop();
 	}
 
 	toggleDotPass(){
@@ -117,6 +117,14 @@ class Animator{
 		if(this.options.animation.deltaZoom){
 			console.log('Adjusting zoom by ' + amount);
 			return this.options.animation.deltaZoom(amount);
+		}
+		console.log('This animation does not support adjustment zooming');
+	}
+
+	zoom(zoomLevel){
+		if(this.options.animation.setZoom){
+			console.log(`Setting zoom to ${zoomLevel}`);
+			return this.options.animation.setZoom(zoomLevel);
 		}
 		console.log('This animation does not support zooming');
 	}

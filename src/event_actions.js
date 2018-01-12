@@ -54,6 +54,10 @@ class EventActions {
     this.animator.deltaZoom(-1 * amount);
   }
 
+  zoom(zoomLevel){
+    this.animator.zoom(zoomLevel);
+  }
+
   nudgeLeft(amount = 0.1){
     this.animator.deltaX(-1 * amount);
   }
