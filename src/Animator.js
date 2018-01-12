@@ -88,11 +88,17 @@ class Animator{
 		this.start();
 	};
 
-	pause(){
-		if(this.running){
-			return this.stop();
+	pause(what){
+		if(typeof what === 'undefined'){
+			if(this.running){
+				return this.stop();
+			}
+			return this.start();
 		}
-		return this.start();
+		if(what === 1){
+			return this.start();
+		}
+		return this.stop();		
 	}
 
 	toggleDotPass(){

@@ -19,8 +19,8 @@ class EventActions {
       this.quads = quads; //maybe this shouldn't be here?
   }
 
-  pause(event){
-    this.animator.pause();
+  pause(what){
+    this.animator.pause(what);
   }
 
   speedUp(amount = 5){

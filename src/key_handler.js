@@ -34,7 +34,7 @@ class KeyHandler {
         'w': () => this.eventActions.deltaDotScale(0.02),
         's': () => this.eventActions.modeImageSequence(),
         'g': () => this.eventActions.toggleGlitchPass(),
-        'Enter': () => this.eventActions.repaint()
+        'Enter': () => this.eventActions.repaint(),
         'ArrowLeft': this._leftArrow.bind(this),
         'ArrowRight': this._rightArrow.bind(this),
         'ArrowUp': this._upArrow.bind(this),

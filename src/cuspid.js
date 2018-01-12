@@ -11,7 +11,7 @@ const TwoQuadBoxScrollAnimation = require('./anim-twoquadboxscroll');
 const ImageSequence = require('./anim-image-sequence');
 const KeyHandler = require('./key_handler');
 const EventActions = require('./event_actions');
-const wsEvents = require('./ws-events');
+const WsEvents = require('./ws-events');
 
 var animator = null;
 
@@ -28,7 +28,6 @@ const IMAGE_URLS = ['/static/cuspid.jpg', '/static/big_buck_bunny.webm', '/stati
 function cuspidLoad(){
 	createStats();
 	init3D();
-	wsEvents.start();
 	window.onresize = function(event){
 		setRenderSize();
 	}
@@ -39,6 +38,7 @@ function cuspidLoad(){
 			animator = newAnimator;
 			const eventActions = new EventActions(scene, camera, animator, textures, stats, renderer, quads);
 			const keyHandler = new KeyHandler(eventActions);
+			new WsEvents(eventActions).start();
 			$('body').get(0).addEventListener('keydown', event => keyHandler.handleKey(event));
 			console.log("Animation started.")
 		})

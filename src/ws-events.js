@@ -4,27 +4,57 @@ const osc = require('osc');
 
 // handles OSC events over websocket
 
-function start(){
-  const url = `ws://${location.host}/controls`;
-  console.log(`Connecting to websocket on ${url}`);
-  const socket = new WebSocket(url);
-  socket.onopen = (event) => {
-    console.log('control websocket established');
-    const id = 'tony99';
-    socket.send(`listen::${id}`);
-  };
-  socket.onmessage = event => {
-    if(event.data.startsWith('{')){
-      console.log(JSON.parse(event.data));
+class WsEvents {
 
-      //TODO: Dispatch this to event handlers
-
-      return;
-    }
-    console.log(`recv: `, event.data);
+  constructor(eventActions){
+    this.eventActions = eventActions;
   }
+
+  start(){
+    const url = `ws://${location.host}/controls`;
+    console.log(`Connecting to websocket on ${url}`);
+    const socket = new WebSocket(url);
+    socket.onopen = (event) => {
+      console.log('control websocket established');
+      const id = 'tony99';
+      socket.send(`listen::${id}`);
+    };
+    socket.onmessage = event => {
+      if(event.data.startsWith('{')){
+        return this._handleControlEvent(JSON.parse(event.data));
+      }
+      console.log(`recv: `, event.data);
+    };
+ }
+
+ _handleControlEvent(oscEvent){
+   const id = 'tony99';
+   switch(oscEvent.address){
+     case `/${id}/mode`:
+      return this._switchMode(oscEvent.args[0]);
+    case `/${id}/togglePause`:
+      return this.eventActions.pause();
+    case `/${id}/pause`:
+      return this.eventActions.pause(oscEvent.args[0]);
+   }
+   console.log(oscEvent)
+ }
+
+ _switchMode(modeName){
+   const modeSwitch = {
+     up: () => this.eventActions.modeUp(),
+     down: () => this.eventActions.modeDown(),
+     left: () => this.eventActions.modeLeft(),
+     right: () => this.eventActions.modeRight(),
+     zoomIn: () => this.eventActions.modeZoomIn(),
+     zoomDown: () => this.eventActions.modeZoomDown(),
+     paletteUp: () => this.eventActions.modePaletteUp(),
+     paletteDown: () => this.eventActions.modePaletteDown(),
+     imageSequence: () => this.eventActions.modeImageSequence()
+   }
+   modeSwitch[modeName]();
+ }
+
 }
 
-module.exports = {
-  start
-};
+module.exports = WsEvents;
