@@ -36,6 +36,10 @@ class WsEvents {
       return this.eventActions.pause();
     case `/${id}/nextImage`:
       return this.eventActions.nextImage();
+    case `/${id}/toggleDotPass`:
+      return this.eventActions.toggleDotPass();
+    case `/${id}/toggleGlitchPass`:
+      return this.eventActions.toggleGlitchPass();
     case `/${id}/pause`:
       return this.eventActions.pause(oscEvent.args[0]);
     case `/${id}/speedUp`:
