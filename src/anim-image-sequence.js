@@ -35,11 +35,13 @@ class ImageSequence {
 
   faster(amount) {
     this.time = Math.max(1, this.time - amount);
+    console.log(`Set time to ${this.time}`);
     return this;
   }
 
   slower(amount) {
     this.time = this.time + amount;
+    console.log(`Set time to ${this.time}`);
     return this;
   }
 

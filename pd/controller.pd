@@ -1,4 +1,4 @@
-#N canvas 172 166 566 482 10;
+#N canvas 94 168 778 482 10;
 #X text 416 386 client name;
 #X obj 47 369 hsl 128 15 1 33 1 0 empty empty empty -2 -8 0 10 -262144
 -1 -1 0 1;
@@ -99,7 +99,7 @@
 -1;
 #X obj 91 157 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
 -1;
-#X floatatom 170 176 5 0 0 0 - - -, f 5;
+#X floatatom 170 176 5 1 1500 0 - - -, f 5;
 #X obj 169 157 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
 #X msg 170 197 speed \$1;
@@ -122,6 +122,18 @@
 #X msg 439 291 dotPass 1;
 #X msg 462 341 glitchPass 0;
 #X msg 483 364 glitchPass 1;
+#X floatatom 521 225 5 0 0 0 - - -, f 5;
+#X obj 520 206 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X msg 521 243 deltaDotScale \$1;
+#X floatatom 633 225 5 0 0 0 - - -, f 5;
+#X obj 632 206 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X msg 633 244 dotScale \$1;
+#X obj 633 186 hsl 128 15 1 0 0 0 empty empty empty -2 -8 0 10 -204786
+-1 -1 9200 1;
+#X obj 497 185 hsl 128 15 -1 1 0 0 empty empty empty -2 -8 0 10 -204800
+-1 -1 5400 1;
 #X connect 1 0 4 0;
 #X connect 1 0 26 0;
 #X connect 3 0 6 0;
@@ -157,3 +169,11 @@
 #X connect 35 0 3 0;
 #X connect 36 0 3 0;
 #X connect 37 0 3 0;
+#X connect 38 0 40 0;
+#X connect 39 0 38 0;
+#X connect 40 0 3 0;
+#X connect 41 0 43 0;
+#X connect 42 0 41 0;
+#X connect 43 0 3 0;
+#X connect 44 0 41 0;
+#X connect 45 0 38 0;

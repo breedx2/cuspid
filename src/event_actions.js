@@ -40,6 +40,10 @@ class EventActions {
   }
 
   speed(delay){
+    if(this._currentlyImageSequence()){
+      console.log(`setting duration to ${5 * delay}`);
+      return this.animator.options.animation.setTime(5 * delay);
+    }
     console.log(`setting duration to ${delay}`);
     this.animator.duration(delay);
   }
@@ -100,6 +104,10 @@ class EventActions {
 
   deltaY(amount){
     return this.animator.deltaY(amount);
+  }
+
+  dotScale(scale){
+    this.animator.dotScale(scale);
   }
 
   deltaDotScale(amount){

@@ -74,12 +74,12 @@ class Animator{
 	}
 
 	deltaDuration(delta){
-		this.options.duration = Math.max(1, this.options.duration + delta);
-		return this;
+		return this.duration(this.options.duration + delta);
 	};
 
 	duration(duration){
-		this.options.duration = duration;
+		this.options.duration = Math.max(1, duration);
+		console.log(`New duration: ${this.options.duration}`);
 		return this;
 	};
 
@@ -123,6 +123,10 @@ class Animator{
 
 	disableGlitchPass(){
 		this.effectComposer.disableGlitchPass();
+	}
+
+	dotScale(scale){
+		this.effectComposer.dotScale(scale);
 	}
 
 	deltaDotScale(amount){

@@ -31,12 +31,12 @@ class EffectComposer {
     this._toggle(DOT_PASS);
   }
 
-  setDotScale() {
-
+  deltaDotScale(amount) {
+    this.dotScale(this.options.dotScale + amount);
   }
 
-  deltaDotScale(amount) {
-    this.options.dotScale = Math.max(0.05, this.options.dotScale + amount);
+  dotScale(scale) {
+    this.options.dotScale = Math.max(0.05, scale);
     this.composer = buildComposer(this.options, this.enabled);
   }
 

@@ -40,6 +40,10 @@ class WsEvents {
       return this.eventActions.toggleDotPass();
     case `/${id}/dotPass`:
       return this.eventActions.toggleDotPass(oscEvent.args[0]);
+    case `/${id}/dotScale`:
+      return this.eventActions.dotScale(oscEvent.args[0]);
+    case `/${id}/deltaDotScale`:
+      return this.eventActions.deltaDotScale(oscEvent.args[0]);
     case `/${id}/toggleGlitchPass`:
       return this.eventActions.toggleGlitchPass();
     case `/${id}/glitchPass`:
