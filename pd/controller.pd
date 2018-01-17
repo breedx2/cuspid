@@ -1,7 +1,7 @@
 #N canvas 94 168 778 564 10;
 #X text 436 423 client name;
 #X obj 47 369 hsl 128 15 1 33 1 0 empty empty empty -2 -8 0 10 -262144
--1 -1 1800 1;
+-1 -1 0 1;
 #X text 66 384 zoom;
 #N canvas 827 157 362 627 addr 0;
 #X obj 184 552 outlet;
@@ -88,21 +88,6 @@
 #X connect 6 0 7 0;
 #X connect 7 0 2 0;
 #X restore 326 503 pd OSC;
-#X msg 375 144 togglePause;
-#X msg 383 163 pause 0;
-#X msg 392 185 pause 1;
-#X msg 17 197 speedUp \$1;
-#X floatatom 17 176 5 0 0 0 - - -, f 5;
-#X floatatom 92 176 5 0 0 0 - - -, f 5;
-#X msg 92 197 slowDown \$1;
-#X obj 17 157 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
-#X obj 91 157 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
-#X floatatom 170 176 5 1 1500 0 - - -, f 5;
-#X obj 169 157 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
--1 -1;
-#X msg 170 197 speed \$1;
 #X floatatom 103 392 5 0 0 0 - - -, f 5;
 #X msg 412 221 nextImage;
 #X msg 419 243 toggleDotPass;
@@ -180,42 +165,85 @@
 #X connect 19 0 4 0;
 #X connect 20 0 2 0;
 #X coords 0 -1 1 1 270 100 1 20 20;
-#X restore 146 19 pd modes;
+#X restore 14 10 pd modes;
 #X text 594 455 TODO: next image;
+#N canvas 561 582 557 315 playback 0;
+#X obj 116 251 s cmd, f 6;
+#X msg 28 123 togglePause;
+#X obj 97 53 tgl 25 0 empty empty play 28 12 0 10 -199979 -1 -1 1 1
+;
+#X obj 32 53 bng 25 250 50 0 empty empty toggle 28 10 0 10 -199979
+-1 -1;
+#X text 111 181 stop;
+#X text 164 182 go;
+#X obj 131 99 select 1 0;
+#X msg 281 161 speedUp \$1;
+#X floatatom 280 140 5 0 0 0 - - -, f 5;
+#X floatatom 355 140 5 0 0 0 - - -, f 5;
+#X msg 355 161 slowDown \$1;
+#X obj 280 121 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 354 121 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X floatatom 218 141 5 1 1500 0 - - -, f 5;
+#X obj 217 122 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X msg 218 162 speed \$1;
+#X obj 157 64 hsl 100 15 0 1000 0 0 empty empty speed -2 -8 0 10 -261947
+-1 -1 100 1;
+#X msg 103 162 pause 1;
+#X msg 160 164 pause 0;
+#X obj 263 36 bng 20 250 50 0 empty empty speed+ 23 9 0 10 -162746
+-1 -20806;
+#X msg 278 95 5;
+#X obj 263 59 bng 20 250 50 0 empty empty speed- 23 9 0 10 -162746
+-1 -20806;
+#X msg 354 100 5;
+#X connect 1 0 0 0;
+#X connect 2 0 6 0;
+#X connect 3 0 1 0;
+#X connect 6 0 17 0;
+#X connect 6 1 18 0;
+#X connect 7 0 0 0;
+#X connect 8 0 7 0;
+#X connect 9 0 10 0;
+#X connect 10 0 0 0;
+#X connect 11 0 8 0;
+#X connect 12 0 9 0;
+#X connect 13 0 15 0;
+#X connect 14 0 13 0;
+#X connect 15 0 0 0;
+#X connect 16 0 13 0;
+#X connect 17 0 0 0;
+#X connect 18 0 0 0;
+#X connect 19 0 20 0;
+#X connect 20 0 8 0;
+#X connect 21 0 22 0;
+#X connect 22 0 9 0;
+#X coords 0 -1 1 1 300 60 1 25 25;
+#X restore 301 27 pd playback;
 #X connect 1 0 4 0;
-#X connect 1 0 19 0;
+#X connect 1 0 7 0;
 #X connect 3 0 6 0;
 #X connect 4 0 3 0;
 #X connect 5 0 3 1;
-#X connect 7 0 3 0;
 #X connect 8 0 3 0;
 #X connect 9 0 3 0;
 #X connect 10 0 3 0;
-#X connect 11 0 10 0;
-#X connect 12 0 13 0;
+#X connect 11 0 3 0;
+#X connect 12 0 3 0;
 #X connect 13 0 3 0;
-#X connect 14 0 11 0;
-#X connect 15 0 12 0;
-#X connect 16 0 18 0;
-#X connect 17 0 16 0;
-#X connect 18 0 3 0;
+#X connect 14 0 3 0;
+#X connect 15 0 17 0;
+#X connect 16 0 15 0;
+#X connect 17 0 3 0;
+#X connect 18 0 20 0;
+#X connect 19 0 18 0;
 #X connect 20 0 3 0;
-#X connect 21 0 3 0;
-#X connect 22 0 3 0;
+#X connect 21 0 18 0;
+#X connect 22 0 15 0;
 #X connect 23 0 3 0;
 #X connect 24 0 3 0;
 #X connect 25 0 3 0;
 #X connect 26 0 3 0;
-#X connect 27 0 29 0;
-#X connect 28 0 27 0;
-#X connect 29 0 3 0;
-#X connect 30 0 32 0;
-#X connect 31 0 30 0;
-#X connect 32 0 3 0;
-#X connect 33 0 30 0;
-#X connect 34 0 27 0;
-#X connect 35 0 3 0;
-#X connect 36 0 3 0;
-#X connect 37 0 3 0;
-#X connect 38 0 3 0;
-#X connect 39 0 3 0;
+#X connect 27 0 3 0;
