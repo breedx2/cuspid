@@ -58,7 +58,7 @@ In addition to the above keystrokes, cuspid allows the web client to be controll
 
 ## messages
 
-See [ws-events.js](../blob/master/src/ws-events.js) for gory details.
+See [ws-events.js](../master/src/ws-events.js) for gory details.
 
 In these examples `{id}` is the client id being addressed.
 
@@ -87,4 +87,4 @@ In these examples `{id}` is the client id being addressed.
 
 # Pd
 
-Pd or PureData is a graphical language for doing sound/media work.  There's a very small amount of support for sending OSC from Pd.  See [the pd/ dir](../blob/master/src/pd) for details.
+Pd or PureData is a graphical language for doing sound/media work.  There's a very small amount of support for sending OSC from Pd.  See [the pd/ dir](../master/src/pd) for details.
