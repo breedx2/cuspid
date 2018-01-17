@@ -23,7 +23,8 @@ var texture;
 var stats;
 
 // const IMAGE_URLS = ['/static/cuspid.jpg', '/static/corpse001.jpg', '/static/bloody20sunday.jpg', '/static/chupacabra001.jpg'];
-const IMAGE_URLS = ['/static/cuspid.jpg', '/static/big_buck_bunny.webm', '/static/bloody20sunday.jpg'];
+const IMAGE_URLS = ['/static/cuspid.jpg', '/static/tornado_carnage.jpg', '/static/needle_things.jpg', '/static/cows01.jpg',
+	'/static/winter_trees.mp4', '/static/bloody20sunday.jpg', '/static/surgical_implements.jpg'];
 
 function cuspidLoad(){
 	createStats();
