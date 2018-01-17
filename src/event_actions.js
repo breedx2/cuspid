@@ -70,6 +70,14 @@ class EventActions {
     this.animator.deltaX(amount);
   }
 
+  nudgeUp(amount = 0.1){
+    this.animator.deltaY(amount);
+  }
+
+  nudgeDown(amount = 0.1){
+    this.animator.deltaY(-1 * amount);
+  }
+
   toggleFps(){
     if(!this.stats){
       return;

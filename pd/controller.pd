@@ -1,7 +1,7 @@
 #N canvas 94 168 778 564 10;
 #X text 436 423 client name;
 #X obj 47 369 hsl 128 15 1 33 1 0 empty empty empty -2 -8 0 10 -262144
--1 -1 0 1;
+-1 -1 6700 1;
 #X text 66 384 zoom;
 #N canvas 827 157 362 627 addr 0;
 #X obj 184 552 outlet;
@@ -136,6 +136,8 @@
 -1 -1 0 1;
 #X msg 128 501 nudgeRight 0.1;
 #X msg 38 501 nudgeLeft 0.1;
+#X msg 88 477 nudgeUp 0.1;
+#X msg 87 524 nudgeDown 0.1;
 #X connect 1 0 4 0;
 #X connect 1 0 26 0;
 #X connect 3 0 6 0;
@@ -181,3 +183,5 @@
 #X connect 45 0 38 0;
 #X connect 46 0 3 0;
 #X connect 47 0 3 0;
+#X connect 48 0 3 0;
+#X connect 49 0 3 0;

@@ -76,6 +76,10 @@ function handleControlEvent(oscEvent, eventActions){
     return eventActions.nudgeLeft(oscEvent.args[0]);
   case `/${id}/nudgeRight`:
     return eventActions.nudgeRight(oscEvent.args[0]);
+  case `/${id}/nudgeUp`:
+    return eventActions.nudgeUp(oscEvent.args[0]);
+  case `/${id}/nudgeDown`:
+    return eventActions.nudgeDown(oscEvent.args[0]);
  }
  console.log(oscEvent)
 }
