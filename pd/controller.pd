@@ -1,7 +1,7 @@
 #N canvas 94 168 778 564 10;
 #X text 436 423 client name;
 #X obj 47 369 hsl 128 15 1 33 1 0 empty empty empty -2 -8 0 10 -262144
--1 -1 6700 1;
+-1 -1 1800 1;
 #X text 66 384 zoom;
 #N canvas 827 157 362 627 addr 0;
 #X obj 184 552 outlet;
@@ -103,18 +103,7 @@
 #X obj 169 157 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
 #X msg 170 197 speed \$1;
-#X msg 240 135 mode \$1;
-#X msg 299 34 imageSequence;
-#X msg 211 20 up;
-#X msg 210 49 down;
-#X msg 174 34 left;
-#X msg 246 36 right;
-#X obj 240 111 symbol;
 #X floatatom 103 392 5 0 0 0 - - -, f 5;
-#X msg 300 59 paletteDown;
-#X msg 301 84 paletteUp;
-#X msg 382 60 zoomIn;
-#X msg 383 85 zoomOut;
 #X msg 412 221 nextImage;
 #X msg 419 243 toggleDotPass;
 #X msg 552 312 toggleGlitchPass;
@@ -131,15 +120,70 @@
 -1 -1;
 #X msg 633 244 dotScale \$1;
 #X obj 633 186 hsl 128 15 1 0 0 0 empty empty empty -2 -8 0 10 -204786
--1 -1 0 1;
+-1 -1 6300 1;
 #X obj 497 185 hsl 128 15 -1 1 0 0 empty empty empty -2 -8 0 10 -204800
--1 -1 0 1;
+-1 -1 9096 1;
 #X msg 128 501 nudgeRight 0.1;
 #X msg 38 501 nudgeLeft 0.1;
 #X msg 88 477 nudgeUp 0.1;
 #X msg 87 524 nudgeDown 0.1;
+#X obj 306 337 r cmd;
+#N canvas 4 59 361 328 modes 0;
+#X msg 107 257 mode \$1;
+#X msg 78 142 up;
+#X msg 77 171 down;
+#X msg 41 156 left;
+#X msg 113 158 right;
+#X obj 107 233 symbol;
+#X obj 55 36 bng 25 250 50 0 empty empty U 10 12 0 10 -100323 -1 -262144
+;
+#X obj 108 284 s cmd;
+#X msg 188 145 imageSequence;
+#X msg 189 170 paletteDown;
+#X msg 190 195 paletteUp;
+#X msg 271 171 zoomIn;
+#X msg 272 196 zoomOut;
+#X obj 116 41 bng 20 250 50 0 empty empty paletteUp 23 9 0 10 -162746
+-1 -20806;
+#X obj 198 41 bng 20 250 50 0 empty empty paletteDown 23 9 0 10 -162746
+-1 -20806;
+#X obj 116 64 bng 20 250 50 0 empty empty zoomIn 23 9 0 10 -162746
+-1 -20806;
+#X obj 198 64 bng 20 250 50 0 empty empty zoomOut 23 9 0 10 -162746
+-1 -20806;
+#X obj 116 87 bng 20 250 50 0 empty empty imageSequence 23 9 0 10 -162746
+-1 -20806;
+#X obj 29 61 bng 25 250 50 0 empty empty L 10 12 0 10 -100323 -1 -262144
+;
+#X obj 81 62 bng 25 250 50 0 empty empty R 10 12 0 10 -100323 -1 -262144
+;
+#X obj 55 87 bng 25 250 50 0 empty empty D 10 12 0 10 -100323 -1 -262144
+;
+#X connect 0 0 7 0;
+#X connect 1 0 5 0;
+#X connect 2 0 5 0;
+#X connect 3 0 5 0;
+#X connect 4 0 5 0;
+#X connect 5 0 0 0;
+#X connect 6 0 1 0;
+#X connect 8 0 5 0;
+#X connect 9 0 5 0;
+#X connect 10 0 5 0;
+#X connect 11 0 5 0;
+#X connect 12 0 5 0;
+#X connect 13 0 10 0;
+#X connect 14 0 9 0;
+#X connect 15 0 11 0;
+#X connect 16 0 12 0;
+#X connect 17 0 8 0;
+#X connect 18 0 3 0;
+#X connect 19 0 4 0;
+#X connect 20 0 2 0;
+#X coords 0 -1 1 1 270 100 1 20 20;
+#X restore 146 19 pd modes;
+#X text 594 455 TODO: next image;
 #X connect 1 0 4 0;
-#X connect 1 0 26 0;
+#X connect 1 0 19 0;
 #X connect 3 0 6 0;
 #X connect 4 0 3 0;
 #X connect 5 0 3 1;
@@ -155,33 +199,23 @@
 #X connect 16 0 18 0;
 #X connect 17 0 16 0;
 #X connect 18 0 3 0;
-#X connect 19 0 3 0;
-#X connect 20 0 25 0;
-#X connect 21 0 25 0;
-#X connect 22 0 25 0;
-#X connect 23 0 25 0;
-#X connect 24 0 25 0;
-#X connect 25 0 19 0;
-#X connect 27 0 25 0;
-#X connect 28 0 25 0;
-#X connect 29 0 25 0;
-#X connect 30 0 25 0;
-#X connect 31 0 3 0;
+#X connect 20 0 3 0;
+#X connect 21 0 3 0;
+#X connect 22 0 3 0;
+#X connect 23 0 3 0;
+#X connect 24 0 3 0;
+#X connect 25 0 3 0;
+#X connect 26 0 3 0;
+#X connect 27 0 29 0;
+#X connect 28 0 27 0;
+#X connect 29 0 3 0;
+#X connect 30 0 32 0;
+#X connect 31 0 30 0;
 #X connect 32 0 3 0;
-#X connect 33 0 3 0;
-#X connect 34 0 3 0;
+#X connect 33 0 30 0;
+#X connect 34 0 27 0;
 #X connect 35 0 3 0;
 #X connect 36 0 3 0;
 #X connect 37 0 3 0;
-#X connect 38 0 40 0;
-#X connect 39 0 38 0;
-#X connect 40 0 3 0;
-#X connect 41 0 43 0;
-#X connect 42 0 41 0;
-#X connect 43 0 3 0;
-#X connect 44 0 41 0;
-#X connect 45 0 38 0;
-#X connect 46 0 3 0;
-#X connect 47 0 3 0;
-#X connect 48 0 3 0;
-#X connect 49 0 3 0;
+#X connect 38 0 3 0;
+#X connect 39 0 3 0;
