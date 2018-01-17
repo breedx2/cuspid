@@ -50,6 +50,8 @@ function handleControlEvent(oscEvent, eventActions){
     return eventActions.pause();
   case `/${id}/nextImage`:
     return eventActions.nextImage();
+  case `/${id}/toggleInterpolation`:
+    return eventActions.toggleInterpolation();
   case `/${id}/toggleDotPass`:
     return eventActions.toggleDotPass();
   case `/${id}/dotPass`:
