@@ -4,79 +4,98 @@ const osc = require('osc');
 
 // handles OSC events over websocket
 
-class WsEvents {
+const RECONNECT_DELAY = 1000;
 
-  constructor(eventActions){
-    this.eventActions = eventActions;
-  }
+function start(eventActions){
+  const url = `ws://${location.host}/controls`;
+  console.log(`Connecting to websocket on ${url}`);
 
-  start(){
-    const url = `ws://${location.host}/controls`;
-    console.log(`Connecting to websocket on ${url}`);
-    const socket = new WebSocket(url);
-    socket.onopen = (event) => {
-      console.log('control websocket established');
-      const id = 'tony99';
-      socket.send(`listen::${id}`);
-    };
-    socket.onmessage = event => {
-      if(event.data.startsWith('{')){
-        return this._handleControlEvent(JSON.parse(event.data));
-      }
-      console.log(`recv: `, event.data);
-    };
- }
+  let connTimer = null;
+  const socket = new WebSocket(url);
 
- _handleControlEvent(oscEvent){
-   const id = 'tony99';
-   switch(oscEvent.address){
-     case `/${id}/mode`:
-      return this._switchMode(oscEvent.args[0]);
-    case `/${id}/togglePause`:
-      return this.eventActions.pause();
-    case `/${id}/nextImage`:
-      return this.eventActions.nextImage();
-    case `/${id}/toggleDotPass`:
-      return this.eventActions.toggleDotPass();
-    case `/${id}/dotPass`:
-      return this.eventActions.toggleDotPass(oscEvent.args[0]);
-    case `/${id}/dotScale`:
-      return this.eventActions.dotScale(oscEvent.args[0]);
-    case `/${id}/deltaDotScale`:
-      return this.eventActions.deltaDotScale(oscEvent.args[0]);
-    case `/${id}/toggleGlitchPass`:
-      return this.eventActions.toggleGlitchPass();
-    case `/${id}/glitchPass`:
-      return this.eventActions.toggleGlitchPass(oscEvent.args[0]);
-    case `/${id}/pause`:
-      return this.eventActions.pause(oscEvent.args[0]);
-    case `/${id}/speedUp`:
-      return this.eventActions.speedUp(oscEvent.args[0]);
-    case `/${id}/speed`:
-      return this.eventActions.speed(oscEvent.args[0]);
-    case `/${id}/slowDown`:
-      return this.eventActions.slowDown(oscEvent.args[0]);
-    case `/${id}/zoom`:
-      return this.eventActions.zoom(oscEvent.args[0]);
-   }
-   console.log(oscEvent)
- }
+  socket.addEventListener('open', event => {
+    console.log('control websocket established');
+    if(connTimer){
+      clearInterval()
+      connTimer = null;
+    }
+    const id = 'tony99';
+    socket.send(`listen::${id}`);
+  });
+  socket.addEventListener('message', event => {
+    if(event.data.startsWith('{')){
+      return handleControlEvent(JSON.parse(event.data), eventActions);
+    }
+    console.log(`recv: `, event.data);
+  });
 
- _switchMode(modeName){
-   const modeSwitch = {
-     up: () => this.eventActions.modeUp(),
-     down: () => this.eventActions.modeDown(),
-     left: () => this.eventActions.modeLeft(),
-     right: () => this.eventActions.modeRight(),
-     zoomIn: () => this.eventActions.modeZoomIn(),
-     zoomOut: () => this.eventActions.modeZoomOut(),
-     paletteUp: () => this.eventActions.modePaletteUp(),
-     paletteDown: () => this.eventActions.modePaletteDown(),
-     imageSequence: () => this.eventActions.modeImageSequence()
-   }
-   modeSwitch[modeName]();
- }
-
+  socket.addEventListener('close', event => {
+    console.log('websocket closed.');
+    socket.close();
+    if(!connTimer){
+      connTimer = setTimeout(() => start(eventActions), RECONNECT_DELAY);
+    }
+  });
+  socket.addEventListener('error', event => {
+    console.log('websocket error: ', event);
+  });
 }
 
-module.exports = WsEvents;
+function handleControlEvent(oscEvent, eventActions){
+ const id = 'tony99';
+ switch(oscEvent.address){
+   case `/${id}/mode`:
+    return switchMode(oscEvent.args[0], eventActions);
+  case `/${id}/togglePause`:
+    return eventActions.pause();
+  case `/${id}/nextImage`:
+    return eventActions.nextImage();
+  case `/${id}/toggleDotPass`:
+    return eventActions.toggleDotPass();
+  case `/${id}/dotPass`:
+    return eventActions.toggleDotPass(oscEvent.args[0]);
+  case `/${id}/dotScale`:
+    return eventActions.dotScale(oscEvent.args[0]);
+  case `/${id}/deltaDotScale`:
+    return eventActions.deltaDotScale(oscEvent.args[0]);
+  case `/${id}/toggleGlitchPass`:
+    return eventActions.toggleGlitchPass();
+  case `/${id}/glitchPass`:
+    return eventActions.toggleGlitchPass(oscEvent.args[0]);
+  case `/${id}/pause`:
+    return eventActions.pause(oscEvent.args[0]);
+  case `/${id}/speedUp`:
+    return eventActions.speedUp(oscEvent.args[0]);
+  case `/${id}/speed`:
+    return eventActions.speed(oscEvent.args[0]);
+  case `/${id}/slowDown`:
+    return eventActions.slowDown(oscEvent.args[0]);
+  case `/${id}/zoom`:
+    return eventActions.zoom(oscEvent.args[0]);
+  case `/${id}/nudgeLeft`:
+    return eventActions.nudgeLeft(oscEvent.args[0]);
+  case `/${id}/nudgeRight`:
+    return eventActions.nudgeRight(oscEvent.args[0]);
+ }
+ console.log(oscEvent)
+}
+
+function switchMode(modeName, eventActions){
+ const modeSwitch = {
+   up: () => eventActions.modeUp(),
+   down: () => eventActions.modeDown(),
+   left: () => eventActions.modeLeft(),
+   right: () => eventActions.modeRight(),
+   zoomIn: () => eventActions.modeZoomIn(),
+   zoomOut: () => eventActions.modeZoomOut(),
+   paletteUp: () => eventActions.modePaletteUp(),
+   paletteDown: () => eventActions.modePaletteDown(),
+   imageSequence: () => eventActions.modeImageSequence()
+ }
+ modeSwitch[modeName]();
+}
+
+
+module.exports = {
+  start
+}

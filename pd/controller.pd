@@ -131,9 +131,11 @@
 -1 -1;
 #X msg 633 244 dotScale \$1;
 #X obj 633 186 hsl 128 15 1 0 0 0 empty empty empty -2 -8 0 10 -204786
--1 -1 9200 1;
+-1 -1 0 1;
 #X obj 497 185 hsl 128 15 -1 1 0 0 empty empty empty -2 -8 0 10 -204800
--1 -1 5400 1;
+-1 -1 0 1;
+#X msg 128 501 nudgeRight 0.1;
+#X msg 38 501 nudgeLeft 0.1;
 #X connect 1 0 4 0;
 #X connect 1 0 26 0;
 #X connect 3 0 6 0;
@@ -177,3 +179,5 @@
 #X connect 43 0 3 0;
 #X connect 44 0 41 0;
 #X connect 45 0 38 0;
+#X connect 46 0 3 0;
+#X connect 47 0 3 0;
