@@ -1,4 +1,4 @@
-#N canvas 94 168 528 389 10;
+#N canvas 36 244 528 389 10;
 #X text 128 246 client name;
 #N canvas 827 157 362 627 addr 0;
 #X obj 184 552 outlet;
@@ -162,7 +162,7 @@
 -1 -1;
 #X msg 213 204 speed \$1;
 #X obj 107 65 hsl 120 15 0 1000 0 0 empty empty speed -2 -8 0 10 -261947
--1 -1 1000 1;
+-1 -1 306 1;
 #X msg 98 204 pause 1;
 #X msg 155 206 pause 0;
 #X obj 171 88 bng 20 250 50 0 empty empty speed+ 23 9 0 10 -162746
@@ -209,7 +209,7 @@
 #X obj 57 42 bng 25 250 50 0 empty empty U 10 12 0 10 -216235 -1 -45076
 ;
 #X obj 117 72 hsl 100 15 1 33 1 0 empty empty zoom -2 -8 0 10 -262144
--1 -1 7800 1;
+-1 -1 4000 1;
 #X text 216 193 zoom;
 #X msg 194 212 zoom \$1;
 #X floatatom 253 201 5 0 0 0 - - -, f 5;
@@ -308,7 +308,9 @@
 #X connect 4 0 0 0;
 #X coords 0 -1 1 1 250 100 1 25 25;
 #X restore 218 114 pd effects;
+#X msg 11 258 toggleFps;
 #X connect 1 0 3 0;
 #X connect 2 0 1 1;
 #X connect 4 0 1 0;
 #X connect 5 0 1 0;
+#X connect 10 0 1 0;

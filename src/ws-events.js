@@ -52,6 +52,8 @@ function handleControlEvent(oscEvent, eventActions){
     return eventActions.nextImage();
   case `/${id}/toggleInterpolation`:
     return eventActions.toggleInterpolation();
+  case `/${id}/toggleFps`:
+    return eventActions.toggleFps();
   case `/${id}/toggleDotPass`:
     return eventActions.toggleDotPass();
   case `/${id}/dotPass`:
