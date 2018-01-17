@@ -31,28 +31,59 @@ class EffectComposer {
     this._toggle(DOT_PASS);
   }
 
-  setDotScale() {
-
+  deltaDotScale(amount) {
+    this.dotScale(this.options.dotScale + amount);
   }
 
-  deltaDotScale(amount) {
-    this.options.dotScale = Math.max(0.05, this.options.dotScale + amount);
+  dotScale(scale) {
+    this.options.dotScale = Math.max(0.05, scale);
     this.composer = buildComposer(this.options, this.enabled);
+  }
+
+  enableDotPass(){
+    this._enable(DOT_PASS);
+  }
+
+  disableDotPass(){
+    this._disable(DOT_PASS);
   }
 
   toggleGlitchPass(){
     this._toggle(GLITCH_PASS);
   }
 
+  enableGlitchPass(){
+    this._enable(GLITCH_PASS);
+  }
+
+  disableGlitchPass(){
+    this._disable(GLITCH_PASS);
+  }
+
   _toggle(name){
     if (this.enabled.includes(name)) {
-      console.log(`Disabling ${name}`);
-      this.enabled.splice(this.enabled.indexOf(name), 1);
+      this._disable(name);
     }
     else {
-      console.log(`Enabling ${name}`);
-      this.enabled.push(name);
+      this._enable(name);
     }
+  }
+
+  _enable(name){
+    if (this.enabled.includes(name)) {
+      return console.log(`${name} already enabled.`);
+    }
+    console.log(`Enabling ${name}`);
+    this.enabled.push(name);
+    this.composer = buildComposer(this.options, this.enabled);
+  }
+
+  _disable(name){
+    if (!this.enabled.includes(name)) {
+      return console.log(`${name} already disabled.`);
+    }
+    console.log(`Disabling ${name}`);
+    this.enabled.splice(this.enabled.indexOf(name), 1);
     this.composer = buildComposer(this.options, this.enabled);
   }
 

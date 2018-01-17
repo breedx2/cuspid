@@ -74,12 +74,12 @@ class Animator{
 	}
 
 	deltaDuration(delta){
-		this.options.duration = Math.max(1, this.options.duration + delta);
-		return this;
+		return this.duration(this.options.duration + delta);
 	};
 
 	duration(duration){
-		this.options.duration = duration;
+		this.options.duration = Math.max(1, duration);
+		console.log(`New duration: ${this.options.duration}`);
 		return this;
 	};
 
@@ -88,19 +88,45 @@ class Animator{
 		this.start();
 	};
 
-	pause(){
-		if(this.running){
-			return this.stop();
+	pause(what){
+		if(typeof what === 'undefined'){
+			if(this.running){
+				return this.stop();
+			}
+			return this.start();
 		}
-		return this.start();
+		if(what === 1){
+			return this.start();
+		}
+		return this.stop();
 	}
 
 	toggleDotPass(){
 		this.effectComposer.toggleDotPass();
 	}
 
+	enableDotPass(){
+		this.effectComposer.enableDotPass();
+	}
+
+	disableDotPass(){
+		this.effectComposer.disableDotPass();
+	}
+
 	toggleGlitchPass(){
 		this.effectComposer.toggleGlitchPass();
+	}
+
+	enableGlitchPass(){
+		this.effectComposer.enableGlitchPass();
+	}
+
+	disableGlitchPass(){
+		this.effectComposer.disableGlitchPass();
+	}
+
+	dotScale(scale){
+		this.effectComposer.dotScale(scale);
 	}
 
 	deltaDotScale(amount){
@@ -111,6 +137,14 @@ class Animator{
 		if(this.options.animation.deltaZoom){
 			console.log('Adjusting zoom by ' + amount);
 			return this.options.animation.deltaZoom(amount);
+		}
+		console.log('This animation does not support adjustment zooming');
+	}
+
+	zoom(zoomLevel){
+		if(this.options.animation.setZoom){
+			console.log(`Setting zoom to ${zoomLevel}`);
+			return this.options.animation.setZoom(zoomLevel);
 		}
 		console.log('This animation does not support zooming');
 	}
