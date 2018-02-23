@@ -7,9 +7,11 @@ const gui = require('./gui');
 
 const RECONNECT_DELAY = 1000;
 
-function start(eventActions){
+function start(eventActions, clientId){
   const url = `ws://${location.host}/controls`;
   console.log(`Connecting to websocket on ${url}`);
+
+  gui.wsSetClientId(clientId);
 
   let connTimer = null;
   const socket = new WebSocket(url);
@@ -21,12 +23,11 @@ function start(eventActions){
       clearInterval()
       connTimer = null;
     }
-    const id = 'tony99';
-    socket.send(`listen::${id}`);
+    socket.send(`listen::${clientId}`);
   });
   socket.addEventListener('message', event => {
     if(event.data.startsWith('{')){
-      return handleControlEvent(JSON.parse(event.data), eventActions);
+      return handleControlEvent(JSON.parse(event.data), eventActions, clientId);
     }
     console.log(`recv: `, event.data);
   });
@@ -44,8 +45,7 @@ function start(eventActions){
   });
 }
 
-function handleControlEvent(oscEvent, eventActions){
- const id = 'tony99';
+function handleControlEvent(oscEvent, eventActions, id){
  switch(oscEvent.address){
    case `/${id}/mode`:
     return switchMode(oscEvent.args[0], eventActions);

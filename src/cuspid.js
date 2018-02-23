@@ -2,6 +2,7 @@
 
 const Stats = require('./vendor/threejs/stats.min');
 const $ = require('jquery');
+const _ = require('lodash');
 const THREE = require('three');
 const ImageLoader = require('./image-loader');
 const VideoLoader = require('./video-loader');
@@ -39,7 +40,8 @@ function cuspidLoad(){
 			animator = newAnimator;
 			const eventActions = new EventActions(scene, camera, animator, textures, stats, renderer, quads);
 			const keyHandler = new KeyHandler(eventActions);
-			wsEvents.start(eventActions);
+			const randomId = _.random(0, 1000000000).toString(16);
+			wsEvents.start(eventActions, `client-${randomId}`);
 			$('body').get(0).addEventListener('keydown', event => keyHandler.handleKey(event));
 			console.log("Animation started.")
 		})

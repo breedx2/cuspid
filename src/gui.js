@@ -17,6 +17,10 @@ function toggle(sel){
   $(sel).show();
 }
 
+function wsSetClientId(id){
+  $('input#clientUid').val(id);
+}
+
 function wsConnectStatus(connected){
   let img = '/static/disconnected.png';
   if(connected){
@@ -28,5 +32,6 @@ function wsConnectStatus(connected){
 module.exports = {
   toggleKeys,
   toggleClientId,
-  wsConnectStatus
+  wsConnectStatus,
+  wsSetClientId
 }

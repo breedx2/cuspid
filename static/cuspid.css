@@ -69,9 +69,14 @@ div#keys img#key {
 	top: 5px;
 	right: 5px;
 }
+
 div#clientid img#connstatus {
 	width: 50px;
 	position: absolute;
 	top: 5px;
 	right: 5px;
+}
+
+div#clientid button, div#clientid input {
+	margin-top: 10px;
 }
