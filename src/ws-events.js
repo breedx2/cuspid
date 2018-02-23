@@ -1,6 +1,7 @@
 'use strict';
 
 const osc = require('osc');
+const gui = require('./gui');
 
 // handles OSC events over websocket
 
@@ -15,6 +16,7 @@ function start(eventActions){
 
   socket.addEventListener('open', event => {
     console.log('control websocket established');
+    gui.wsConnectStatus(true);
     if(connTimer){
       clearInterval()
       connTimer = null;
@@ -31,6 +33,7 @@ function start(eventActions){
 
   socket.addEventListener('close', event => {
     console.log('websocket closed.');
+    gui.wsConnectStatus(false);
     socket.close();
     if(!connTimer){
       connTimer = setTimeout(() => start(eventActions), RECONNECT_DELAY);
