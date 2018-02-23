@@ -3,12 +3,21 @@
 const $ = require('jquery');
 
 function toggleKeys(){
-    if($('div#keys').is(':visible')){
-        return $('div#keys').hide();
-    }
-    $('div#keys').show();
+  toggle('div#keys');
+}
+
+function toggleClientId(){
+  toggle('div#clientid');
+}
+
+function toggle(sel){
+  if($(sel).is(':visible')){
+      return $(sel).hide();
+  }
+  $(sel).show();
 }
 
 module.exports = {
-  toggleKeys
+  toggleKeys,
+  toggleClientId
 }

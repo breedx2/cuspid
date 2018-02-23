@@ -34,29 +34,44 @@ div#imagepool {
 	width: 200px;
 }
 
-div#keys {
+#leftside {
+	padding-top: 100px;
+	width: 500px;
+	display: inline-block;
 	max-width: 500px;
+	position: absolute;
+	padding-bottom: 25px;
+	z-index: 9;
+}
+
+.leftarea {
 	border: solid #dddddd 2px;
 	border-radius: 10px;
-	position: absolute;
-	margin-top: 100px;
+	color: white;
+	background-color: rgba(0, 0, 0, 0.7);
 	margin-left: 3px;
 	padding-left: 40px;
 	padding-right: 40px;
 	padding-bottom: 25px;
-	z-index: 9;
-	color: white;
-	background-color: rgba(0, 0, 0, 0.7);
+}
+
+div#keys {
+	display: none;
+}
+
+div#clientid {
 	display: none;
 }
 
 div#keys img#key {
-	width: 75px;
+	width: 50px;
 	position: absolute;
-	right: 3px;
-	top: 3px;
+	top: 5px;
+	right: 5px;
 }
-
-div#keys td.key {
-	width: 80px;
+div#clientid img#connstatus {
+	width: 50px;
+	position: absolute;
+	top: 5px;
+	right: 5px;
 }

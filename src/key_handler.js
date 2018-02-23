@@ -1,6 +1,6 @@
 'use strict';
 
-const toggleKeys = require('./gui').toggleKeys;
+const gui = require('./gui');
 const eventActions = require('./event_actions.js');
 
 class KeyHandler {
@@ -20,7 +20,9 @@ class KeyHandler {
 
     _keyMap(){
       return {
-        'k': () => toggleKeys(),
+        '?': () => gui.toggleKeys(),
+        'k': () => gui.toggleKeys(),
+        'c': () => gui.toggleClientId(),
         ' ': () => this.eventActions.pause(),
         '+': () => this.eventActions.speedUp(5),
         '-': () => this.eventActions.slowDown(5),
