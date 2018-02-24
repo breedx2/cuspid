@@ -71,52 +71,6 @@ class ControlSocket {
 
 }
 
-function xstart(eventActions, clientId){
-
-
-  // setUpGui(eventActions, clientId);
-
-  let connTimer = null;
-  const socket = new WebSocket(url);
-
-  socket.addEventListener('open', event => {
-    console.log('control websocket established');
-    gui.wsConnectStatus(true);
-    if(connTimer){
-      clearInterval()
-      connTimer = null;
-    }
-    socket.send(`listen::${clientId}`);
-  });
-  socket.addEventListener('message', event => {
-    if(event.data.startsWith('{')){
-      return handleControlEvent(JSON.parse(event.data), eventActions, clientId);
-    }
-    console.log(`recv: `, event.data);
-  });
-
-  socket.addEventListener('close', event => {
-    console.log('websocket closed.');
-    gui.wsConnectStatus(false);
-    socket.close();
-    if(!connTimer){
-      connTimer = setTimeout(() => start(eventActions), RECONNECT_DELAY);
-    }
-  });
-  socket.addEventListener('error', event => {
-    console.log('websocket error: ', event);
-  });
-}
-//
-// function setUpGui(eventActions, clientId){
-//   gui.wsSetClientId(clientId);
-//   $('button#changeClientId').click(() => {
-//     const newClientId = $('input#clientUid').val();
-//     console.log(`Setting up client id ${newClientId}`);
-//     start(eventActions, newClientId);
-//   });
-// }
-
 function handleControlEvent(oscEvent, eventActions, id){
  switch(oscEvent.address){
    case `/${id}/mode`:
