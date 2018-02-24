@@ -21,6 +21,10 @@ function wsSetClientId(id){
   $('input#clientUid').val(id);
 }
 
+function changeClientClicked(fn){
+  $('button#changeClientId')
+}
+
 function wsConnectStatus(connected){
   let img = '/static/disconnected.png';
   if(connected){

@@ -2,16 +2,79 @@
 
 const osc = require('osc');
 const gui = require('./gui');
+const $ = require('jquery');
 
 // handles OSC events over websocket
 
 const RECONNECT_DELAY = 1000;
 
-function start(eventActions, clientId){
-  const url = `ws://${location.host}/controls`;
-  console.log(`Connecting to websocket on ${url}`);
+class ControlSocket {
 
-  gui.wsSetClientId(clientId);
+  constructor(eventActions, clientId){
+    this.eventActions = eventActions;
+    this.clientId = clientId;
+    this.socket = null;
+    this.reconnectTimer = null;
+    this.wantReconnect = true;
+  }
+
+  connect(){
+    const url = `ws://${location.host}/controls`;
+    console.log(`Connecting to websocket on ${url} for ${this.clientId}`);
+    this.socket = new WebSocket(url);
+    this.wantReconnect = true;
+    this.socket.addEventListener('open', e => this.onOpen(e));
+    this.socket.addEventListener('message', e => this.onMessage(e));
+    this.socket.addEventListener('close', e => this.onClose(e));
+    this.socket.addEventListener('error', e => this.onError(e));
+  }
+
+  disconnect(){
+    this.wantReconnect = false;
+    gui.wsConnectStatus(false);
+    this.clearTimer();
+    this.socket.close();
+  }
+
+  onOpen(event) {
+    console.log('control websocket established');
+    gui.wsConnectStatus(true);
+    this.clearTimer();
+    this.socket.send(`listen::${this.clientId}`);
+  }
+
+  clearTimer(){
+    if(this.reconnectTimer){
+      clearTimeout(this.reconnectTimer)
+      this.reconnectTimer = null;
+    }
+  }
+
+  onMessage(event){
+    if(event.data.startsWith('{')){
+      return handleControlEvent(JSON.parse(event.data), this.eventActions, this.clientId);
+    }
+    console.log(`recv: `, event.data);
+  };
+
+  onClose(event){
+    console.log('websocket closed.');
+    this.socket.close();
+    if(this.wantReconnect){
+      this.reconnectTimer = setTimeout(() => this.connect(), RECONNECT_DELAY);
+    }
+  };
+
+  onError(event){
+    console.log('websocket error: ', event);
+  };
+
+}
+
+function xstart(eventActions, clientId){
+
+
+  // setUpGui(eventActions, clientId);
 
   let connTimer = null;
   const socket = new WebSocket(url);
@@ -44,6 +107,15 @@ function start(eventActions, clientId){
     console.log('websocket error: ', event);
   });
 }
+//
+// function setUpGui(eventActions, clientId){
+//   gui.wsSetClientId(clientId);
+//   $('button#changeClientId').click(() => {
+//     const newClientId = $('input#clientUid').val();
+//     console.log(`Setting up client id ${newClientId}`);
+//     start(eventActions, newClientId);
+//   });
+// }
 
 function handleControlEvent(oscEvent, eventActions, id){
  switch(oscEvent.address){
@@ -108,5 +180,5 @@ function switchMode(modeName, eventActions){
 
 
 module.exports = {
-  start
+  ControlSocket
 }
