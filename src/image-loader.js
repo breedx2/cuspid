@@ -42,7 +42,6 @@ const ImageLoader = {
 				let base64ImageData = cnv.get(0).toDataURL();
 				let result = newImage(url);
 				result.onload = function() {
-					$('body').append(result);
 					cnv.remove();
 					cache[url] = result;
 					console.log("Image was loaded and cropped/scaled");
