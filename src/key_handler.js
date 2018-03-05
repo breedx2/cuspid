@@ -34,7 +34,6 @@ class KeyHandler {
         '?': () => gui.toggleKeys(),
         'k': () => gui.toggleKeys(),
         'c': () => this.enabled = !gui.toggleClientId(() => {
-          const $ = require('jquery');
             gui.toggleClientId();
             self.enabled = true;
         }),
