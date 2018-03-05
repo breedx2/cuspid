@@ -25,8 +25,8 @@ var texture;
 var stats;
 
 // const IMAGE_URLS = ['/static/cuspid.jpg', '/static/corpse001.jpg', '/static/bloody20sunday.jpg', '/static/chupacabra001.jpg'];
-const IMAGE_URLS = ['/static/cuspid.jpg'];
-const xIMAGE_URLS = ['/static/cuspid.jpg', '/static/tornado_carnage.jpg', '/static/needle_things.jpg', '/static/cows01.jpg',
+// const xIMAGE_URLS = ['/static/cuspid.jpg'];
+const IMAGE_URLS = ['/static/cuspid.jpg', '/static/tornado_carnage.jpg', '/static/needle_things.jpg', '/static/cows01.jpg',
 	'/static/winter_trees.mp4', '/static/bloody20sunday.jpg', '/static/surgical_implements.jpg'];
 
 function cuspidLoad(){
@@ -42,29 +42,33 @@ function cuspidLoad(){
 			animator = newAnimator;
 			const eventActions = new EventActions(scene, camera, animator, textures, stats, renderer, quads);
 			const keyHandler = new KeyHandler(eventActions);
-			const randomId = _.random(0, 1000000000).toString(16);
-			const clientId = `client-${randomId}`;
 
-			gui.wsSetClientId(clientId);
+			configureControlSocket(eventActions);
 
-			let controlSocket = new wsEvents.ControlSocket(eventActions, clientId);
-			controlSocket.connect();
-
-			$('button#changeClientId').click(() => {
-				const newClientId = $('input#clientUid').val();
-				console.log(`Setting up client id ${newClientId}`);
-				controlSocket.disconnect();
-				controlSocket = new wsEvents.ControlSocket(eventActions, newClientId);
-				controlSocket.connect();
-			});
-
-			// wsEvents.start(eventActions, clientId);
 			$('body').get(0).addEventListener('keydown', event => keyHandler.handleKey(event));
 			console.log("Animation started.")
 		})
 		.catch(err => {
 			console.log(`ERROR: ${err}`);
 		});
+}
+
+function configureControlSocket(eventActions){
+	const randomId = _.random(0, 1000000000).toString(16);
+	const clientId = `client-${randomId}`;
+
+	gui.wsSetClientId(clientId);
+
+	let controlSocket = new wsEvents.ControlSocket(eventActions, clientId);
+	controlSocket.connect();
+
+	$('button#changeClientId').click(() => {
+		const newClientId = $('input#clientUid').val();
+		console.log(`Setting up client id ${newClientId}`);
+		controlSocket.disconnect();
+		controlSocket = new wsEvents.ControlSocket(eventActions, newClientId);
+		controlSocket.connect();
+	});
 }
 
 function createStats(){

@@ -6,15 +6,30 @@ function toggleKeys(){
   toggle('div#keys');
 }
 
-function toggleClientId(){
-  toggle('div#clientid');
+function toggleClientId(closeHandler){
+  $('button#closeClientId').off('click');
+  if(toggle('div#clientid')){
+    setTimeout(() => {
+      $('input#clientUid').attr('disabled', null);
+      $('input#clientUid').focus();
+    }, 10);
+    if(closeHandler){
+      $('button#closeClientId').click(closeHandler);
+    }
+    return true;
+  }
+  $('canvas#cnv').focus();
+  $('input#clientUid').attr('disabled', 'disabled');
+  return false;
 }
 
 function toggle(sel){
   if($(sel).is(':visible')){
-      return $(sel).hide();
+      $(sel).hide();
+      return false;
   }
   $(sel).show();
+  return true;
 }
 
 function wsSetClientId(id){
