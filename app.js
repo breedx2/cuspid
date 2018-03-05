@@ -30,7 +30,7 @@ var udpPort = new osc.UDPPort({
 });
 udpPort.on('message', message => {
 	console.log('got message: ', message);
-	const id = 'tony99';
+	const id = message.address.slice(1).replace(/\/.*/, '');
 	if(!idToClients[id]) return;
 	idToClients[id].forEach(ws => {
 		ws.send(JSON.stringify(message));

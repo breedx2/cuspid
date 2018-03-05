@@ -2,47 +2,73 @@
 
 const osc = require('osc');
 const gui = require('./gui');
+const $ = require('jquery');
 
 // handles OSC events over websocket
 
 const RECONNECT_DELAY = 1000;
 
-function start(eventActions, clientId){
-  const url = `ws://${location.host}/controls`;
-  console.log(`Connecting to websocket on ${url}`);
+class ControlSocket {
 
-  gui.wsSetClientId(clientId);
+  constructor(eventActions, clientId){
+    this.eventActions = eventActions;
+    this.clientId = clientId;
+    this.socket = null;
+    this.reconnectTimer = null;
+    this.wantReconnect = true;
+  }
 
-  let connTimer = null;
-  const socket = new WebSocket(url);
+  connect(){
+    const url = `ws://${location.host}/controls`;
+    console.log(`Connecting to websocket on ${url} for ${this.clientId}`);
+    this.socket = new WebSocket(url);
+    this.wantReconnect = true;
+    this.socket.addEventListener('open', e => this.onOpen(e));
+    this.socket.addEventListener('message', e => this.onMessage(e));
+    this.socket.addEventListener('close', e => this.onClose(e));
+    this.socket.addEventListener('error', e => this.onError(e));
+  }
 
-  socket.addEventListener('open', event => {
+  disconnect(){
+    this.wantReconnect = false;
+    gui.wsConnectStatus(false);
+    this.clearTimer();
+    this.socket.close();
+  }
+
+  onOpen(event) {
     console.log('control websocket established');
     gui.wsConnectStatus(true);
-    if(connTimer){
-      clearInterval()
-      connTimer = null;
+    this.clearTimer();
+    this.socket.send(`listen::${this.clientId}`);
+  }
+
+  clearTimer(){
+    if(this.reconnectTimer){
+      clearTimeout(this.reconnectTimer)
+      this.reconnectTimer = null;
     }
-    socket.send(`listen::${clientId}`);
-  });
-  socket.addEventListener('message', event => {
+  }
+
+  onMessage(event){
     if(event.data.startsWith('{')){
-      return handleControlEvent(JSON.parse(event.data), eventActions, clientId);
+      return handleControlEvent(JSON.parse(event.data), this.eventActions, this.clientId);
     }
     console.log(`recv: `, event.data);
-  });
+  };
 
-  socket.addEventListener('close', event => {
+  onClose(event){
     console.log('websocket closed.');
-    gui.wsConnectStatus(false);
-    socket.close();
-    if(!connTimer){
-      connTimer = setTimeout(() => start(eventActions), RECONNECT_DELAY);
+    this.socket.close();
+    if(this.wantReconnect){
+      this.reconnectTimer = setTimeout(() => this.connect(), RECONNECT_DELAY);
     }
-  });
-  socket.addEventListener('error', event => {
+  };
+
+  onError(event){
     console.log('websocket error: ', event);
-  });
+  };
+
 }
 
 function handleControlEvent(oscEvent, eventActions, id){
@@ -108,5 +134,5 @@ function switchMode(modeName, eventActions){
 
 
 module.exports = {
-  start
+  ControlSocket
 }

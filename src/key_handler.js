@@ -7,9 +7,11 @@ class KeyHandler {
 
     constructor(eventActions){
       this.eventActions = eventActions;
+      this.enabled = true;
     }
 
     handleKey(event){
+      if(!this.enabled) return;
       console.log(event);
       const handler = this._keyMap()[event.key];
       if(!handler){
@@ -18,11 +20,23 @@ class KeyHandler {
       return handler(event);
     }
 
+    disable(){
+      this.enabled = false;
+    }
+
+    enable(){
+      this.enabled = true;
+    }
+
     _keyMap(){
+      const self = this;
       return {
         '?': () => gui.toggleKeys(),
         'k': () => gui.toggleKeys(),
-        'c': () => gui.toggleClientId(),
+        'c': () => this.enabled = !gui.toggleClientId(() => {
+            gui.toggleClientId();
+            self.enabled = true;
+        }),
         ' ': () => this.eventActions.pause(),
         '+': () => this.eventActions.speedUp(5),
         '-': () => this.eventActions.slowDown(5),

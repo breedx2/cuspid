@@ -44,6 +44,7 @@ Then point a browser to http://localhost:8080/workspace
 * shift z - zoom in (when in scrolling mode)
 * f - toggle fps overlay
 * i - toggle interpolation mode
+* c - view/change client id
 
 # OSC
 

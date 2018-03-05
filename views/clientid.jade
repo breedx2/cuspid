@@ -4,7 +4,10 @@ div#clientid(class='leftarea')
     | The client will listen for remote control messages
     | with this identifier:
     br
-    input#clientUid(type='text', value='')
+    input#clientUid(type='text', value='', disabled='disabled')
     br
-    button(value='herp')
+    button#changeClientId(value='xxx')
       |change
+    |&nbsp;
+    button#closeClientId(value='xxx')
+      |close
