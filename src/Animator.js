@@ -66,10 +66,6 @@ class Animator{
 		if(this.options.animation.quads){
 			return this.options.animation.quads;
 		}
-		//TODO FIXME hack until twoquad is fixed to use an array
-		if(this.options.animation.quad1){
-			return [this.options.animation.quad1, this.options.animation.quad2];
-		}
 		return [];
 	}
 
