@@ -179,11 +179,11 @@ class EventActions {
   }
 
   modePaletteDown(){
-    this._changeAnimation(PaletteAnimation.paletteDown(this.quads[0], this.animator.options.jerkiness));
+    this._changeAnimation(PaletteAnimation.paletteDown(this.quads, this.animator.options.jerkiness));
   }
 
   modePaletteUp(){
-    this._changeAnimation(PaletteAnimation.paletteUp(this.quads[0], this.animator.options.jerkiness));
+    this._changeAnimation(PaletteAnimation.paletteUp(this.quads, this.animator.options.jerkiness));
   }
 
   _changeAnimation(animation){
