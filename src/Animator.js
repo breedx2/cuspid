@@ -161,6 +161,26 @@ class Animator{
 		console.log('This animation does not support delta X positioning');
 	}
 
+	nextImage(){
+		if(this.options.animation.nextImage == undefined){
+			return console.log('No next image for this animation.  Skipping.');
+		}
+		this.options.animation.nextImage();
+		// console.log(this.options.animation.nextImage);
+		// if(this._currentlyBoxScrolling()){
+		// 	return console.log('skipping next for box scroll');
+		// }
+		// // THIS IS STILL A TOTAL HACK THAT SHOULD BE ENCAPSULATED ELSEWHERE...
+		// const oldQuad = this.quads.shift();
+		// oldQuad.material.uniforms['colorCycle'].value = 0.0;
+		// this.quads.push(oldQuad);
+		// //sneak the new quad into the existing animator's animation
+		// this.quads[0].position.copy(new THREE.Vector3(0, 0, 0.0));
+		// this.animator.options.animation.quad = this.quads[0];
+		// this.scene.add(this.quads[0]);
+		// this.scene.remove(oldQuad);
+	}
+
 	_perFrame(){
 		if( !this.running ) return;	// we're dead
 
