@@ -60,11 +60,11 @@ class Animator{
 	}
 
 	_getQuads(){
-		if(this.options.animation.quad){
-			return [this.options.animation.quad];
-		}
 		if(this.options.animation.quads){
 			return this.options.animation.quads;
+		}
+		if(this.options.animation.quad){
+			return [this.options.animation.quad];
 		}
 		return [];
 	}
@@ -159,6 +159,13 @@ class Animator{
 			return this.options.animation.deltaX(amount);
 		}
 		console.log('This animation does not support delta X positioning');
+	}
+
+	nextImage(){
+		if(this.options.animation.nextImage == undefined){
+			return console.log('No next image for this animation.  Skipping.');
+		}
+		this.options.animation.nextImage();
 	}
 
 	_perFrame(){

@@ -21,8 +21,7 @@ class ImageSequence {
   tick(timeMult) {
     const now = new Date().getTime();
     if (now - this.lastSwitch > this.time) {
-      this.quads.push(this.quads.shift());
-      this.lastSwitch = now;
+      this._nextImage(now);
     }
     this.quads
       .slice(1)
@@ -47,6 +46,15 @@ class ImageSequence {
 
   setTime(time) {
     this.time = time;
+  }
+
+  nextImage(){
+    this._nextImage();
+  }
+
+  _nextImage(now = new Date().getTime()){
+    this.quads.push(this.quads.shift());
+    this.lastSwitch = now;
   }
 
   static build(quads, time = DEFAULT_TIME) {

@@ -7,8 +7,10 @@ const zoomNudge = require('./zoom_nudge');
 
 class PaletteAnimation {
 
-	constructor(quad, direction, jerkiness){
-		this.quad = quad;
+	constructor(quads, direction, jerkiness){
+		this.quads = quads;
+		this.quads.forEach(quad => quad.position.copy(new THREE.Vector3(-100, 0, 0.0)));	//move out of the way
+		this.quad = quads[0];
 		this.quad.position.copy(new THREE.Vector3(0.0, 0.0, 0.0));
 		this.direction = direction;
 		this.jerkiness = jerkiness;
@@ -27,12 +29,19 @@ class PaletteAnimation {
 		this.quad.scale.copy(new THREE.Vector3(this.zoom, this.zoom, 1.0));
 	}
 
-	static paletteUp( quad, jerkiness){
-		return new PaletteAnimation( quad, "UP", jerkiness );
+	nextImage(){
+		this.quad.position.copy(new THREE.Vector3(-100, 0, 0.0));	//move out of the way
+		this.quads.push(this.quads.shift());
+		this.quad = this.quads[0];
+		this.quad.position.copy(new THREE.Vector3(0, 0, 0.0)); //bring into view
 	}
 
-	static paletteDown( quad, jerkiness ){
-		return new PaletteAnimation( quad, "DOWN", jerkiness );
+	static paletteUp( quads, jerkiness){
+		return new PaletteAnimation( quads, "UP", jerkiness );
+	}
+
+	static paletteDown( quads, jerkiness ){
+		return new PaletteAnimation( quads, "DOWN", jerkiness );
 	}
 }
 
