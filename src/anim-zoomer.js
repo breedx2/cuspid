@@ -8,6 +8,7 @@ class ZoomAnimation {
 
 	constructor (quads, direction, jerkiness, easing ){
 		this.quads = quads;
+		this.quads.forEach(quad => quad.position.copy(new THREE.Vector3(-100, 0, 0.0)));	//move out of the way
 		this.quad = quads[0];
 		this.quad.position.copy(new THREE.Vector3(0, 0, 0.0));
 		if(DIR_MULT[direction] == null){
