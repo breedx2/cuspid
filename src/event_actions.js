@@ -167,11 +167,11 @@ class EventActions {
   }
 
   modeZoomIn(){
-    return this._changeAnimation(ZoomAnimation.zoomIn(this.quads[0], this.animator.options.jerkiness));
+    return this._changeAnimation(ZoomAnimation.zoomIn(this.quads, this.animator.options.jerkiness));
   }
 
   modeZoomOut(){
-    return this._changeAnimation(ZoomAnimation.zoomOut(this.quads[0], this.animator.options.jerkiness));
+    return this._changeAnimation(ZoomAnimation.zoomOut(this.quads, this.animator.options.jerkiness));
   }
 
   modeImageSequence(){

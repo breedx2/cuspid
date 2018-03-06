@@ -6,28 +6,40 @@ const DIR_MULT = { 'IN': -1, 'OUT': 1};
 
 class ZoomAnimation {
 
-	constructor (quad, direction, jerkiness, easing ){
-		this.quad = quad;
-		this.quad.position.copy(new THREE.Vector3(0.0, 0.0, 0.0));
+	constructor (quads, direction, jerkiness, easing ){
+		this.quads = quads;
+		this.quad = quads[0];
+		this.quad.position.copy(new THREE.Vector3(0, 0, 0.0));
 		if(DIR_MULT[direction] == null){
 			throw new Error("Unknown direction " + direction + ", must be IN or OUT");
 		}
 		this.direction =  direction;
 		this.jerkiness = jerkiness;
 		this.easing = easing || 'LINEAR';
-		if(this.easing == 'QUADRATIC'){
-			this.phase = 0.0;	// 0..1
-		}
-		else if(this.easing == 'LINEAR'){
-			this.phase = {
-				dx: this.quad.material.uniforms['texture'].value.image.width,
-			}
-		}
+		this.phase = this._buildInitialPhase();
 	}
 
 	tick(timeMult){
 		var scale = this._computeScale(timeMult);
 		this.quad.scale.copy(scale);
+	}
+
+	nextImage(){
+		this.quad.position.copy(new THREE.Vector3(-100, 0, 0.0));	//move out of the way
+		this.quads.push(this.quads.shift());
+		this.quad = this.quads[0];
+		this.quad.position.copy(new THREE.Vector3(0, 0, 0.0)); //bring into view
+	}
+
+	_buildInitialPhase(){
+		if(this.easing == 'QUADRATIC'){
+			return 0.0;	// 0..1
+		}
+		if(this.easing == 'LINEAR'){
+			return {
+				dx: this.quads[0].material.uniforms['texture'].value.image.width,
+			}
+		}
 	}
 
 	_computeScale(timeMult){
@@ -78,12 +90,12 @@ class ZoomAnimation {
 		return value;
 	}
 
-	static zoomIn( quad, jerkiness ){
-		return new ZoomAnimation( quad, "IN", Math.abs(jerkiness) || 1);
+	static zoomIn( quads, jerkiness ){
+		return new ZoomAnimation( quads, "IN", Math.abs(jerkiness) || 1);
 	}
 
-	static zoomOut( quad, jerkiness ){
-		return new ZoomAnimation( quad, "OUT", Math.abs(jerkiness) || 1);
+	static zoomOut( quads, jerkiness ){
+		return new ZoomAnimation( quads, "OUT", Math.abs(jerkiness) || 1);
 	}
 }
 

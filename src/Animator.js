@@ -60,11 +60,11 @@ class Animator{
 	}
 
 	_getQuads(){
-		if(this.options.animation.quad){
-			return [this.options.animation.quad];
-		}
 		if(this.options.animation.quads){
 			return this.options.animation.quads;
+		}
+		if(this.options.animation.quad){
+			return [this.options.animation.quad];
 		}
 		return [];
 	}
