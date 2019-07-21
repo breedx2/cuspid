@@ -2,6 +2,7 @@
   "name": "cuspid",
   "version": "1.0.0",
   "description": "",
+  "repository": "https://github.com/breedx2/cuspid",
   "main": "index.js",
   "scripts": {
     "start": "$(npm bin)/webpack --config webpack.dev.js && node app.js",
