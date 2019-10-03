@@ -10,8 +10,8 @@ const expressWs = require('express-ws')(app);
 app.use('/static', express.static(__dirname + '/static', {
 	index: false
 }));
-app.engine('jade', require('jade').__express);
-app.set('view engine', 'jade');
+app.engine('pug', require('pug').__express);
+app.set('view engine', 'pug');
 
 app.get('/workspace', function(req, res){
 	res.render('workspace', {});

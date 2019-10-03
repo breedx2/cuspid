@@ -13,7 +13,7 @@
   "dependencies": {
     "express": "4.17.1",
     "express-ws": "4.0.0",
-    "jade": "1.11.0",
+    "pug": "2.0.4",
     "jquery": "3.4.1",
     "lodash": "4.17.15",
     "osc": "^2.2.0",
