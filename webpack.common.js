@@ -4,7 +4,9 @@ const webpack = require('webpack');
 module.exports = {
   entry: './src/cuspid.js',
   output: {
-    filename: './static/bundle.js'
+    path: path.resolve(__dirname, 'static'),
+    publicPath: '/static/',
+    filename: 'bundle.js'
   },
   resolve: {
     alias: {
