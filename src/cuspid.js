@@ -137,17 +137,22 @@ function startFirstAnimation(){
 
 function loadQuadsFromUrls(sourceUrls){
 	return Promise.all(sourceUrls.map(url => {
-		if(url.endsWith('.webm') || url.endsWith('.ogv') || url.endsWith('.mp4')){
-			return VideoLoader.load(url)
-				.then(buildTextureQuad(buildVideoTexture));
-		}
-		return ImageLoader.loadAndCrop(url)
+		const loader = chooseLoader(url);
+		return loader(url)
 			.then(buildTextureQuad(buildImageTexture));
 	}))
 	.then(results => results.filter(x => x != null))
+	.then(results => results.length > 1 ? results : [results[0], results[0]])
 	.catch(err => {
 		console.error(`ERROR: ${err}`);
 	});
+}
+
+function chooseLoader(url){
+	if(url.endsWith('.webm') || url.endsWith('.ogv') || url.endsWith('.mp4')){
+		return VideoLoader.load;
+	}
+	return ImageLoader.loadAndCrop;
 }
 
 function buildTextureQuad(textureFn){
