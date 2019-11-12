@@ -25,26 +25,37 @@ Then point a browser to http://localhost:8080/workspace
 
 # keys
 
-* n - change image
-* + - increase animation speed
-* - - decrease animation speed
+## animation modes
 * ⟵ - scroll left
-* shift ⟵ - pallete scroll down
-* ctrl ⟵ - decrease animation delta x
 * → - scroll right
-* shift →  palette scroll up
-* ctrl → - increase animation delta x
 * ↑ - scroll up
-* shift ↑ - zoom in animation mode
-* ctrl ↑ - decrease animation delta y
 * ↓ - scroll down
-* shift ↓ - zoom out animation mode
+* shift ↑ - zoom in
+* shift ↓ - zoom out
+* s - image sequence 
+* t - tunnel/zoomed sequence
+* shift ⟵ - pallete scroll down
+* shift →  palette scroll up
+
+## misc
+* SPACE - pause
+* \+ - increase animation speed
+* \- - decrease animation speed
+* ctrl ⟵ - decrease animation delta x
+* ctrl → - increase animation delta x
+* ctrl ↑ - decrease animation delta y
 * ctrl ↓ - increase animation delta y  
 * z - zoom out (when in scrolling mode)
 * shift z - zoom in (when in scrolling mode)
-* f - toggle fps overlay
+* n - change image
+* d - toggle dot effect
+* q - decrease dot scale
+* w - increase dot scale
+* g - toggle glitch effect
 * i - toggle interpolation mode
+* f - toggle fps overlay
 * c - view/change client id
+* k|? - show/hide keys help
 
 # OSC
 
