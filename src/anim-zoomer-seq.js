@@ -5,7 +5,7 @@ const THREE = require('three');
 const xDIR_MULT = { 'IN': -1, 'OUT': 1};
 const DIR_MULT = { 'IN': 1, 'OUT': -1};
 
-const MIN_SCALE = 0.01;//1.0/32.0;
+const MIN_SCALE = 0.01;
 const MAX_SCALE = 1.0;
 const ENTRY_SCALE = 1.0;
 
@@ -24,9 +24,8 @@ class ZoomSeqAnimation {
 		}
 		this.direction =  direction;
 		this.jerkiness = jerkiness;
-		this.scaleA = MIN_SCALE;
+		this.scaleA = ENTRY_SCALE;
 		this.scaleB = 0;
-		// this.phase = this._buildInitialPhase();
 	}
 
 	tick(timeMult){
@@ -70,9 +69,8 @@ class ZoomSeqAnimation {
 	_computeScale(timeMult, scale){
 		const dir = DIR_MULT[this.direction];
 		const perc = (scale - MIN_SCALE) / (MAX_SCALE - MIN_SCALE);
-		// const result = Math.log(Math.abs(scale + 0.01)) + 0.01;
-		const result = scale * 1.05;
-		// console.log(`perc = ${perc}...  ${scale} => ${result}`);
+		// const result = scale * 1.05;
+		const result = scale * (1 + (timeMult * 0.025));
 		return result;
 	}
 
