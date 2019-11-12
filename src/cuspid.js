@@ -9,6 +9,8 @@ const VideoLoader = require('./video-loader');
 const cuspidShader = require('./cuspid_shader');
 const Animator = require('./Animator');
 const TwoQuadBoxScrollAnimation = require('./anim-twoquadboxscroll');
+const ExperimentalAnimation = require('./anim-experiment')
+const ZoomSeqAnimation = require('./anim-zoomer-seq')
 const ImageSequence = require('./anim-image-sequence');
 const KeyHandler = require('./key_handler');
 const EventActions = require('./event_actions');
@@ -26,8 +28,10 @@ var stats;
 
 // const IMAGE_URLS = ['/static/cuspid.jpg', '/static/corpse001.jpg', '/static/bloody20sunday.jpg', '/static/chupacabra001.jpg'];
 // const xIMAGE_URLS = ['/static/cuspid.jpg'];
-const IMAGE_URLS = ['/static/cuspid.jpg', '/static/tornado_carnage.jpg', '/static/needle_things.jpg', '/static/cows01.jpg',
-	'/static/winter_trees.mp4', '/static/bloody20sunday.jpg', '/static/surgical_implements.jpg'];
+// const IMAGE_URLS = ['/static/tornado_carnage.jpg', '/static/needle_things.jpg', '/static/winter_trees.mp4'];
+const IMAGE_URLS = ['/static/cuspid.jpg', '/static/tornado_carnage.jpg', '/static/needle_things.jpg',
+'/static/cows01.jpg', '/static/bloody20sunday.jpg', '/static/surgical_implements.jpg'];
+// const IMAGE_URLS = ['/static/cuspid.jpg', '/static/tornado_carnage.jpg', '/static/needle_things.jpg'];
 
 function cuspidLoad(){
 	createStats();
@@ -120,7 +124,9 @@ function startFirstAnimation(){
 				camera: camera,
 				duration: Animator.defaultAnimDuration(),
 				jerkiness: 5,
-				animation: ImageSequence.build(newQuads)
+				// animation: new ExperimentalAnimation(newQuads,5)
+				animation: new ZoomSeqAnimation(newQuads, 'IN', 5)
+				// animation: ImageSequence.build(newQuads)
 				// animation: TwoQuadBoxScrollAnimation.scrollRight(newQuads, 5)
 				//		animation: new BoxScrollAnimation(quad, "RIGHT", 5)
 				/*new CompositeAnimation([

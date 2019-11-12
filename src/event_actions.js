@@ -5,6 +5,7 @@ const THREE = require('three');
 const Animator = require('./Animator');
 const TwoQuadBoxScrollAnimation = require('./anim-twoquadboxscroll');
 const ZoomAnimation = require('./anim-zoomer');
+const ZoomSeqAnimation = require('./anim-zoomer-seq');
 const PaletteAnimation = require('./anim-palette');
 const ImageSequence = require('./anim-image-sequence');
 
@@ -172,6 +173,10 @@ class EventActions {
 
   modeZoomOut(){
     return this._changeAnimation(ZoomAnimation.zoomOut(this.quads, this.animator.options.jerkiness));
+  }
+
+  modeZoomSequenceIn(){
+    return this._changeAnimation(ZoomSeqAnimation.zoomIn(this.quads, this.animator.options.jerkiness));
   }
 
   modeImageSequence(){
