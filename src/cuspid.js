@@ -125,7 +125,8 @@ function startFirstAnimation(){
 				duration: Animator.defaultAnimDuration(),
 				jerkiness: 5,
 				// animation: new ExperimentalAnimation(newQuads,5)
-				animation: new ZoomSeqAnimation(newQuads, 'IN', 5)
+				// animation: new ZoomSeqAnimation(newQuads, 'IN', 5)
+				animation: new ZoomSeqAnimation(newQuads, 'OUT', 5)
 				// animation: ImageSequence.build(newQuads)
 				// animation: TwoQuadBoxScrollAnimation.scrollRight(newQuads, 5)
 				//		animation: new BoxScrollAnimation(quad, "RIGHT", 5)
