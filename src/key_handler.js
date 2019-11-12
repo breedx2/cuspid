@@ -49,7 +49,7 @@ class KeyHandler {
         'q': () => this.eventActions.deltaDotScale(-0.02),
         'w': () => this.eventActions.deltaDotScale(0.02),
         's': () => this.eventActions.modeImageSequence(),
-        't': () => this.eventActions.modeTunnelIn(),
+        't': () => this.eventActions.modeZoomSequenceIn(),
         'g': () => this.eventActions.toggleGlitchPass(),
         'Enter': () => this.eventActions.repaint(),
         'ArrowLeft': this._leftArrow.bind(this),

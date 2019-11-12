@@ -175,7 +175,7 @@ class EventActions {
     return this._changeAnimation(ZoomAnimation.zoomOut(this.quads, this.animator.options.jerkiness));
   }
 
-  modeTunnelIn(){
+  modeZoomSequenceIn(){
     return this._changeAnimation(ZoomSeqAnimation.zoomIn(this.quads, this.animator.options.jerkiness));
   }
 
