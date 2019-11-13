@@ -80,3 +80,34 @@ div#clientid img#connstatus {
 div#clientid button, div#clientid input {
 	margin-top: 10px;
 }
+
+div.indexSplash {
+	height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+	text-align: center;
+	font-size: 12em;
+	color: #cccccc22;
+}
+div.indexSplash > br
+ {
+    width: 100%;
+    content: '';
+ }
+div.indexSplash > div > .xx {
+	font-size: .25em;
+}
+div.up {
+	text-align: right;
+	float: top right;
+	float: right;
+	width: 100px;
+	height: 100px;
+	color: #cccccc0f;
+	font-size: 4em;
+}
+div.up > a {
+	color: #cccccc0f;
+	text-decoration: none;
+}

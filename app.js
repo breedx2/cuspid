@@ -13,6 +13,9 @@ app.use('/static', express.static(__dirname + '/static', {
 app.engine('pug', require('pug').__express);
 app.set('view engine', 'pug');
 
+app.get('/', function(req, res){
+	res.render('index', {});
+});
 app.get('/workspace', function(req, res){
 	res.render('workspace', {});
 });
