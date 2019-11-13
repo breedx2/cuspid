@@ -1,7 +1,5 @@
 'use strict';
 
-const $ = require('jquery');
-
 const cache = {};
 
 const ImageLoader = {
@@ -14,19 +12,16 @@ const ImageLoader = {
 			let img = newImage(url);
 			img.onload = function() {
 				console.log("Image loaded. Original dimensions: " + img.width + "x" + img.height);
-				let dimension = Math.min(img.width, img.height);
+				const dimension = Math.min(img.width, img.height);
 				console.log("First cropping to " + dimension + "x" + dimension);
-				let pow2Dim = closestPow2(dimension);
+				const pow2Dim = closestPow2(dimension);
 				console.log("And then stretching to " + pow2Dim + "x" + pow2Dim);
-				let cnv = $('<canvas/>')
-	                .attr({
-	                     width: pow2Dim,
-	                     height: pow2Dim
-	                 })
-	                .hide()
-	                .appendTo('body');
-	            let ctx = cnv.get(0).getContext('2d');
-	            let cropCoords = {
+				const cnv = document.createElement('canvas');
+				cnv.width = pow2Dim;
+				cnv.height = pow2Dim;
+				cnv.style.display = 'none';
+        const ctx = cnv.getContext('2d');
+        const cropCoords = {
 					topLeft: {
 						x: (img.width - dimension)/2,
 						y: (img.height - dimension)/2
@@ -35,14 +30,13 @@ const ImageLoader = {
 						x: img.width - ((img.width - dimension)/2),
 						y: img.height - ((img.height - dimension)/2)
 					}
-	            };
-	            ctx.drawImage(img, cropCoords.topLeft.x, cropCoords.topLeft.y,
+        };
+        ctx.drawImage(img, cropCoords.topLeft.x, cropCoords.topLeft.y,
 					dimension, dimension, 0, 0,
 					pow2Dim, pow2Dim);
-				let base64ImageData = cnv.get(0).toDataURL();
-				let result = newImage(url);
+				const base64ImageData = cnv.toDataURL();
+				const result = newImage(url);
 				result.onload = function() {
-					cnv.remove();
 					cache[url] = result;
 					console.log("Image was loaded and cropped/scaled");
 					fulfill(result);
@@ -54,7 +48,7 @@ const ImageLoader = {
 }
 
 function newImage(url){
-	let img = new Image();
+	const img = new Image();
 	img.src = url;
 	img.url = url;
 	return img;

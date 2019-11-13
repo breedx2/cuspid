@@ -1,7 +1,6 @@
 'use strict';
 
 const Stats = require('./vendor/threejs/stats.min');
-const $ = require('jquery');
 const _ = require('lodash');
 const THREE = require('three');
 const ImageLoader = require('./image-loader');
@@ -51,7 +50,7 @@ function cuspidLoad(){
 
 			configureControlSocket(eventActions);
 
-			$('body').get(0).addEventListener('keydown', event => keyHandler.handleKey(event));
+			document.querySelector('body').addEventListener('keydown', event => keyHandler.handleKey(event));
 			console.log("Animation started.")
 		})
 		.catch(err => {
@@ -68,8 +67,8 @@ function configureControlSocket(eventActions){
 	let controlSocket = new wsEvents.ControlSocket(eventActions, clientId);
 	controlSocket.connect();
 
-	$('button#changeClientId').click(() => {
-		const newClientId = $('input#clientUid').val();
+	document.querySelector('button#changeClientId').addEventListener('click', () => {
+		const newClientId = document.querySelector('input#clientUid').value;
 		console.log(`Setting up client id ${newClientId}`);
 		controlSocket.disconnect();
 		controlSocket = new wsEvents.ControlSocket(eventActions, newClientId);
@@ -91,7 +90,7 @@ function init3D(){
 	// Set the viewport to expand from the origin, 1.0 in each cardinal direction.
 	scene = new THREE.Scene();
 	camera = new THREE.OrthographicCamera( -1.0, 1.0, 1.0, -1.0, -100, 100 );	// left, right, top, bottom, near, far
-	const canvas = $('#cnv').get(0);
+	const canvas = document.querySelector('#cnv');
 
 	renderer = new THREE.WebGLRenderer({
 		antialias: false,

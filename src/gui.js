@@ -1,43 +1,44 @@
 'use strict';
 
-const $ = require('jquery');
-
 function toggleKeys(){
   toggle('div#keys');
 }
 
 function toggleClientId(closeHandler){
-  $('button#closeClientId').off('click');
   if(toggle('div#clientid')){
     setTimeout(() => {
-      $('input#clientUid').attr('disabled', null);
-      $('input#clientUid').focus();
+      document.querySelector('input#clientUid').disabled = null;
+      document.querySelector('input#clientUid').focus();
     }, 10);
     if(closeHandler){
-      $('button#closeClientId').click(closeHandler);
+      document.querySelector('button#closeClientId')
+        .addEventListener('click', closeHandler, { once: true} );
     }
     return true;
   }
-  $('canvas#cnv').focus();
-  $('input#clientUid').attr('disabled', 'disabled');
+  document.querySelector('canvas#cnv').focus();
+  document.querySelector('input#clientUid').disabled = 'disabled';
   return false;
 }
 
 function toggle(sel){
-  if($(sel).is(':visible')){
-      $(sel).hide();
-      return false;
+  const x = document.querySelector(sel);
+  if(x.offsetParent === null){
+    x.style.display = 'inline-block';
+    return true;
   }
-  $(sel).show();
-  return true;
+  x.style.display = 'none';
+  return false;
 }
 
 function wsSetClientId(id){
-  $('input#clientUid').val(id);
+  document.querySelector('input#clientUid').value = id;
 }
 
 function changeClientClicked(fn){
-  $('button#changeClientId')
+  //TODO: Is this supposed to do something fun?
+  // $('button#changeClientId')
+  document.querySelector('button#changeClientId')
 }
 
 function wsConnectStatus(connected){
@@ -45,7 +46,7 @@ function wsConnectStatus(connected){
   if(connected){
     img = '/static/conn-ok.png';
   }
-  $('img#connstatus').attr('src', img);
+  document.querySelector('img#connstatus').src = img;
 }
 
 module.exports = {
