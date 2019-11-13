@@ -8,6 +8,7 @@ const ZoomAnimation = require('./anim-zoomer');
 const ZoomSeqAnimation = require('./anim-zoomer-seq');
 const PaletteAnimation = require('./anim-palette');
 const ImageSequence = require('./anim-image-sequence');
+const gui = require('./gui');
 
 class EventActions {
   constructor(scene, camera, animator, textures, stats, renderer, quads){
@@ -21,7 +22,8 @@ class EventActions {
   }
 
   pause(what){
-    this.animator.pause(what);
+    const res = this.animator.pause(what);
+    gui.showHideDecoration(!res.running);
   }
 
   speedUp(amount = 5){
@@ -150,7 +152,7 @@ class EventActions {
   }
 
   modeUp(){
-    if(TwoQuadBoxScrollAnimation.prototype.isPrototypeOf(this.animator.options.animation)){
+    if(this._currentlyBoxScrolling()){
       if(this.animator.options.animation.direction === 'DOWN'){
         return this.animator.options.animation.reverse();
       }
@@ -159,7 +161,7 @@ class EventActions {
   }
 
   modeDown(){
-    if(TwoQuadBoxScrollAnimation.prototype.isPrototypeOf(this.animator.options.animation)){
+    if(this._currentlyBoxScrolling()){
       if(this.animator.options.animation.direction === 'UP'){
         return this.animator.options.animation.reverse();
       }
@@ -210,14 +212,17 @@ class EventActions {
   		animation: animation
   	});
   	this.animator.start(true);
+    gui.showHideDecoration(false);
   }
 
   _currentlyBoxScrolling(){
-    return TwoQuadBoxScrollAnimation.prototype.isPrototypeOf(this.animator.options.animation);
+    return this.animator.running &&
+      TwoQuadBoxScrollAnimation.prototype.isPrototypeOf(this.animator.options.animation);
   }
 
   _currentlyImageSequence(){
-    return ImageSequence.prototype.isPrototypeOf(this.animator.options.animation);
+    return this.animator.running &&
+      ImageSequence.prototype.isPrototypeOf(this.animator.options.animation);
   }
 }
 

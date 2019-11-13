@@ -49,9 +49,24 @@ function wsConnectStatus(connected){
   document.querySelector('img#connstatus').src = img;
 }
 
+function showHideDecoration(show){
+  if(show){
+    console.log('hiding decorations...');
+  }
+  else{
+    console.log('showing decorations...');
+  }
+  const top = document.querySelector('#top');
+  top.style.opacity = show ? 1 : 0;
+  const cnv = document.querySelector('canvas#cnv');
+  //TODO: Don't hard code style info, instead apply/remove a class?
+  cnv.style.border = show ? 'solid white 5px' : '0px';
+}
+
 module.exports = {
   toggleKeys,
   toggleClientId,
   wsConnectStatus,
-  wsSetClientId
+  wsSetClientId,
+  showHideDecoration
 }
