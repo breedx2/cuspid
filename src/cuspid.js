@@ -126,10 +126,10 @@ function startFirstAnimation(){
 				duration: Animator.defaultAnimDuration(),
 				jerkiness: 5,
 				// animation: new ExperimentalAnimation(newQuads,5)
-				animation: new ZoomAnimation(newQuads, 'IN', 5)
+				// animation: new ZoomAnimation(newQuads, 'IN', 'LINEAR')
 				// animation: new ZoomSeqAnimation(newQuads, 'OUT', 5)
 				// animation: ImageSequence.build(newQuads)
-				// animation: TwoQuadBoxScrollAnimation.scrollRight(newQuads, 5)
+				animation: TwoQuadBoxScrollAnimation.scrollRight(newQuads, 5)
 				//		animation: new BoxScrollAnimation(quad, "RIGHT", 5)
 				/*new CompositeAnimation([
 					new BoxScrollAnimation(quad, "LEFT", 5),

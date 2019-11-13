@@ -168,11 +168,11 @@ class EventActions {
   }
 
   modeZoomIn(){
-    return this._changeAnimation(ZoomAnimation.zoomIn(this.quads, this.animator.options.jerkiness));
+    return this._changeAnimation(ZoomAnimation.zoomIn(this.quads, 'LINEAR'));
   }
 
   modeZoomOut(){
-    return this._changeAnimation(ZoomAnimation.zoomOut(this.quads, this.animator.options.jerkiness));
+    return this._changeAnimation(ZoomAnimation.zoomOut(this.quads, 'LINEAR'));
   }
 
   modeZoomSequenceIn(){
