@@ -2,11 +2,12 @@
 
 const THREE = require('three');
 
-const DIR_MULT = { 'IN': -1, 'OUT': 1};
+const DIR_MULT = { 'IN': 1, 'OUT': -1};
+const MAX_ZOOM = 25;
 
 class ZoomAnimation {
 
-	constructor (quads, direction, jerkiness, easing ){
+	constructor (quads, direction, easing ){
 		this.quads = quads;
 		this.quads.forEach(quad => quad.position.copy(new THREE.Vector3(-100, 0, 0.0)));	//move out of the way
 		this.quad = quads[0];
@@ -15,9 +16,8 @@ class ZoomAnimation {
 			throw new Error("Unknown direction " + direction + ", must be IN or OUT");
 		}
 		this.direction =  direction;
-		this.jerkiness = jerkiness;
 		this.easing = easing || 'LINEAR';
-		this.phase = this._buildInitialPhase();
+		this.scale = this.direction === 'IN' ? 1.0 : MAX_ZOOM;
 	}
 
 	tick(timeMult){
@@ -32,71 +32,37 @@ class ZoomAnimation {
 		this.quad.position.copy(new THREE.Vector3(0, 0, 0.0)); //bring into view
 	}
 
-	_buildInitialPhase(){
-		if(this.easing == 'QUADRATIC'){
-			return 0.0;	// 0..1
-		}
-		if(this.easing == 'LINEAR'){
-			return {
-				dx: this.quads[0].material.uniforms['texture'].value.image.width,
-			}
-		}
-	}
-
 	_computeScale(timeMult){
+		this.scale = this._computeWrappedEasedScale(timeMult);
+		return new THREE.Vector3(this.scale, this.scale, 1.0);
+	}
+
+	_computeWrappedEasedScale(timeMult){
+		const scale = this._computeScaleWithEasing(timeMult);
+		if(this.direction === 'IN' && (scale >= MAX_ZOOM)){
+				return 1.0;
+		}
+		if(this.direction === 'OUT' && (scale <= 1.0)){
+			return MAX_ZOOM;
+		}
+		return scale;
+	}
+
+	_computeScaleWithEasing(timeMult){
 		switch(this.easing){
-			case 'QUADRATIC':
-				this.phase = this._computePhaseQuadratic(timeMult);
-				console.log(`phase: ${this.phase}`);
-				var x = 1.0 + (this.phase * 10.0); //width
-				var y = 1.0 + ((this.phase * this.phase) * 80.0); //height (start slow, end fast)
-				return new THREE.Vector3(x, y, 1.0);
+			case 'QUADRATIC': //fast start, slower at the end (depending on direction)
+				return this.scale + (DIR_MULT[this.direction] * timeMult * 0.025);
 			case 'LINEAR':
-				this.phase = this._computePhaseLinear(timeMult);
-				var x = this.phase.perc;
-				var y = this.phase.perc;
-				return new THREE.Vector3(x, y, 1.0);
-			default:
-				throw new Error("UNKNOWN EASING: " + this.easing);
+				return this.scale * (1 + (DIR_MULT[this.direction] * timeMult * 0.025));
 		}
 	}
 
-	_computePhaseQuadratic(timeMult){
-		var img = this.quad.material.uniforms['texture'].value.image;
-		var dir = DIR_MULT[this.direction];
-		var result = this.phase + (dir * (this.jerkiness / img.width) * timeMult);
-		return ZoomAnimation._wrap(result);
-	};
-
-	_computePhaseLinear(timeMult){
-		var img = this.quad.material.uniforms['texture'].value.image;
-		var dir = DIR_MULT[this.direction];
-		var dx = this.phase.dx + (dir * this.jerkiness * timeMult);
-		if(dx < img.width / 16){
-			dx = img.width;
-		}
-		if(dx > img.width){
-			dx = img.width / 16;
-		}
-		return {
-			dx: dx,
-			perc: img.width * 1.0 / dx
-		}
-	};
-
-	static _wrap(value){
-		// wrap phase between 0..1
-		if( value >= 1.0 ) return 0;
-		if( value < 0.0 ) return 1.0;
-		return value;
+	static zoomIn( quads, easing ){
+		return new ZoomAnimation( quads, 'IN', easing || 'LINEAR');
 	}
 
-	static zoomIn( quads, jerkiness ){
-		return new ZoomAnimation( quads, "IN", Math.abs(jerkiness) || 1);
-	}
-
-	static zoomOut( quads, jerkiness ){
-		return new ZoomAnimation( quads, "OUT", Math.abs(jerkiness) || 1);
+	static zoomOut( quads, easing ){
+		return new ZoomAnimation( quads, 'OUT', easing || 'LINEAR');
 	}
 }
 
