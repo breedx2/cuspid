@@ -20,6 +20,15 @@ div#top {
 	padding-top: 1px;
 	border-bottom: dashed gray 1px;
 	z-index: 9;
+	transition: visibility 0s linear 0.5s, opacity 0.5s linear;
+	font-size: 2em;
+	background-color: #cccccc88;
+}
+
+div#top > h1 {
+	-webkit-text-fill-color: white; /* Will override color (regardless of order) */
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: black;
 }
 
 canvas#cnv {
@@ -28,6 +37,7 @@ canvas#cnv {
 	margin: 0px;
 	top: 0px;
 	border: solid white 5px;
+	transition: border-width 0.5s linear;
 }
 
 div#imagepool {

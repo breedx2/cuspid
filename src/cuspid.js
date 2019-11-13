@@ -51,6 +51,7 @@ function cuspidLoad(){
 			configureControlSocket(eventActions);
 
 			document.querySelector('body').addEventListener('keydown', event => keyHandler.handleKey(event));
+			gui.showHideDecoration(false);
 			console.log("Animation started.")
 		})
 		.catch(err => {
