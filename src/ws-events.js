@@ -2,7 +2,6 @@
 
 const osc = require('osc');
 const gui = require('./gui');
-const $ = require('jquery');
 
 // handles OSC events over websocket
 
