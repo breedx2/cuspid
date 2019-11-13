@@ -31,7 +31,8 @@ var stats;
 // const xIMAGE_URLS = ['/static/cuspid.jpg'];
 // const IMAGE_URLS = ['/static/tornado_carnage.jpg', '/static/needle_things.jpg', '/static/winter_trees.mp4'];
 const IMAGE_URLS = ['/static/cuspid.jpg', '/static/tornado_carnage.jpg', '/static/needle_things.jpg',
-'/static/cows01.jpg', '/static/bloody20sunday.jpg', '/static/surgical_implements.jpg'];
+	'/static/cows01.jpg', '/static/bloody20sunday.jpg', '/static/surgical_implements.jpg',
+	'/static/winter_trees.mp4'];
 // const IMAGE_URLS = ['/static/cuspid.jpg', '/static/tornado_carnage.jpg', '/static/needle_things.jpg'];
 
 function cuspidLoad(){
@@ -128,8 +129,8 @@ function startFirstAnimation(){
 				// animation: new ExperimentalAnimation(newQuads,5)
 				// animation: new ZoomAnimation(newQuads, 'IN', 'LINEAR')
 				// animation: new ZoomSeqAnimation(newQuads, 'OUT', 5)
-				// animation: ImageSequence.build(newQuads)
-				animation: TwoQuadBoxScrollAnimation.scrollRight(newQuads, 5)
+				animation: ImageSequence.build(newQuads)
+				// animation: TwoQuadBoxScrollAnimation.scrollRight(newQuads, 5)
 				//		animation: new BoxScrollAnimation(quad, "RIGHT", 5)
 				/*new CompositeAnimation([
 					new BoxScrollAnimation(quad, "LEFT", 5),
@@ -147,7 +148,7 @@ function loadQuadsFromUrls(sourceUrls){
 	return Promise.all(sourceUrls.map(url => {
 		const loader = chooseLoader(url);
 		return loader(url)
-			.then(buildTextureQuad(buildImageTexture));
+			.then(buildTextureQuad(chooseTextureBuilder(url)));
 	}))
 	.then(results => results.filter(x => x != null))
 	.then(results => results.length > 1 ? results : [results[0], results[0]])
@@ -157,10 +158,19 @@ function loadQuadsFromUrls(sourceUrls){
 }
 
 function chooseLoader(url){
-	if(url.endsWith('.webm') || url.endsWith('.ogv') || url.endsWith('.mp4')){
-		return VideoLoader.load;
-	}
-	return ImageLoader.loadAndCrop;
+	return isVideo(url) ?
+		VideoLoader.load :
+	 	ImageLoader.loadAndCrop;
+}
+
+function chooseTextureBuilder(url){
+	return isVideo(url) ?
+		buildVideoTexture :
+	 	buildImageTexture;
+}
+
+function isVideo(url){
+	return url.endsWith('.webm') || url.endsWith('.ogv') || url.endsWith('.mp4');
 }
 
 function buildTextureQuad(textureFn){
