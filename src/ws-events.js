@@ -18,7 +18,7 @@ class ControlSocket {
   }
 
   connect(){
-    const url = `ws://${location.host}/controls`;
+    const url = `${location.protocol.replace(/http/, 'ws')}//${location.host}/controls`;
     console.log(`Connecting to websocket on ${url} for ${this.clientId}`);
     this.socket = new WebSocket(url);
     this.wantReconnect = true;
