@@ -1,4 +1,4 @@
-#N canvas 2524 213 528 389 10;
+#N canvas 586 152 598 416 10;
 #X text 128 246 client name;
 #N canvas 827 157 362 627 addr 0;
 #X obj 184 552 outlet;
@@ -6,7 +6,7 @@
 #X obj 41 24 inlet;
 #X obj 286 52 symbol;
 #X obj 274 269 list length;
-#X floatatom 287 292 5 0 0 0 - - -, f 5;
+#X floatatom 287 292 5 0 0 0 - - -;
 #X obj 215 336 list split;
 #X obj 211 244 t list list;
 #X obj 41 50 list;
@@ -22,7 +22,7 @@
 -1;
 #X obj 89 164 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
 -1;
-#X floatatom 103 132 5 0 0 0 - - -, f 5;
+#X floatatom 103 132 5 0 0 0 - - -;
 #X obj 50 137 moses 2;
 #X obj 95 269 list prepend;
 #X obj 39 201 list;
@@ -67,22 +67,22 @@
 #X connect 26 1 21 0;
 #X restore 84 306 pd addr;
 #X msg 130 263 symbol tony99;
-#N canvas 914 269 337 283 OSC 0;
+#N canvas 914 306 337 283 OSC 0;
 #X msg 103 192 disconnect;
 #X obj 79 218 netsend -u -b;
 #X obj 79 84 list prepend send;
 #X obj 79 109 list trim;
-#X msg 92 169 connect localhost 1984;
 #X obj 91 147 loadbang;
 #X obj 25 19 inlet;
 #X obj 25 49 oscformat cuspid;
+#X msg 92 169 connect cuspid.net 1984;
 #X connect 0 0 1 0;
 #X connect 2 0 3 0;
 #X connect 3 0 1 0;
-#X connect 4 0 1 0;
-#X connect 5 0 4 0;
-#X connect 6 0 7 0;
-#X connect 7 0 2 0;
+#X connect 4 0 7 0;
+#X connect 5 0 6 0;
+#X connect 6 0 2 0;
+#X connect 7 0 1 0;
 #X restore 84 343 pd OSC;
 #X msg 33 231 nextImage;
 #X obj 84 263 r cmd;
@@ -142,7 +142,7 @@
 #N canvas 561 582 455 355 playback 0;
 #X obj 111 293 s cmd, f 6;
 #X msg 23 165 togglePause;
-#X obj 32 83 tgl 25 0 empty empty play 28 12 0 10 -199979 -1 -1 1 1
+#X obj 32 83 tgl 25 0 empty empty play 28 12 0 10 -199979 -1 -1 0 1
 ;
 #X obj 32 52 bng 25 250 50 0 empty empty toggle 28 10 0 10 -199979
 -1 -1;
@@ -150,19 +150,19 @@
 #X text 159 224 go;
 #X obj 126 141 select 1 0;
 #X msg 276 203 speedUp \$1;
-#X floatatom 275 182 5 0 0 0 - - -, f 5;
-#X floatatom 350 182 5 0 0 0 - - -, f 5;
+#X floatatom 275 182 5 0 0 0 - - -;
+#X floatatom 350 182 5 0 0 0 - - -;
 #X msg 350 203 slowDown \$1;
 #X obj 275 163 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
 #X obj 349 163 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
-#X floatatom 213 183 5 1 1500 0 - - -, f 5;
+#X floatatom 213 183 5 1 1500 0 - - -;
 #X obj 212 164 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
 #X msg 213 204 speed \$1;
 #X obj 107 65 hsl 120 15 0 1000 0 0 empty empty speed -2 -8 0 10 -261947
--1 -1 2500 1;
+-1 -1 0 1;
 #X msg 98 204 pause 1;
 #X msg 155 206 pause 0;
 #X obj 171 88 bng 20 250 50 0 empty empty speed+ 23 9 0 10 -162746
@@ -212,7 +212,7 @@
 -1 -1 0 1;
 #X text 216 193 zoom;
 #X msg 194 212 zoom \$1;
-#X floatatom 253 201 5 0 0 0 - - -, f 5;
+#X floatatom 253 201 5 0 0 0 - - -;
 #X connect 0 0 4 0;
 #X connect 1 0 4 0;
 #X connect 2 0 4 0;
@@ -233,11 +233,11 @@
 #X msg 33 172 toggleDotPass;
 #X msg 44 196 dotPass 0;
 #X msg 55 220 dotPass 1;
-#X floatatom 159 215 5 0 0 0 - - -, f 5;
+#X floatatom 159 215 5 0 0 0 - - -;
 #X obj 158 196 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
 #X msg 159 233 deltaDotScale \$1;
-#X floatatom 271 215 5 0 0 0 - - -, f 5;
+#X floatatom 271 215 5 0 0 0 - - -;
 #X obj 270 196 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
 #X msg 271 234 dotScale \$1;
