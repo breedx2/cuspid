@@ -112,6 +112,8 @@ function handleControlEvent(oscEvent, eventActions, id){
     return eventActions.nudgeUp(oscEvent.args[0]);
   case `/${id}/nudgeDown`:
     return eventActions.nudgeDown(oscEvent.args[0]);
+  case `/${id}/advanceOneFrame`:
+    return eventActions.advanceOneFrame();
  }
  console.log(oscEvent)
 }

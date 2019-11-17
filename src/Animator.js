@@ -168,6 +168,16 @@ class Animator{
 		this.options.animation.nextImage();
 	}
 
+	// This is pretty fake -- since there's no constant frame rate, we can't step ahead a frame.
+	// We just advance a little time, which is constant but modified by current speed.
+	advanceOneFrame(){
+		const timeMult = 0.5 + this.options.duration/1000;
+		console.log(`Advancing one "frame", duration = ${this.options.duration} and timeMult will be ${timeMult}`);
+		this.options.animation.tick(timeMult);
+		this._render();
+		this.effectComposer.render();
+	}
+
 	_perFrame(){
 		if( !this.running ) return;	// we're dead
 
@@ -187,7 +197,7 @@ class Animator{
 		// Advance the animation
 		this.options.animation.tick(timeMult);
 
-		this._render( this.options.scene, this.options.camera );
+		this._render();
 		this.effectComposer.render();
 
 		if(this.options.stats){

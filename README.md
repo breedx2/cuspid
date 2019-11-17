@@ -55,6 +55,7 @@ Then point a browser to http://localhost:8080/workspace
 * g - toggle glitch effect
 * i - toggle interpolation mode
 * f - toggle fps overlay
+* F - advance a single "frame"
 * c - view/change client id
 * k|? - show/hide keys help
 
@@ -97,8 +98,8 @@ In these examples `{id}` is the client id being addressed.
 | /{id}/nudgeRight          | {num}        | when zoomed, nudge image right by {num} amount.  only valid in some display modes.
 | /{id}/nudgeUp             | {num}        | when zoomed, nudge image up by {num} amount.  only valid in some display modes.
 | /{id}/nudgeDown           | {num}        | when zoomed, nudge image down by {num} amount.  only valid in some display modes.
+| /{id}/advanceOneFrame     |              | advances one fake "frame". makes the most sense when paused.
 
 # Pd
 
 Pd or PureData is a graphical language for doing sound/media work.  There's a very small amount of support for sending OSC from Pd.  See [the pd/ dir](../master/pd) for details.
-
