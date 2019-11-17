@@ -197,6 +197,10 @@ class EventActions {
     this._changeAnimation(PaletteAnimation.paletteUp(this.quads, this.animator.options.jerkiness));
   }
 
+  advanceOneFrame(){
+    this.animator.advanceOneFrame();
+  }
+
   _changeAnimation(animation){
   	if(this.animator){
   		this.animator.stopAndReset();
