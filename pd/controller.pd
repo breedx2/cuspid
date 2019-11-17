@@ -1,4 +1,4 @@
-#N canvas 586 152 598 416 10;
+#N canvas 710 295 1446 899 10;
 #X text 128 246 client name;
 #N canvas 827 157 362 627 addr 0;
 #X obj 184 552 outlet;
@@ -86,37 +86,43 @@
 #X restore 84 343 pd OSC;
 #X msg 33 231 nextImage;
 #X obj 84 263 r cmd;
-#N canvas 4 59 361 328 modes 0;
-#X msg 107 257 mode \$1;
+#N canvas 230 461 885 813 modes 0;
+#X msg 97 325 mode \$1;
 #X msg 78 142 up;
 #X msg 77 171 down;
 #X msg 41 156 left;
 #X msg 113 158 right;
-#X obj 107 233 symbol;
-#X obj 55 36 bng 25 250 50 0 empty empty U 10 12 0 10 -100323 -1 -262144
+#X obj 97 301 symbol;
+#X obj 54 37 bng 25 250 50 0 empty empty U 8 12 0 10 -100323 -1 -262144
 ;
-#X obj 108 284 s cmd;
+#X obj 98 352 s cmd;
 #X msg 188 145 imageSequence;
 #X msg 189 170 paletteDown;
 #X msg 190 195 paletteUp;
 #X msg 271 171 zoomIn;
 #X msg 272 196 zoomOut;
-#X obj 116 41 bng 20 250 50 0 empty empty paletteUp 23 9 0 10 -162746
+#X obj 116 49 bng 20 250 50 0 empty empty paletteUp 23 9 0 10 -162746
 -1 -20806;
-#X obj 198 41 bng 20 250 50 0 empty empty paletteDown 23 9 0 10 -162746
+#X obj 230 49 bng 20 250 50 0 empty empty paletteDn 23 9 0 10 -162746
 -1 -20806;
-#X obj 116 64 bng 20 250 50 0 empty empty zoomIn 23 9 0 10 -162746
+#X obj 116 72 bng 20 250 50 0 empty empty zoomIn 23 9 0 10 -162746
 -1 -20806;
-#X obj 198 64 bng 20 250 50 0 empty empty zoomOut 23 9 0 10 -162746
+#X obj 230 72 bng 20 250 50 0 empty empty zoomOut 23 9 0 10 -162746
 -1 -20806;
-#X obj 116 87 bng 20 250 50 0 empty empty imageSequence 23 9 0 10 -162746
+#X obj 116 95 bng 20 250 50 0 empty empty imageSequence 23 9 0 10 -162746
 -1 -20806;
-#X obj 29 61 bng 25 250 50 0 empty empty L 10 12 0 10 -100323 -1 -262144
+#X obj 28 62 bng 25 250 50 0 empty empty L 10 12 0 10 -100323 -1 -262144
 ;
-#X obj 81 62 bng 25 250 50 0 empty empty R 10 12 0 10 -100323 -1 -262144
+#X obj 80 63 bng 25 250 50 0 empty empty R 10 12 0 10 -100323 -1 -262144
 ;
-#X obj 55 87 bng 25 250 50 0 empty empty D 10 12 0 10 -100323 -1 -262144
+#X obj 54 88 bng 25 250 50 0 empty empty D 9 12 0 10 -100323 -1 -262144
 ;
+#X msg 190 217 zoomSequenceIn;
+#X msg 285 216 zoomSequenceOut;
+#X obj 116 27 bng 20 250 50 0 empty empty zoomSeqIn 23 9 0 10 -162746
+-1 -20806;
+#X obj 230 27 bng 20 250 50 0 empty empty zoomSeqOut 23 9 0 10 -162746
+-1 -20806;
 #X connect 0 0 7 0;
 #X connect 1 0 5 0;
 #X connect 2 0 5 0;
@@ -137,14 +143,18 @@
 #X connect 18 0 3 0;
 #X connect 19 0 4 0;
 #X connect 20 0 2 0;
-#X coords 0 -1 1 1 270 100 1 20 20;
+#X connect 21 0 5 0;
+#X connect 22 0 5 0;
+#X connect 23 0 21 0;
+#X connect 24 0 22 0;
+#X coords 0 -1 1 1 350 100 1 20 20;
 #X restore 14 10 pd modes;
-#N canvas 561 582 455 355 playback 0;
+#N canvas 561 582 1003 632 playback 0;
 #X obj 111 293 s cmd, f 6;
 #X msg 23 165 togglePause;
-#X obj 32 83 tgl 25 0 empty empty play 28 12 0 10 -199979 -1 -1 0 1
-;
-#X obj 32 52 bng 25 250 50 0 empty empty toggle 28 10 0 10 -199979
+#X obj 132 45 tgl 25 0 empty empty play 28 12 0 10 -199979 -1 -1 0
+1;
+#X obj 41 46 bng 25 250 50 0 empty empty toggle 28 10 0 10 -199979
 -1 -1;
 #X text 106 223 stop;
 #X text 159 224 go;
@@ -161,15 +171,15 @@
 #X obj 212 164 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
 #X msg 213 204 speed \$1;
-#X obj 107 65 hsl 120 15 0 1000 0 0 empty empty speed -2 -8 0 10 -261947
+#X obj 69 76 hsl 120 20 0 1000 0 0 empty empty speed -2 29 0 10 -261947
 -1 -1 0 1;
 #X msg 98 204 pause 1;
 #X msg 155 206 pause 0;
-#X obj 171 88 bng 20 250 50 0 empty empty speed+ 23 9 0 10 -162746
--1 -20806;
+#X obj 194 76 bng 20 250 50 0 empty empty (+) -3 30 0 10 -162746 -1
+-20806;
 #X msg 273 137 5;
-#X obj 106 88 bng 20 250 50 0 empty empty speed- 23 9 0 10 -162746
--1 -20806;
+#X obj 42 76 bng 20 250 50 0 empty empty (-) -3 30 0 10 -162746 -1
+-20806;
 #X msg 349 142 5;
 #X connect 1 0 0 0;
 #X connect 2 0 6 0;
@@ -192,8 +202,8 @@
 #X connect 20 0 8 0;
 #X connect 21 0 22 0;
 #X connect 22 0 9 0;
-#X coords 0 -1 1 1 215 100 1 25 25;
-#X restore 288 10 pd playback;
+#X coords 0 -1 1 1 210 100 1 24 24;
+#X restore 368 10 pd playback;
 #N canvas 4 59 584 395 movement 0;
 #X msg 122 158 nudgeRight 0.1;
 #X msg 32 158 nudgeLeft 0.1;
@@ -226,9 +236,9 @@
 #X connect 11 0 4 0;
 #X coords 0 -1 1 1 200 100 1 25 25;
 #X restore 14 114 pd movement;
-#N canvas 117 675 594 342 effects 0;
+#N canvas 117 675 1134 786 effects 0;
 #X obj 114 251 s cmd;
-#N canvas 4 59 435 378 dots 0;
+#N canvas 6 80 838 741 dots 0;
 #X obj 50 330 outlet;
 #X msg 33 172 toggleDotPass;
 #X msg 44 196 dotPass 0;
@@ -245,19 +255,21 @@
 -1 -1 0 1;
 #X obj 135 175 hsl 128 15 -1 1 0 0 empty empty empty -2 -8 0 10 -204800
 -1 -1 0 1;
-#X obj 31 69 tgl 16 0 empty empty on/off 18 8 0 10 -199979 -1 -1 0
+#X obj 84 50 tgl 16 0 empty empty on/off 18 8 0 10 -199979 -1 -1 0
 1;
-#X obj 31 48 bng 16 250 50 0 empty empty toggle 18 8 0 10 -199979 -1
--1;
+#X obj 32 51 bng 16 250 50 0 empty empty tog 18 8 0 10 -199979 -1 -1
+;
 #X obj 55 137 select 0;
-#X obj 88 36 vsl 15 60 1 0 0 0 empty empty empty 0 -9 0 10 -224566
+#X obj 289 97 vsl 15 60 1 0 0 0 empty empty empty 0 -9 0 10 -224566
 -1 -1 0 1;
-#X obj 106 34 bng 15 250 50 0 empty empty empty 17 7 0 10 -224566 -1
+#X obj 32 71 bng 15 250 50 0 empty empty empty 17 7 0 10 -224566 -1
 -1;
 #X msg 175 150 0.1;
 #X msg 138 150 -0.1;
-#X obj 106 84 bng 15 250 50 0 empty empty empty 17 7 0 10 -224566 -1
+#X obj 143 71 bng 15 250 50 0 empty empty empty 17 7 0 10 -224566 -1
 -1;
+#X obj 53 71 hsl 85 15 1 0 0 0 empty empty empty -2 -8 0 10 -224566
+-1 -1 0 1;
 #X connect 1 0 0 0;
 #X connect 2 0 0 0;
 #X connect 3 0 0 0;
@@ -278,7 +290,8 @@
 #X connect 17 0 4 0;
 #X connect 18 0 4 0;
 #X connect 19 0 17 0;
-#X coords 0 -1 1 1 100 80 1 25 25;
+#X connect 20 0 10 0;
+#X coords 0 -1 1 1 140 80 1 24 24;
 #X restore 29 42 pd dots;
 #N canvas 4 59 308 300 glitch 0;
 #X msg 153 137 toggleGlitchPass;
@@ -298,15 +311,15 @@
 #X connect 6 0 1 0;
 #X connect 6 1 2 0;
 #X coords 0 -1 1 1 85 80 1 25 25;
-#X restore 132 42 pd glitch;
-#X obj 229 69 bng 25 250 50 0 empty empty smoothing -10 -10 0 10 -125422
+#X restore 172 42 pd glitch;
+#X obj 273 71 bng 25 250 50 0 empty empty smooth -10 -10 0 10 -125422
 -1 -1;
 #X msg 223 155 toggleInterpolation;
 #X connect 1 0 0 0;
 #X connect 2 0 0 0;
 #X connect 3 0 4 0;
 #X connect 4 0 0 0;
-#X coords 0 -1 1 1 250 100 1 25 25;
+#X coords 0 -1 1 1 300 100 1 24 24;
 #X restore 218 114 pd effects;
 #X msg 11 258 toggleFps;
 #X msg 144 287 symbol client6;
