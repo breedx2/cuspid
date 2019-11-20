@@ -29,10 +29,32 @@ var stats;
 // const IMAGE_URLS = ['/static/cuspid.jpg', '/static/corpse001.jpg', '/static/bloody20sunday.jpg', '/static/chupacabra001.jpg'];
 // const xIMAGE_URLS = ['/static/cuspid.jpg'];
 // const IMAGE_URLS = ['/static/tornado_carnage.jpg', '/static/needle_things.jpg', '/static/winter_trees.mp4'];
-const IMAGE_URLS = ['/static/cuspid.jpg', '/static/tornado_carnage.jpg', '/static/needle_things.jpg',
-	'/static/cows01.jpg', '/static/bloody20sunday.jpg', '/static/surgical_implements.jpg',
-	'/static/winter_trees.mp4'];
+// const IMAGE_URLS = ['/static/cuspid.jpg', '/static/tornado_carnage.jpg', '/static/needle_things.jpg',
+// 	'/static/cows01.jpg', '/static/bloody20sunday.jpg', '/static/surgical_implements.jpg',
+// 	'/static/winter_trees.mp4'];
 // const IMAGE_URLS = ['/static/cuspid.jpg', '/static/tornado_carnage.jpg', '/static/needle_things.jpg'];
+
+const IMAGE_URLS = [
+	'/static/t/z447p782.jpg',
+	'/static/t/z46my5u6.jpg',
+	'/static/t/z5apqesm.jpg',
+	'/static/t/z5qkxmk4.jpg',
+	'/static/t/z5r9kh2u.jpg',
+	'/static/t/z8jhy9hw.jpg',
+	'/static/t/z9n6pe2b.jpg',
+	'/static/t/z9td69vw.jpg',
+	'/static/t/z9zuzaag.jpg',
+	'/static/t/zcap6hzq.jpg',
+	'/static/t/zd33khde.jpg',
+	'/static/t/zd5crhcd.jpg',
+	'/static/t/zfathe2r.jpg',
+	'/static/t/zfd2e6md.jpg',
+	'/static/t/zk88rs6x.jpg',
+	'/static/t/zmuqxzc3.jpg',
+	'/static/t/zpfky38b.jpg',
+	'/static/t/zv4322cb.jpg',
+	'/static/t/zvddb44f.jpg',
+	'/static/t/zwxz4eq9.jpg']
 
 function cuspidLoad(){
 	createStats();
