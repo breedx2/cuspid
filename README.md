@@ -90,6 +90,8 @@ In these examples `{id}` is the client id being addressed.
 | /{id}/deltaDotScale       | {delta}      | adjusts the dot scale factor by a certain amount
 | /{id}/toggleGlitchPass    |              | toggles the glitch pass effect
 | /{id}/glitchPass          | 0, 1         | 0 = disable glitch effect, 1 = enable glitch effect
+| /{id}/toggleInvert        |              | toggles the invert pass efect
+| /{id}/invert              | 0, 1         | 0 = disable invert, 1 = enable invert
 | /{id}/speedUp             | {num}        | speed up by {num} amount
 | /{id}/slowDown            | {num}        | slow down by  {num} amount
 | /{id}/speed               | {speed}      | set speed value to specific value

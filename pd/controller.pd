@@ -1,6 +1,6 @@
-#N canvas 710 295 1446 899 10;
+#N canvas 124 396 1446 899 10;
 #X text 128 246 client name;
-#N canvas 827 157 362 627 addr 0;
+#N canvas 827 194 362 627 addr 0;
 #X obj 184 552 outlet;
 #X obj 286 29 inlet;
 #X obj 41 24 inlet;
@@ -67,7 +67,7 @@
 #X connect 26 1 21 0;
 #X restore 84 306 pd addr;
 #X msg 130 263 symbol tony99;
-#N canvas 914 306 337 283 OSC 0;
+#N canvas 914 343 337 283 OSC 0;
 #X msg 103 192 disconnect;
 #X obj 79 218 netsend -u -b;
 #X obj 79 84 list prepend send;
@@ -76,6 +76,7 @@
 #X obj 25 19 inlet;
 #X obj 25 49 oscformat cuspid;
 #X msg 92 169 connect cuspid.net 1984;
+#X msg 153 139 connect localhost 1984;
 #X connect 0 0 1 0;
 #X connect 2 0 3 0;
 #X connect 3 0 1 0;
@@ -83,6 +84,7 @@
 #X connect 5 0 6 0;
 #X connect 6 0 2 0;
 #X connect 7 0 1 0;
+#X connect 8 0 1 0;
 #X restore 84 343 pd OSC;
 #X msg 33 231 nextImage;
 #X obj 84 263 r cmd;
@@ -312,13 +314,22 @@
 #X connect 6 1 2 0;
 #X coords 0 -1 1 1 85 80 1 25 25;
 #X restore 172 42 pd glitch;
-#X obj 273 71 bng 25 250 50 0 empty empty smooth -10 -10 0 10 -125422
+#X obj 277 95 bng 25 250 50 0 empty empty smooth -10 -10 0 10 -125422
 -1 -1;
 #X msg 223 155 toggleInterpolation;
+#X obj 277 50 bng 25 250 50 0 empty empty invert -10 -10 0 10 -191407
+-1 -1;
+#X msg 224 202 toggleInvert;
+#N canvas 6 80 450 300 invert 0;
+#X text 74 37 tbd;
+#X text 36 49 once invert supports speed;
+#X restore 391 97 pd invert;
 #X connect 1 0 0 0;
 #X connect 2 0 0 0;
 #X connect 3 0 4 0;
 #X connect 4 0 0 0;
+#X connect 5 0 6 0;
+#X connect 6 0 0 0;
 #X coords 0 -1 1 1 300 100 1 24 24;
 #X restore 218 114 pd effects;
 #X msg 11 258 toggleFps;

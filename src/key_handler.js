@@ -45,6 +45,7 @@ class KeyHandler {
         'f': () => this.eventActions.toggleFps(),
         'd': () => this.eventActions.toggleDotPass(),
         'i': () => this.eventActions.toggleInterpolation(),
+        'I': () => this.eventActions.toggleInvertPass(),
         'n': () => this.eventActions.nextImage(),
         'q': () => this.eventActions.deltaDotScale(-0.02),
         'w': () => this.eventActions.deltaDotScale(0.02),

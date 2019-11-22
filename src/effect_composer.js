@@ -10,9 +10,11 @@ require('three/DigitalGlitch'); //monkey patches THREE
 require('three/GlitchPass');    //monkey patches THREE
 require('three/RenderPass');    //monkey patches THREE
 require('three/TexturePass');   //monkey patches THREE
+const InvertShader = require('./invert_shader').InvertShader;
 
 const DOT_PASS = 'dotPass';
 const GLITCH_PASS = 'glitchPass';
+const INVERT_PASS = 'invertPass';
 
 class EffectComposer {
   constructor(options, composer, enabled = []) {
@@ -40,24 +42,36 @@ class EffectComposer {
     this.composer = buildComposer(this.options, this.enabled);
   }
 
-  enableDotPass(){
+  enableDotPass() {
     this._enable(DOT_PASS);
   }
 
-  disableDotPass(){
+  disableDotPass() {
     this._disable(DOT_PASS);
   }
 
-  toggleGlitchPass(){
+  toggleGlitchPass() {
     this._toggle(GLITCH_PASS);
   }
 
-  enableGlitchPass(){
+  enableGlitchPass() {
     this._enable(GLITCH_PASS);
   }
 
-  disableGlitchPass(){
+  disableGlitchPass() {
     this._disable(GLITCH_PASS);
+  }
+
+  enableInvertPass() {
+    this._enable(INVERT_PASS);
+  }
+
+  disableInvertPass() {
+    this._disable(INVERT_PASS);
+  }
+
+  toggleInvertPass() {
+    this._toggle(INVERT_PASS);
   }
 
   _toggle(name){
@@ -117,6 +131,10 @@ function buildComposer(options, enabled = []) {
     const glitchPass = new THREE.GlitchPass();
     glitchPass.goWild = true; // BUCK WILD OVER HERE
     composer.addPass(glitchPass);
+  }
+  if (enabled.includes(INVERT_PASS)){
+    const negativePass = new THREE.ShaderPass(InvertShader);
+    composer.addPass(negativePass);
   }
 
   const effectCopy = new THREE.ShaderPass(THREE.CopyShader);
