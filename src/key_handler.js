@@ -37,6 +37,7 @@ class KeyHandler {
             gui.toggleClientId();
             self.enabled = true;
         }),
+        'Escape': () => gui.dismissOverlays(),
         ' ': () => this.eventActions.pause(),
         '+': () => this.eventActions.speedUp(5),
         '-': () => this.eventActions.slowDown(5),

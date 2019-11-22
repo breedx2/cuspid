@@ -6,9 +6,18 @@ function toggleKeys(){
 
 function toggleClientId(closeHandler){
   if(toggle('div#clientid')){
+
+    const escapeDismisser = event => {
+      if(event.key === 'Escape') {
+        dismissOverlays();
+        if(closeHandler) closeHandler();
+        document.querySelector('input#clientUid').removeEventListener('keydown', this);
+      }
+    };
     setTimeout(() => {
       document.querySelector('input#clientUid').disabled = null;
       document.querySelector('input#clientUid').focus();
+      document.querySelector('input#clientUid').addEventListener('keydown', escapeDismisser);
     }, 10);
     if(closeHandler){
       document.querySelector('button#closeClientId')
@@ -63,10 +72,17 @@ function showHideDecoration(show){
   cnv.style.border = show ? 'solid white 5px' : '0px';
 }
 
+function dismissOverlays(){
+  document.querySelector('div#keys').style.display = 'none';
+  document.querySelector('div#clientid').style.display = 'none';
+  document.querySelector('canvas#cnv').focus();
+}
+
 module.exports = {
   toggleKeys,
   toggleClientId,
   wsConnectStatus,
   wsSetClientId,
-  showHideDecoration
+  showHideDecoration,
+  dismissOverlays
 }
