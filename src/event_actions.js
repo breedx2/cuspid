@@ -103,6 +103,13 @@ class EventActions {
     what == 1 ? this.animator.enableGlitchPass() : this.animator.disableGlitchPass();
   }
 
+  toggleInvertPass(what){
+    if(typeof what === 'undefined'){
+      return this.animator.toggleInvertPass();
+    }
+    what == 1 ? this.animator.enableInvertPass() : this.animator.disableInvertPass();
+  }
+
   // Toggle smooth/pixelated image scaling
   toggleInterpolation(){
     this.textures.forEach(texture => {

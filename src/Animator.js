@@ -3,7 +3,7 @@
 const effectComposer = require('./effect_composer');
 const DEFAULT_ANIM_DURATION = 33;
 
-class Animator{
+class Animator {
 
 	constructor(options){
 		this.options = options;
@@ -127,6 +127,18 @@ class Animator{
 
 	deltaDotScale(amount){
 		this.effectComposer.deltaDotScale(amount);
+	}
+
+	toggleInvertPass(){
+		this.effectComposer.toggleInvertPass();
+	}
+
+	enableInvertPass(){
+		this.effectComposer.enableInvertPass();
+	}
+
+	disableInvertPass(){
+		this.effectComposer.disableInvertPass();
 	}
 
 	deltaZoom(amount){

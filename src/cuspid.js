@@ -34,6 +34,28 @@ const IMAGE_URLS = ['/static/cuspid.jpg', '/static/tornado_carnage.jpg', '/stati
 	'/static/winter_trees.mp4'];
 // const IMAGE_URLS = ['/static/cuspid.jpg', '/static/tornado_carnage.jpg', '/static/needle_things.jpg'];
 
+// const IMAGE_URLS = [
+// 	'/static/t/z447p782.jpg',
+// 	'/static/t/z46my5u6.jpg',
+// 	'/static/t/z5apqesm.jpg',
+// 	'/static/t/z5qkxmk4.jpg',
+// 	'/static/t/z5r9kh2u.jpg',
+// 	'/static/t/z8jhy9hw.jpg',
+// 	'/static/t/z9n6pe2b.jpg',
+// 	'/static/t/z9td69vw.jpg',
+// 	'/static/t/z9zuzaag.jpg',
+// 	'/static/t/zcap6hzq.jpg',
+// 	'/static/t/zd33khde.jpg',
+// 	'/static/t/zd5crhcd.jpg',
+// 	'/static/t/zfathe2r.jpg',
+// 	'/static/t/zfd2e6md.jpg',
+// 	'/static/t/zk88rs6x.jpg',
+// 	'/static/t/zmuqxzc3.jpg',
+// 	'/static/t/zpfky38b.jpg',
+// 	'/static/t/zv4322cb.jpg',
+// 	'/static/t/zvddb44f.jpg',
+// 	'/static/t/zwxz4eq9.jpg']
+
 function cuspidLoad(){
 	createStats();
 	init3D();
@@ -175,10 +197,10 @@ function isVideo(url){
 
 function buildTextureQuad(textureFn){
 	return content => {
-		let texture = textureFn(content);
+		const texture = textureFn(content);
 		textures.push(texture);
 		// Draw a single quad with our texture.
-		let quad = buildQuad(texture);
+		const quad = buildQuad(texture);
 		quads.push(quad);
 		return quad;
 	};
@@ -206,8 +228,8 @@ function buildVideoTexture(video){
 
 function buildQuad(texture){
 	// Width & height are both 2.0, to completely fill our viewport (-1.0...1.0)
-	let quadGeom = new THREE.PlaneBufferGeometry( 2.0, 2.0 );
-	let quadMaterial = cuspidShader.createCuspidShaderMaterial( texture );
+	const quadGeom = new THREE.PlaneBufferGeometry( 2.0, 2.0 );
+	const quadMaterial = cuspidShader.createCuspidShaderMaterial( texture );
 	return new THREE.Mesh( quadGeom, quadMaterial );
 }
 

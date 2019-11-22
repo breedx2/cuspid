@@ -94,6 +94,10 @@ function handleControlEvent(oscEvent, eventActions, id){
     return eventActions.toggleGlitchPass();
   case `/${id}/glitchPass`:
     return eventActions.toggleGlitchPass(oscEvent.args[0]);
+  case `/${id}/toggleInvert`:
+    return eventActions.toggleInvertPass();
+  case `/${id}/invert`:
+    return eventActions.toggleInvertPass(oscEvent.args[0]);
   case `/${id}/pause`:
     return eventActions.pause(oscEvent.args[0]);
   case `/${id}/speedUp`:
