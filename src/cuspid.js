@@ -56,29 +56,28 @@ const IMAGE_URLS = ['/static/cuspid.jpg', '/static/tornado_carnage.jpg', '/stati
 // 	'/static/t/zvddb44f.jpg',
 // 	'/static/t/zwxz4eq9.jpg']
 
-function cuspidLoad(){
+async function cuspidLoad(){
 	createStats();
 	init3D();
 	window.onresize = function(event){
 		setRenderSize();
 	}
 	setRenderSize();
-	console.log("Starting animation");
-	startFirstAnimation()
-		.then(newAnimator => {
-			animator = newAnimator;
-			const eventActions = new EventActions(scene, camera, animator, textures, stats, renderer, quads);
-			const keyHandler = new KeyHandler(eventActions);
+	try {
+		const newAnimator = await startFirstAnimation();
+		animator = newAnimator;
+		const eventActions = new EventActions(scene, camera, animator, textures, stats, renderer, quads);
+		const keyHandler = new KeyHandler(eventActions);
 
-			configureControlSocket(eventActions);
+		configureControlSocket(eventActions);
 
-			document.querySelector('body').addEventListener('keydown', event => keyHandler.handleKey(event));
-			gui.showHideDecoration(false);
-			console.log("Animation started.")
-		})
-		.catch(err => {
-			console.log(`ERROR: ${err}`);
-		});
+		document.querySelector('body').addEventListener('keydown', event => keyHandler.handleKey(event));
+		gui.showHideDecoration(false);
+		console.log("Animation started.")
+	}
+	catch(err) {
+		console.log(`ERROR: ${err}`);
+	}
 }
 
 function configureControlSocket(eventActions){
@@ -134,43 +133,43 @@ function setRenderSize(){
 	}
 }
 
-function startFirstAnimation(){
-	// Load our texture
-	return loadQuadsFromUrls(IMAGE_URLS)
-		.then(newQuads => {
-			console.log(`Loaded ${newQuads.length} quads`);
-			quads = newQuads;
-			newQuads.forEach(quad => scene.add(quad));
-			const animator = new Animator({
-				renderer: renderer,
-				stats: stats,
-				scene: scene,
-				camera: camera,
-				duration: Animator.defaultAnimDuration(),
-				jerkiness: 5,
-				// animation: new ExperimentalAnimation(newQuads,5)
-				// animation: new ZoomAnimation(newQuads, 'IN', 'LINEAR')
-				// animation: new ZoomSeqAnimation(newQuads, 'OUT', 5)
-				animation: ImageSequence.build(newQuads)
-				// animation: TwoQuadBoxScrollAnimation.scrollRight(newQuads, 5)
-				//		animation: new BoxScrollAnimation(quad, "RIGHT", 5)
-				/*new CompositeAnimation([
-					new BoxScrollAnimation(quad, "LEFT", 5),
-					new PaletteAnimation(quad, 'DOWN', 0.5),
-					new ZoomAnimation.zoomIn(quad, 5)
-				])*/
-			});
-			// animator.options.animation.quad = newQuads[0];
-			animator.start();
-			return animator;
-		});
+async function startFirstAnimation(){
+	console.log("Starting animation");
+	const newQuads = await loadQuadsFromUrls(IMAGE_URLS);
+
+	console.log(`Loaded ${newQuads.length} quads`);
+	quads = newQuads;
+	newQuads.forEach(quad => scene.add(quad));
+	const animator = new Animator({
+		renderer: renderer,
+		stats: stats,
+		scene: scene,
+		camera: camera,
+		duration: Animator.defaultAnimDuration(),
+		jerkiness: 5,
+		animation: ImageSequence.build(newQuads)
+		// animation: new ExperimentalAnimation(newQuads,5)
+		// animation: new ZoomAnimation(newQuads, 'IN', 'LINEAR')
+		// animation: new ZoomSeqAnimation(newQuads, 'OUT', 5)
+		// animation: TwoQuadBoxScrollAnimation.scrollRight(newQuads, 5)
+		//		animation: new BoxScrollAnimation(quad, "RIGHT", 5)
+		/*new CompositeAnimation([
+			new BoxScrollAnimation(quad, "LEFT", 5),
+			new PaletteAnimation(quad, 'DOWN', 0.5),
+			new ZoomAnimation.zoomIn(quad, 5)
+		])*/
+	});
+	// animator.options.animation.quad = newQuads[0];
+	animator.start();
+	return animator;
 }
 
-function loadQuadsFromUrls(sourceUrls){
+async function loadQuadsFromUrls(sourceUrls){
 	return Promise.all(sourceUrls.map(url => {
 		const loader = chooseLoader(url);
+		const textureBuilder = chooseTextureBuilder(url);
 		return loader(url)
-			.then(buildTextureQuad(chooseTextureBuilder(url)));
+			.then(buildTextureQuad(textureBuilder));
 	}))
 	.then(results => results.filter(x => x != null))
 	.then(results => results.length > 1 ? results : [results[0], results[0]])
