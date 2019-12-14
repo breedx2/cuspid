@@ -1,6 +1,6 @@
 'use strict';
 
-const effectComposer = require('./effect_composer');
+const effectComposer = require('./effect-composer');
 const DEFAULT_ANIM_DURATION = 33;
 
 class Animator {
