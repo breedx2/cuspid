@@ -1,7 +1,7 @@
 "use strict";
 
 const THREE = require("three");
-const zoomNudge = require("./zoom_nudge");
+const zoomNudge = require("./zoom-nudge");
 
 const DEFAULT_TIME = 500;
 

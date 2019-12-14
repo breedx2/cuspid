@@ -1,7 +1,7 @@
 'use strict';
 
 const THREE = require('three');
-const zoomNudge = require('./zoom_nudge');
+const zoomNudge = require('./zoom-nudge');
 
 //ok not really palette, more like a rolling intensity or something
 
