@@ -1,6 +1,6 @@
 'use strict';
 
-const clampPos = require('./clamp_pos');
+const clampPos = require('./clamp-pos');
 
 function deltaZoom( amount ){
   this.setZoom(this.zoom + amount);

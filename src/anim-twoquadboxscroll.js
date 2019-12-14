@@ -2,7 +2,7 @@
 
 const THREE = require('three');
 const zoomNudge = require('./zoom-nudge');
-const clampPos = require('./clamp_pos');
+const clampPos = require('./clamp-pos');
 
 const REVERSE = {
 	LEFT: 'RIGHT',
