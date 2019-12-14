@@ -10,7 +10,7 @@ require('three/DigitalGlitch'); //monkey patches THREE
 require('three/GlitchPass');    //monkey patches THREE
 require('three/RenderPass');    //monkey patches THREE
 require('three/TexturePass');   //monkey patches THREE
-const InvertShader = require('./invert_shader').InvertShader;
+const InvertShader = require('./invert-shader').InvertShader;
 
 const DOT_PASS = 'dotPass';
 const GLITCH_PASS = 'glitchPass';
