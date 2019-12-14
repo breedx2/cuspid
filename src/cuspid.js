@@ -136,11 +136,12 @@ function setRenderSize(){
 
 async function startFirstAnimation(){
 	console.log("Starting animation");
-	const newQuads = await loadQuadsFromUrls(IMAGE_URLS);
+	const texturesAndQuads = await loadTexturesAndQuadsFromUrls(IMAGE_URLS);
+	quads = texturesAndQuads.quads;
+	textures = texturesAndQuads.textures;
 
-	console.log(`Loaded ${newQuads.length} quads`);
-	quads = newQuads;
-	newQuads.forEach(quad => scene.add(quad));
+	console.log(`Loaded ${quads.length} quads`);
+	quads.forEach(q => scene.add(q));
 	const animator = new Animator({
 		renderer: renderer,
 		stats: stats,
@@ -148,11 +149,11 @@ async function startFirstAnimation(){
 		camera: camera,
 		duration: Animator.defaultAnimDuration(),
 		jerkiness: 5,
-		animation: ImageSequence.build(newQuads)
-		// animation: new ExperimentalAnimation(newQuads,5)
-		// animation: new ZoomAnimation(newQuads, 'IN', 'LINEAR')
-		// animation: new ZoomSeqAnimation(newQuads, 'OUT', 5)
-		// animation: TwoQuadBoxScrollAnimation.scrollRight(newQuads, 5)
+		animation: ImageSequence.build(quads)
+		// animation: new ExperimentalAnimation(quads,5)
+		// animation: new ZoomAnimation(quads, 'IN', 'LINEAR')
+		// animation: new ZoomSeqAnimation(quads, 'OUT', 5)
+		// animation: TwoQuadBoxScrollAnimation.scrollRight(quads, 5)
 		//		animation: new BoxScrollAnimation(quad, "RIGHT", 5)
 		/*new CompositeAnimation([
 			new BoxScrollAnimation(quad, "LEFT", 5),
@@ -160,23 +161,37 @@ async function startFirstAnimation(){
 			new ZoomAnimation.zoomIn(quad, 5)
 		])*/
 	});
-	// animator.options.animation.quad = newQuads[0];
+	// animator.options.animation.quad = quads[0];
 	animator.start();
 	return animator;
 }
 
-async function loadQuadsFromUrls(sourceUrls){
-	return Promise.all(sourceUrls.map(url => {
-		const loader = chooseLoader(url);
-		const textureBuilder = chooseTextureBuilder(url);
-		return loader(url)
-			.then(buildTextureQuad(textureBuilder));
-	}))
-	.then(results => results.filter(x => x != null))
-	.then(results => results.length > 1 ? results : [results[0], results[0]])
-	.catch(err => {
+
+async function loadTexturesAndQuadsFromUrls(sourceUrls){
+	try {
+		const textures = await loadTexturesFromUrls(sourceUrls);
+		// ...
+		const quads = textures.map(texture => buildQuad(texture))
+			.filter(x => x != null);
+		return {
+			quads: (quads.length > 1) ? quads : [quads[0], quads[0]],
+			textures: textures
+		};
+	}
+	catch(err){
 		console.error(`ERROR: ${err}`);
-	});
+	}
+}
+
+async function loadTexturesFromUrls(sourceUrls){
+	return Promise.all(
+			sourceUrls.map(url => {
+				const loader = chooseLoader(url);
+				const textureBuilder = chooseTextureBuilder(url);
+				return loader(url).then(textureBuilder);
+						// .then(image => textureBuilder(image))
+			})
+	);
 }
 
 function chooseLoader(url){
@@ -193,17 +208,6 @@ function chooseTextureBuilder(url){
 
 function isVideo(url){
 	return url.endsWith('.webm') || url.endsWith('.ogv') || url.endsWith('.mp4');
-}
-
-function buildTextureQuad(textureFn){
-	return content => {
-		const texture = textureFn(content);
-		textures.push(texture);
-		// Draw a single quad with our texture.
-		const quad = buildQuad(texture);
-		quads.push(quad);
-		return quad;
-	};
 }
 
 function buildImageTexture(image){
