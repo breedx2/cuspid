@@ -16,7 +16,7 @@ const KeyHandler = require('./key-handler');
 const EventActions = require('./event-actions');
 const wsEvents = require('./ws-events');
 const gui = require('./gui');
-// const QuadsBuilder = require('./quads-builder');
+const QuadsBuilder = require('./quads-builder');
 
 var animator = null;
 
@@ -136,7 +136,7 @@ function setRenderSize(){
 
 async function startFirstAnimation(){
 	console.log("Starting animation");
-	const texturesAndQuads = await loadTexturesAndQuadsFromUrls(IMAGE_URLS);
+	const texturesAndQuads = await QuadsBuilder.load(IMAGE_URLS);
 	quads = texturesAndQuads.quads;
 	textures = texturesAndQuads.textures;
 
@@ -164,77 +164,6 @@ async function startFirstAnimation(){
 	// animator.options.animation.quad = quads[0];
 	animator.start();
 	return animator;
-}
-
-
-async function loadTexturesAndQuadsFromUrls(sourceUrls){
-	try {
-		const textures = await loadTexturesFromUrls(sourceUrls);
-		// ...
-		const quads = textures.map(texture => buildQuad(texture))
-			.filter(x => x != null);
-		return {
-			quads: (quads.length > 1) ? quads : [quads[0], quads[0]],
-			textures: textures
-		};
-	}
-	catch(err){
-		console.error(`ERROR: ${err}`);
-	}
-}
-
-async function loadTexturesFromUrls(sourceUrls){
-	return Promise.all(
-			sourceUrls.map(url => {
-				const loader = chooseLoader(url);
-				const textureBuilder = chooseTextureBuilder(url);
-				return loader(url).then(textureBuilder);
-						// .then(image => textureBuilder(image))
-			})
-	);
-}
-
-function chooseLoader(url){
-	return isVideo(url) ?
-		VideoLoader.load :
-	 	ImageLoader.loadAndCrop;
-}
-
-function chooseTextureBuilder(url){
-	return isVideo(url) ?
-		buildVideoTexture :
-	 	buildImageTexture;
-}
-
-function isVideo(url){
-	return url.endsWith('.webm') || url.endsWith('.ogv') || url.endsWith('.mp4');
-}
-
-function buildImageTexture(image){
-	const wrap = THREE.ClampToEdgeWrapping; //THREE.RepeatWrapping;
-	const texture = new THREE.Texture(image, THREE.UVMapping, wrap, wrap,
-		THREE.LinearFilter, THREE.LinearFilter,
-		THREE.LuminanceFormat);
-	texture.needsUpdate = true;
-	return texture;
-}
-
-function buildVideoTexture(video){
-	const wrap = THREE.ClampToEdgeWrapping;
-	const texture = new THREE.VideoTexture(
-		video, THREE.UVMapping, wrap, wrap,
-		THREE.LinearFilter, THREE.LinearFilter,
-		THREE.LuminanceFormat
-	 );
-	texture.needsUpdate = true;
-	return texture;
-}
-
-function buildQuad(texture){
-	// Width & height are both 2.0, to completely fill our viewport (-1.0...1.0)
-	const quadGeom = new THREE.PlaneBufferGeometry( 2.0, 2.0 );
-	const quadMaterial = cuspidShader.createCuspidShaderMaterial( texture );
-	return new THREE.Mesh( quadGeom, quadMaterial );
 }
 
 if (document.readyState != 'loading'){
