@@ -112,6 +112,8 @@ class EventActions {
 
   // Toggle smooth/pixelated image scaling
   toggleInterpolation(){
+
+    
     this.textures.forEach(texture => {
       let filter = texture.minFilter;
       console.log( 'eh?',filter );
