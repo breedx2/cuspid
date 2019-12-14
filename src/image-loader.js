@@ -27,6 +27,9 @@ function imageOnLoad(url, img, fulfill, reject){
 			console.log("Image was loaded and cropped/scaled");
 			fulfill(finalImage);
 		};
+		img.onload = null;
+		img.src = '';
+		img.url = '';
 		finalImage.src = base64ImageData;
 	};
 }

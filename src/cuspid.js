@@ -16,6 +16,7 @@ const KeyHandler = require('./key_handler');
 const EventActions = require('./event_actions');
 const wsEvents = require('./ws-events');
 const gui = require('./gui');
+// const QuadsBuilder = require('./quads-builder');
 
 var animator = null;
 
