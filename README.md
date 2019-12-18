@@ -1,5 +1,7 @@
 # cuspid
 
+the source behind [cuspid.net](https://cuspid.net "cuspid.net").
+
 intense visualizations - infiltrationlab style.
 
 ![alt text](https://raw.githubusercontent.com/breedx2/cuspid/master/static/cuspid.jpg "cuspid")
@@ -9,6 +11,11 @@ intense visualizations - infiltrationlab style.
 cuspid is a visualization tool that displays images and videos in various modes of manipulation.  It is inspired by microscopy and the aesthetics of found/accidental texture.
 
 It is aimed at being used as backing material for non/musical performance, and other uses may be discovered.
+
+The concept is that it might be used something like this:
+
+![diagram](https://https://raw.githubusercontent.com/breedx2/cuspid/master/docs/cuspid_topology.svg)
+
 
 # running it
 
