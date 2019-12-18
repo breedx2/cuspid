@@ -12,7 +12,7 @@ It is aimed at being used as backing material for non/musical performance, and o
 
 The concept is that it might be used something like this:
 
-![diagram](https://github.com/breedx2/cuspid/raw/master/docs/cuspid_topology.svg)
+![diagram](https://github.com/breedx2/cuspid/raw/master/docs/cuspid_topology.png)
 
 # running it
 
