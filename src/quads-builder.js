@@ -45,17 +45,6 @@ function isVideo(url){
 	return url.endsWith('.webm') || url.endsWith('.ogv') || url.endsWith('.mp4');
 }
 
-function buildTextureQuad(textureFn){
-	return content => {
-		const texture = textureFn(content);
-		// textures.push(texture);
-		// Draw a single quad with our texture.
-		// const quad = buildQuad(texture);
-		// quads.push(quad);
-		return buildQuad(texture);
-	};
-}
-
 function buildImageTexture(image){
 	const wrap = THREE.ClampToEdgeWrapping; //THREE.RepeatWrapping;
 	const texture = new THREE.Texture(image, THREE.UVMapping, wrap, wrap,
@@ -73,6 +62,7 @@ function buildVideoTexture(video){
 		THREE.LuminanceFormat
 	 );
 	texture.needsUpdate = true;
+	texture.video = video;
 	return texture;
 }
 
@@ -80,7 +70,11 @@ function buildQuad(texture){
 	// Width & height are both 2.0, to completely fill our viewport (-1.0...1.0)
 	const quadGeom = new THREE.PlaneBufferGeometry( 2.0, 2.0 );
 	const quadMaterial = cuspidShader.createCuspidShaderMaterial( texture );
-	return new THREE.Mesh( quadGeom, quadMaterial );
+	const mesh = new THREE.Mesh( quadGeom, quadMaterial );
+	if(texture.video){
+		mesh.video = texture.video;
+	}
+	return mesh;
 }
 
 
