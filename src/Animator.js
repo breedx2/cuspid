@@ -84,17 +84,25 @@ class Animator {
 		this.start();
 	};
 
-	pause(what){
-		if(typeof what === 'undefined'){
-			if(this.running){
-				return this.stop();
+	pause(what){	
+		const b = this._pauseBool(what);
+		this._getQuads().forEach(q => {
+			if(q.video){
+				if(b) q.video.play();
+				else q.video.pause();
 			}
-			return this.start();
-		}
-		if(what === 1){
-			return this.start();
+		});
+		if(b){
+				return this.start();
 		}
 		return this.stop();
+	}
+
+	_pauseBool(what){
+		if(typeof what === 'undefined'){
+			return this.running ? 0 : 1;
+		}
+		return what === 1 ? 1 : 0;
 	}
 
 	toggleDotPass(){
