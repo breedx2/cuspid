@@ -10,7 +10,7 @@ class Animator {
 		this.running = false;
 		this.prevFrameTime = (new Date()).getTime();
 		this.animRequest = null;
-		this.effectComposer = effectComposer.build(options);
+		this.effectComposer = options.effectComposer || effectComposer.build(options);
 	}
 
 	static defaultAnimDuration(){ return DEFAULT_ANIM_DURATION; }
@@ -84,7 +84,7 @@ class Animator {
 		this.start();
 	};
 
-	pause(what){	
+	pause(what){
 		const b = this._pauseBool(what);
 		this._getQuads().forEach(q => {
 			if(q.video){
