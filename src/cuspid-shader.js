@@ -30,12 +30,14 @@ function createCuspidShaderMaterial( firstTexture ){
 
 		"uniform sampler2D texture;",	// our texture
 		"uniform float colorCycle;",	// 0..1, wraps around
+		"uniform float alpha;",
 		"varying vec2 v_uv;", // varying: This is set per-vertex in the vertex shader (above). The fragment shader interpolates the vertex values for each texel it computes.
 
 		"void main()	{",
-		" vec2 luma = vec2( texture2D( texture, v_uv ).r, 1.0 );",	// sample the texture, use the red value as brightness
+		" vec2 luma = vec2( texture2D( texture, v_uv ).r, alpha);",	// sample the texture, use the red value as brightness and configurable alpha
 		" luma.r = fract( min(luma.r, 0.999) + colorCycle );",	// add color cycling, set luminance to fractional part of the result
-		" gl_FragColor = luma.xxxy;",	// Use swizzling (because it's fast). Set this texel's output RGBA color as a grayscale color with alpha 1.0.
+		" gl_FragColor = luma.xxxy;",	// Use swizzling (because it's fast). Set this texel's output RGBA color as a grayscale color with alpha .
+		// " glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);",
 		"}",
 	];
 	var fragmentShaderGLSL = fragmentShader_ar.join("\n");
@@ -44,6 +46,8 @@ function createCuspidShaderMaterial( firstTexture ){
 		texture:    { type: 't', value: firstTexture },
 		uvOffset:   { type: 'v2', value: new THREE.Vector2( 0, 0 ) },
 		colorCycle: { type: 'f', value: 0.0 },
+		alpha: { type: 'f', value: 1.0 },
+		transparent: true, opacity: 0.3
 	};
 
 	return new THREE.RawShaderMaterial({
@@ -52,7 +56,8 @@ function createCuspidShaderMaterial( firstTexture ){
 		uniforms: uniforms,
 		depthTest: false,
 		depthWrite: false,
-		side: THREE.DoubleSide	// don't test culling
+		side: THREE.DoubleSide,	// don't test culling
+		blending: THREE.AdditiveBlending
 	});
 }
 
