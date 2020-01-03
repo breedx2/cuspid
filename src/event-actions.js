@@ -112,8 +112,6 @@ class EventActions {
 
   // Toggle smooth/pixelated image scaling
   toggleInterpolation(){
-
-    
     this.textures.forEach(texture => {
       let filter = texture.minFilter;
       console.log( 'eh?',filter );
@@ -222,7 +220,8 @@ class EventActions {
   		jerkiness: this.animator.options.jerkiness,
   		duration: this.animator.options.duration,
   		imageIds: this.animator.options.imageIds,
-  		animation: animation
+  		animation: animation,
+      effectComposer: this.animator.effectComposer
   	});
   	this.animator.start(true);
     gui.showHideDecoration(false);
