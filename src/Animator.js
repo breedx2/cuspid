@@ -54,6 +54,7 @@ class Animator {
 			this.options.scene.remove(quad);
 			// scene.add(quad);
 			quad.material.uniforms['colorCycle'].value = 0.0;
+			quad.material.uniforms['alpha'].value = 1.0;
 			quad.material.uniforms['uvOffset'].value.set( 0, 0 );
 			quad.scale.set( 1.0, 1.0, 1.0 );
 		});

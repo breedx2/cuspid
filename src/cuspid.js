@@ -11,6 +11,7 @@ const TwoQuadBoxScrollAnimation = require('./anim-twoquadboxscroll');
 //const ExperimentalAnimation = require('./anim-experiment')
 const ZoomSeqAnimation = require('./anim-zoomer-seq')
 const ZoomAnimation = require('./anim-zoomer')
+const BlendAnimation = require('./anim-blend')
 const ImageSequence = require('./anim-image-sequence');
 const KeyHandler = require('./key-handler');
 const EventActions = require('./event-actions');
@@ -149,7 +150,7 @@ async function startFirstAnimation(){
 		camera: camera,
 		duration: Animator.defaultAnimDuration(),
 		jerkiness: 5,
-		animation: ImageSequence.build(quads)
+		animation: new BlendAnimation(quads)
 		// animation: new ExperimentalAnimation(quads,5)
 		// animation: new ZoomAnimation(quads, 'IN', 'LINEAR')
 		// animation: new ZoomSeqAnimation(quads, 'OUT', 5)

@@ -41,15 +41,16 @@ Then point a browser to http://localhost:8080/workspace
 * T - tunnel/zoom sequence (out)
 * shift ⟵ - pallete scroll down
 * shift →  palette scroll up
+* b - blend mode
 
 ## misc
 * SPACE - pause
-* \+ - increase animathttps://github.com/breedx2/cuspid/raw/master/docs/cuspid_topology.pngion speed
-* \- - decrease animation speed
-* ctrl ⟵ - decrease animation delta x
-* ctrl → - increase animation delta x
-* ctrl ↑ - decrease animation delta y
-* ctrl ↓ - increase animation delta y  
+* \+ - speed up
+* \- - slow down
+* ctrl ⟵ - nudge left
+* ctrl → - nudge right
+* ctrl ↑ - nudge up
+* ctrl ↓ - nudge down
 * z - zoom out (when in scrolling mode)
 * shift z - zoom in (when in scrolling mode)
 * n - change image
