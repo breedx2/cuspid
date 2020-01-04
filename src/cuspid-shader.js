@@ -37,7 +37,6 @@ function createCuspidShaderMaterial( firstTexture ){
 		" vec2 luma = vec2( texture2D( texture, v_uv ).r, alpha);",	// sample the texture, use the red value as brightness and configurable alpha
 		" luma.r = fract( min(luma.r, 0.999) + colorCycle );",	// add color cycling, set luminance to fractional part of the result
 		" gl_FragColor = luma.xxxy;",	// Use swizzling (because it's fast). Set this texel's output RGBA color as a grayscale color with alpha .
-		// " glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);",
 		"}",
 	];
 	var fragmentShaderGLSL = fragmentShader_ar.join("\n");
