@@ -2,7 +2,7 @@
 
 const THREE = require('three');
 
-class FadeAnimation {
+class BlendAnimation {
 
 	constructor (quads){
 		this.quads = quads;
@@ -11,17 +11,17 @@ class FadeAnimation {
 			quads[i].position.copy(new THREE.Vector3(0, 0, z));
 		}
 		this.acc = 0.0;
+		this.bias = 1.25 / this.quads.length;
 	}
 
 	tick(timeMult){
 
-		const bias = 1.05 / this.quads.length;
 		const pslice = 2 * 3.1415 / this.quads.length;
 
 		for(let i = 0; i < this.quads.length; i++){
 
 			const a = (Math.sin(this.acc + (i * pslice)) + 1.0) / 2.0;
-			_alpha(this.quads[i], bias * a);
+			_alpha(this.quads[i], this.bias * a);
 
 		}
 		this.acc += 0.05 * timeMult;
@@ -40,4 +40,4 @@ function _alpha(quad, value){
 	quad.material.uniforms.alpha.value = value;
 }
 
-module.exports = FadeAnimation;
+module.exports = BlendAnimation;

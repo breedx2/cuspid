@@ -53,6 +53,7 @@ class KeyHandler {
         's': () => this.eventActions.modeImageSequence(),
         't': () => this.eventActions.modeZoomSequenceIn(),
         'T': () => this.eventActions.modeZoomSequenceOut(),
+        'b': () => this.eventActions.modeBlend(),
         'g': () => this.eventActions.toggleGlitchPass(),
         'F': () => this.eventActions.advanceOneFrame(),
         'Enter': () => this.eventActions.repaint(),

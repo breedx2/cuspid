@@ -8,6 +8,7 @@ const ZoomAnimation = require('./anim-zoomer');
 const ZoomSeqAnimation = require('./anim-zoomer-seq');
 const PaletteAnimation = require('./anim-palette');
 const ImageSequence = require('./anim-image-sequence');
+const BlendAnimation = require('./anim-blend')
 const gui = require('./gui');
 
 class EventActions {
@@ -190,6 +191,10 @@ class EventActions {
 
   modeZoomSequenceOut(){
     return this._changeAnimation(ZoomSeqAnimation.zoomOut(this.quads, this.animator.options.jerkiness));
+  }
+
+  modeBlend(){
+    return this._changeAnimation(new BlendAnimation(this.quads));
   }
 
   modeImageSequence(){
