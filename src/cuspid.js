@@ -150,7 +150,7 @@ async function startFirstAnimation(){
 		camera: camera,
 		duration: Animator.defaultAnimDuration(),
 		jerkiness: 5,
-		animation: new FadeAnimation(quads, 5)
+		animation: new FadeAnimation(quads)
 		// animation: new ExperimentalAnimation(quads,5)
 		// animation: new ZoomAnimation(quads, 'IN', 'LINEAR')
 		// animation: new ZoomSeqAnimation(quads, 'OUT', 5)

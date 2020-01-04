@@ -4,14 +4,13 @@ const THREE = require('three');
 
 class FadeAnimation {
 
-	constructor (quads, jerkiness){
+	constructor (quads){
 		this.quads = quads;
 		for(let i = 0; i < quads.length; i++){
 			const z = 0.001 * i;
 			quads[i].position.copy(new THREE.Vector3(0, 0, z));
 		}
 		this.acc = 0.0;
-		this.jerkiness = jerkiness;
 	}
 
 	tick(timeMult){
@@ -25,7 +24,7 @@ class FadeAnimation {
 			_alpha(this.quads[i], bias * a);
 
 		}
-		this.acc += 0.01 * this.jerkiness * timeMult;
+		this.acc += 0.05 * timeMult;
 	}
 }
 
