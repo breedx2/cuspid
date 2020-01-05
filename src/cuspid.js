@@ -31,10 +31,10 @@ const URLS1 = [
 ];
 
 const URLS2 = [
-	'static/set2/z447p782.jpg',	'static/set2/z46my5u6.jpg',
-	'static/set2/z8jhy9hw.jpg',	'static/set2/z9n6pe2b.jpg',
-	'static/set2/z9td69vw.jpg',	'static/set2/zfd2e6md.jpg',
-	'static/set2/zmuqxzc3.jpg',	'static/set2/zv4322cb.jpg'
+	'/static/set2/z447p782.jpg',	'/static/set2/z46my5u6.jpg',
+	'/static/set2/z8jhy9hw.jpg',	'/static/set2/z9n6pe2b.jpg',
+	'/static/set2/z9td69vw.jpg',	'/static/set2/zfd2e6md.jpg',
+	'/static/set2/zmuqxzc3.jpg',	'/static/set2/zv4322cb.jpg'
 ];
 
 async function cuspidLoad(){
