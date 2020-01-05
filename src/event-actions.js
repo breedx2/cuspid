@@ -208,6 +208,14 @@ class EventActions {
     this._changeAnimation(ImageSequence.build(this.quads));
   }
 
+  modeStillImage(){
+    console.log('Switching to still image mode.');
+    if(this._currentlyImageSequence()){
+      return this.animator.options.animation.setTime(Infinity);
+    }
+    this._changeAnimation(new ImageSequence(this.quads, Infinity));
+  }
+
   modePaletteDown(){
     this._changeAnimation(PaletteAnimation.paletteDown(this.quads, this.animator.options.jerkiness));
   }

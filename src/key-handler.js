@@ -51,6 +51,7 @@ class KeyHandler {
         'q': () => this.eventActions.deltaDotScale(-0.02),
         'w': () => this.eventActions.deltaDotScale(0.02),
         's': () => this.eventActions.modeImageSequence(),
+        'S': () => this.eventActions.modeStillImage(),
         't': () => this.eventActions.modeZoomSequenceIn(),
         'T': () => this.eventActions.modeZoomSequenceOut(),
         'b': () => this.eventActions.modeBlend(),

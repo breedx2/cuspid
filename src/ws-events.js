@@ -138,6 +138,7 @@ function switchMode(modeName, eventActions){
    paletteDown: () => eventActions.modePaletteDown(),
    blend: () => eventActions.modeBlend(),
    imageSequence: () => eventActions.modeImageSequence(),
+   stillImage: () => eventActions.modeStillImage(),
    zoomSequenceIn: () => eventActions.modeZoomSequenceIn(),
    zoomSequenceOut: () => eventActions.modeZoomSequenceOut()
  }
