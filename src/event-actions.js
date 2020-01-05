@@ -12,12 +12,9 @@ const BlendAnimation = require('./anim-blend')
 const gui = require('./gui');
 
 class EventActions {
-  constructor(scene, camera, animator, stats, renderer, quads){
-      this.scene = scene;
-      this.camera = camera;
+  constructor(animator, stats, quads){
       this.animator = animator;
       this.stats = stats;
-      this.renderer = renderer;
       this.quads = quads; //maybe this shouldn't be here?
   }
 
@@ -226,14 +223,15 @@ class EventActions {
   	if(this.animator){
   		this.animator.stopAndReset();
   	}
+    const opts = this.animator.options;
   	this.animator = new Animator({
-  		renderer: this.renderer,
-  		scene: this.scene,
-  		camera: this.camera,
-  		stats: this.stats,
-  		jerkiness: this.animator.options.jerkiness,
-  		duration: this.animator.options.duration,
-  		imageIds: this.animator.options.imageIds,
+      stats: this.stats,
+  		renderer: opts.renderer,
+  		scene: opts.scene,
+  		camera: opts.camera,
+  		jerkiness: opts.jerkiness,
+  		duration: opts.duration,
+  		imageIds: opts.imageIds,
   		animation: animation,
       effectComposer: this.animator.effectComposer
   	});

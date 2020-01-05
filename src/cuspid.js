@@ -46,8 +46,13 @@ async function cuspidLoad(){
 	}
 	setRenderSize();
 	try {
-		const animator = await startFirstAnimation();
-		const eventActions = new EventActions(scene, camera, animator, stats, renderer, quads);
+
+		quads = await QuadsBuilder.load(URLS1);
+		console.log(`Loaded ${quads.length} quads`);
+		quads.forEach(q => scene.add(q));
+
+		const animator = await startFirstAnimation(quads);
+		const eventActions = new EventActions(animator, stats, quads);
 		const keyHandler = new KeyHandler(eventActions);
 
 		configureControlSocket(eventActions);
@@ -114,14 +119,8 @@ function setRenderSize(){
 	}
 }
 
-async function startFirstAnimation(){
+async function startFirstAnimation(quads){
 	console.log("Starting animation");
-	const texturesAndQuads = await QuadsBuilder.load(URLS1);
-	quads = texturesAndQuads.quads;
-	textures = texturesAndQuads.textures;
-
-	console.log(`Loaded ${quads.length} quads`);
-	quads.forEach(q => scene.add(q));
 
 	const animator = new Animator({
 		renderer: renderer,
