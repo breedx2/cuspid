@@ -1,6 +1,6 @@
 #N canvas 124 396 1446 899 10;
 #X text 128 246 client name;
-#N canvas 827 194 362 627 addr 0;
+#N canvas 827 231 362 627 addr 0;
 #X obj 184 552 outlet;
 #X obj 286 29 inlet;
 #X obj 41 24 inlet;
@@ -67,7 +67,7 @@
 #X connect 26 1 21 0;
 #X restore 84 306 pd addr;
 #X msg 130 263 symbol tony99;
-#N canvas 914 343 337 283 OSC 0;
+#N canvas 914 380 337 283 OSC 1;
 #X msg 103 192 disconnect;
 #X obj 79 218 netsend -u -b;
 #X obj 79 84 list prepend send;
@@ -88,7 +88,7 @@
 #X restore 84 343 pd OSC;
 #X msg 33 231 nextImage;
 #X obj 84 263 r cmd;
-#N canvas 230 461 885 813 modes 0;
+#N canvas 526 561 885 813 modes 0;
 #X msg 97 325 mode \$1;
 #X msg 78 142 up;
 #X msg 77 171 down;
@@ -111,7 +111,7 @@
 -1 -20806;
 #X obj 230 72 bng 20 250 50 0 empty empty zoomOut 23 9 0 10 -162746
 -1 -20806;
-#X obj 116 95 bng 20 250 50 0 empty empty imageSequence 23 9 0 10 -162746
+#X obj 116 95 bng 20 250 50 0 empty empty imageSeq. 23 9 0 10 -162746
 -1 -20806;
 #X obj 28 62 bng 25 250 50 0 empty empty L 10 12 0 10 -100323 -1 -262144
 ;
@@ -125,6 +125,9 @@
 -1 -20806;
 #X obj 230 27 bng 20 250 50 0 empty empty zoomSeqOut 23 9 0 10 -162746
 -1 -20806;
+#X obj 230 95 bng 20 250 50 0 empty empty blend 23 9 0 10 -162746 -1
+-20806;
+#X msg 287 237 blend;
 #X connect 0 0 7 0;
 #X connect 1 0 5 0;
 #X connect 2 0 5 0;
@@ -149,6 +152,8 @@
 #X connect 22 0 5 0;
 #X connect 23 0 21 0;
 #X connect 24 0 22 0;
+#X connect 25 0 26 0;
+#X connect 26 0 5 0;
 #X coords 0 -1 1 1 350 100 1 20 20;
 #X restore 14 10 pd modes;
 #N canvas 561 582 1003 632 playback 0;
@@ -174,7 +179,7 @@
 -1 -1;
 #X msg 213 204 speed \$1;
 #X obj 69 76 hsl 120 20 0 1000 0 0 empty empty speed -2 29 0 10 -261947
--1 -1 0 1;
+-1 -1 600 1;
 #X msg 98 204 pause 1;
 #X msg 155 206 pause 0;
 #X obj 194 76 bng 20 250 50 0 empty empty (+) -3 30 0 10 -162746 -1
