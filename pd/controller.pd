@@ -1,4 +1,4 @@
-#N canvas 124 396 1446 899 10;
+#N canvas 124 396 1219 886 10;
 #X text 138 275 client name;
 #N canvas 827 231 362 627 addr 0;
 #X obj 184 552 outlet;
@@ -67,7 +67,7 @@
 #X connect 26 1 21 0;
 #X restore 94 335 pd addr;
 #X msg 140 292 symbol tony99;
-#N canvas 914 565 337 283 OSC 0;
+#N canvas 914 602 337 283 OSC 0;
 #X msg 103 192 disconnect;
 #X obj 79 218 netsend -u -b;
 #X obj 79 84 list prepend send;
@@ -164,9 +164,9 @@
 #N canvas 561 582 1003 632 playback 0;
 #X obj 111 293 s cmd, f 6;
 #X msg 23 165 togglePause;
-#X obj 132 45 tgl 25 0 empty empty play 28 12 0 10 -199979 -1 -1 0
+#X obj 132 43 tgl 20 0 empty empty play 24 10 0 10 -199979 -1 -1 0
 1;
-#X obj 41 46 bng 25 250 50 0 empty empty toggle 28 10 0 10 -199979
+#X obj 41 44 bng 20 250 50 0 empty empty toggle 24 10 0 10 -199979
 -1 -1;
 #X text 106 223 stop;
 #X text 159 224 go;
@@ -183,16 +183,20 @@
 #X obj 212 164 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
 #X msg 213 204 speed \$1;
-#X obj 69 76 hsl 120 20 0 1000 0 0 empty empty speed -2 29 0 10 -261947
+#X obj 69 69 hsl 120 20 0 1000 0 0 empty empty speed -2 29 0 10 -261947
 -1 -1 0 1;
 #X msg 98 204 pause 1;
 #X msg 155 206 pause 0;
-#X obj 194 76 bng 20 250 50 0 empty empty (+) -3 30 0 10 -162746 -1
+#X obj 194 69 bng 20 250 50 0 empty empty (+) -3 30 0 10 -162746 -1
 -20806;
 #X msg 273 137 5;
-#X obj 42 76 bng 20 250 50 0 empty empty (-) -3 30 0 10 -162746 -1
+#X obj 42 69 bng 20 250 50 0 empty empty (-) -3 30 0 10 -162746 -1
 -20806;
 #X msg 349 142 5;
+#X obj 39 113 hradio 15 1 0 10 empty empty imgSet 0 24 0 10 -262144
+-1 -1 1;
+#X floatatom 194 112 5 0 0 0 - - -;
+#X msg 323 235 imageSet \$1;
 #X connect 1 0 0 0;
 #X connect 2 0 6 0;
 #X connect 3 0 1 0;
@@ -214,7 +218,10 @@
 #X connect 20 0 8 0;
 #X connect 21 0 22 0;
 #X connect 22 0 9 0;
-#X coords 0 -1 1 1 210 100 1 24 24;
+#X connect 23 0 24 0;
+#X connect 24 0 25 0;
+#X connect 25 0 0 0;
+#X coords 0 -1 1 1 210 130 1 24 24;
 #X restore 368 10 pd playback;
 #N canvas 4 59 584 395 movement 0;
 #X msg 122 158 nudgeRight 0.1;
@@ -231,7 +238,7 @@
 #X obj 57 42 bng 25 250 50 0 empty empty U 10 12 0 10 -216235 -1 -45076
 ;
 #X obj 117 72 hsl 100 15 1 33 1 0 empty empty zoom -2 -8 0 10 -262144
--1 -1 6000 1;
+-1 -1 0 1;
 #X text 216 193 zoom;
 #X msg 194 212 zoom \$1;
 #X floatatom 253 201 5 0 0 0 - - -;
