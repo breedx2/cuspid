@@ -14,12 +14,7 @@ class PaletteAnimation {
 		this.quad.position.copy(new THREE.Vector3(0.0, 0.0, 0.0));
 		this.direction = direction;
 		this.jerkiness = jerkiness;
-		this.zoom = 1.0;
-		this.position = {x: 0, y: 0};
-		this.deltaZoom = zoomNudge.deltaZoom.bind(this);
-		this.setZoom = zoomNudge.setZoom.bind(this);
-		this.deltaX = zoomNudge.deltaX.bind(this);
-		this.deltaY = zoomNudge.deltaY.bind(this);
+		zoomNudge.monkeyPatch(this);
 	}
 
 	tick(timeMult){
