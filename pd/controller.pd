@@ -67,7 +67,7 @@
 #X connect 26 1 21 0;
 #X restore 84 306 pd addr;
 #X msg 130 263 symbol tony99;
-#N canvas 914 380 337 283 OSC 1;
+#N canvas 914 454 337 283 OSC 1;
 #X msg 103 192 disconnect;
 #X obj 79 218 netsend -u -b;
 #X obj 79 84 list prepend send;
@@ -179,7 +179,7 @@
 -1 -1;
 #X msg 213 204 speed \$1;
 #X obj 69 76 hsl 120 20 0 1000 0 0 empty empty speed -2 29 0 10 -261947
--1 -1 600 1;
+-1 -1 0 1;
 #X msg 98 204 pause 1;
 #X msg 155 206 pause 0;
 #X obj 194 76 bng 20 250 50 0 empty empty (+) -3 30 0 10 -162746 -1
@@ -226,7 +226,7 @@
 #X obj 57 42 bng 25 250 50 0 empty empty U 10 12 0 10 -216235 -1 -45076
 ;
 #X obj 117 72 hsl 100 15 1 33 1 0 empty empty zoom -2 -8 0 10 -262144
--1 -1 0 1;
+-1 -1 11700 1;
 #X text 216 193 zoom;
 #X msg 194 212 zoom \$1;
 #X floatatom 253 201 5 0 0 0 - - -;
@@ -339,6 +339,30 @@
 #X restore 218 114 pd effects;
 #X msg 11 258 toggleFps;
 #X msg 144 287 symbol client6;
+#N canvas 1788 435 918 625 misc 0;
+#X obj 47 46 hsl 128 15 0 1 0 0 empty empty bias 45 -8 0 9 -179445
+-1 -1 11000 1;
+#X obj 27 46 bng 15 250 50 0 empty empty (-) -3 22 0 8 -228856 -1 -1
+;
+#X obj 179 46 bng 15 250 50 0 empty empty (+) -3 22 0 8 -228856 -1
+-1;
+#X text 46 59 (only for blend mode);
+#X obj 88 234 s cmd;
+#X msg 58 135 bias \$1;
+#X floatatom 63 114 5 0 0 0 - - -;
+#X msg 104 202 biasDelta \$1;
+#X msg 16 164 -0.01;
+#X msg 114 166 0.01;
+#X connect 0 0 6 0;
+#X connect 1 0 8 0;
+#X connect 2 0 9 0;
+#X connect 5 0 4 0;
+#X connect 6 0 5 0;
+#X connect 7 0 4 0;
+#X connect 8 0 7 0;
+#X connect 9 0 7 0;
+#X coords 0 -1 1 1 180 90 1 20 20;
+#X restore 339 218 pd misc;
 #X connect 1 0 3 0;
 #X connect 2 0 1 1;
 #X connect 4 0 1 0;

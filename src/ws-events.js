@@ -116,6 +116,10 @@ function handleControlEvent(oscEvent, eventActions, id){
     return eventActions.nudgeUp(oscEvent.args[0]);
   case `/${id}/nudgeDown`:
     return eventActions.nudgeDown(oscEvent.args[0]);
+  case `/${id}/bias`:
+    return eventActions.bias(oscEvent.args[0]);
+  case `/${id}/biasDelta`:
+    return eventActions.biasDelta(oscEvent.args[0]);
   case `/${id}/advanceOneFrame`:
     return eventActions.advanceOneFrame();
  }

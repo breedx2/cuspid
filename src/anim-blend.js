@@ -25,6 +25,14 @@ class BlendAnimation {
 		this.acc += 0.05 * timeMult;
 	}
 
+	deltaBias(amount){
+		this.bias += amount;
+	}
+
+	setBias(amount){
+		this.bias = amount;
+	}
+
 	_setup(){
 		this.once = true;
 		for(let i = 0; i < this.quads.length; i++){

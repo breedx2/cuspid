@@ -105,6 +105,8 @@ In these examples `{id}` is the client id being addressed.
 | /{id}/nudgeRight          | {num}        | when zoomed, nudge image right by {num} amount.  only valid in some display modes.
 | /{id}/nudgeUp             | {num}        | when zoomed, nudge image up by {num} amount.  only valid in some display modes.
 | /{id}/nudgeDown           | {num}        | when zoomed, nudge image down by {num} amount.  only valid in some display modes.
+| /{id}/bias                | {num}        | when in blend mode, set the bias level to {num}
+| /{id}/biasDelta           | {delta}      | when in blend mode, adjust the bias level by {delta}
 | /{id}/advanceOneFrame     |              | advances one fake "frame". makes the most sense when paused.
 
 # Pd
