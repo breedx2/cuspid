@@ -56,6 +56,8 @@ class KeyHandler {
         'b': () => this.eventActions.modeBlend(),
         'g': () => this.eventActions.toggleGlitchPass(),
         'F': () => this.eventActions.advanceOneFrame(),
+        '[': () => this.eventActions.biasDelta(-0.01),
+        ']': () => this.eventActions.biasDelta(0.01),
         'Enter': () => this.eventActions.repaint(),
         'ArrowLeft': this._leftArrow.bind(this),
         'ArrowRight': this._rightArrow.bind(this),

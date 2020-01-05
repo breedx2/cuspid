@@ -166,6 +166,22 @@ class Animator {
 		console.log('This animation does not support zooming');
 	}
 
+	biasDelta(amount){
+		if(this.options.animation.bias){
+			console.log(`Adjusting bias by ${amount}`);
+			return this.options.animation.deltaBias(amount);
+		}
+		console.log('This animation mode does not support bias');
+	}
+
+	bias(amount){
+		if(this.options.animation.bias){
+			console.log(`Setting bias to ${amount}`);
+			return this.options.animation.setBias(amount);
+		}
+		console.log('This animation mode does not support bias');
+	}
+
 	deltaY(amount){
 		if(this.options.animation.deltaY){
 			console.log('Adjusting delta Y by ' + amount);

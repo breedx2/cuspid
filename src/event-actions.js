@@ -66,6 +66,15 @@ class EventActions {
     this.animator.zoom(zoomLevel);
   }
 
+  biasDelta(amount){
+    console.log(`Bias delta: ${amount}`);
+    this.animator.biasDelta(amount);
+  }
+
+  bias(amount){
+    this.animator.bias(amount);
+  }
+
   nudgeLeft(amount = 0.1){
     this.animator.deltaX(-1 * amount);
   }
