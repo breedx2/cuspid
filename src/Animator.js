@@ -52,10 +52,10 @@ class Animator {
 			// Reset the quad
 			console.log("REMOVING QUAD");
 			this.options.scene.remove(quad);
-			// scene.add(quad);
 			quad.material.uniforms['colorCycle'].value = 0.0;
 			quad.material.uniforms['alpha'].value = 1.0;
 			quad.material.uniforms['uvOffset'].value.set( 0, 0 );
+			quad.material.blending = THREE.NormalBlending;
 			quad.scale.set( 1.0, 1.0, 1.0 );
 		});
 	}
