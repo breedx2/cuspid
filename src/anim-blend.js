@@ -1,6 +1,7 @@
 'use strict';
 
 const THREE = require('three');
+const zoomNudge = require('./zoom-nudge');
 
 class BlendAnimation {
 
@@ -12,20 +13,25 @@ class BlendAnimation {
 		}
 		this.acc = 0.0;
 		this.bias = 1.25 / this.quads.length;
+		this.zoom = 1.0;
+		this.position = {x: 0, y: 0};
+		this.deltaZoom = zoomNudge.deltaZoom.bind(this);
+		this.setZoom = zoomNudge.setZoom.bind(this);
+		this.deltaX = zoomNudge.deltaX.bind(this);
+		this.deltaY = zoomNudge.deltaY.bind(this);
 	}
 
 	tick(timeMult){
-
 		const pslice = 2 * 3.1415 / this.quads.length;
-
 		for(let i = 0; i < this.quads.length; i++){
-
 			const a = (Math.sin(this.acc + (i * pslice)) + 1.0) / 2.0;
 			_alpha(this.quads[i], this.bias * a);
-
+			this.quads[i].scale.copy(new THREE.Vector3(this.zoom, this.zoom, 1.0));
+			this.quads[i].position.copy(new THREE.Vector3(this.position.x, this.position.y, 0.001 * i));
 		}
 		this.acc += 0.05 * timeMult;
 	}
+
 }
 
 function _makeTransparent(quad){
