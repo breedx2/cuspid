@@ -58,6 +58,8 @@ class KeyHandler {
         'F': () => this.eventActions.advanceOneFrame(),
         '[': () => this.eventActions.biasDelta(-0.01),
         ']': () => this.eventActions.biasDelta(0.01),
+        '1': () => this.eventActions.useQuadSet1(),
+        '2': () => this.eventActions.useQuadSet2(),
         'Enter': () => this.eventActions.repaint(),
         'ArrowLeft': this._leftArrow.bind(this),
         'ArrowRight': this._rightArrow.bind(this),
