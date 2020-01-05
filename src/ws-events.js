@@ -78,6 +78,8 @@ function handleControlEvent(oscEvent, eventActions, id){
     return eventActions.pause();
   case `/${id}/nextImage`:
     return eventActions.nextImage();
+  case `/${id}/imageSet`:
+    return eventActions.useQuadSet(oscEvent.args[0]);
   case `/${id}/toggleInterpolation`:
     return eventActions.toggleInterpolation();
   case `/${id}/toggleFps`:

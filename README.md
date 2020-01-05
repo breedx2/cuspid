@@ -87,6 +87,7 @@ In these examples `{id}` is the client id being addressed.
 | /{id}/togglePause         |              | toggles play/stop
 | /{id}/pause               | 0, 1         | 0 = pause, 1 = play             
 | /{id}/nextImage           |              | shows next image, only valid in certain modes
+| /{id}/imageSet            | {n}          | use image set {n} (currently 1,2)
 | /{id}/toggleInterpolation |              | toggles smooth pixel interpolation
 | /{id}/toggleFps           |              | toggles on-screen framerate display
 | /{id}/toggleDotPass       |              | toggles dot-screen effect.  

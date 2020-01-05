@@ -229,14 +229,14 @@ class EventActions {
   }
 
   useQuadSet1(){
-    this._useQuadSet(0);
+    this.useQuadSet(0);
   }
 
   useQuadSet2(){
-    this._useQuadSet(1);
+    this.useQuadSet(1);
   }
 
-  _useQuadSet(n){
+  useQuadSet(n){
     const quads = this.quadSets[n];
     const opts = this.animator.options;
     const scene = opts.scene;
