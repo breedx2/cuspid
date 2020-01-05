@@ -22,8 +22,8 @@ class Animator {
 		console.log("STARTING ANIMATOR");
 		this.running = true;
 		if(addQuads){
-			let self = this;
-			this._getQuads().forEach(quad => self.options.scene.add(quad));
+			const scene = this.options.scene;
+			this._getQuads().forEach(quad => scene.add(quad));
 		}
 		this._perFrame();
 		return this;
@@ -47,11 +47,12 @@ class Animator {
 
 	_resetQuads(){
 		const quads = this._getQuads();
+		const scene = this.options.scene;
 		// Reset quad uniforms and size
 		quads.forEach(quad => {
 			// Reset the quad
 			console.log("REMOVING QUAD");
-			this.options.scene.remove(quad);
+			scene.remove(quad);
 			quad.material.uniforms['colorCycle'].value = 0.0;
 			quad.material.uniforms['alpha'].value = 1.0;
 			quad.material.uniforms['uvOffset'].value.set( 0, 0 );

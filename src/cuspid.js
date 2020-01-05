@@ -21,8 +21,7 @@ const QuadsBuilder = require('./quads-builder');
 
 // ThreeJS variables
 var scene, camera, renderer;
-var quads = [];
-var textures = [];
+// var quads = [];
 var stats;
 
 const URLS1 = [
@@ -32,10 +31,10 @@ const URLS1 = [
 ];
 
 const URLS2 = [
-	'static/set2/z447p782.jpg',	'static/set2/z46my5u6.jpg',
-	'static/set2/z8jhy9hw.jpg',	'static/set2/z9n6pe2b.jpg',
-	'static/set2/z9td69vw.jpg',	'static/set2/zfd2e6md.jpg',
-	'static/set2/zmuqxzc3.jpg',	'static/set2/zv4322cb.jpg'
+	'/static/set2/z447p782.jpg',	'/static/set2/z46my5u6.jpg',
+	'/static/set2/z8jhy9hw.jpg',	'/static/set2/z9n6pe2b.jpg',
+	'/static/set2/z9td69vw.jpg',	'/static/set2/zfd2e6md.jpg',
+	'/static/set2/zmuqxzc3.jpg',	'/static/set2/zv4322cb.jpg'
 ];
 
 async function cuspidLoad(){
@@ -47,12 +46,15 @@ async function cuspidLoad(){
 	setRenderSize();
 	try {
 
-		quads = await QuadsBuilder.load(URLS1);
-		console.log(`Loaded ${quads.length} quads`);
-		quads.forEach(q => scene.add(q));
+		const quadSet1 = await QuadsBuilder.load(URLS1);
+		console.log(`Loaded ${quadSet1.length} quads in set 1`);
+		quadSet1.forEach(q => scene.add(q));
 
-		const animator = await startFirstAnimation(quads);
-		const eventActions = new EventActions(animator, stats, quads);
+		const quadSet2 = await QuadsBuilder.load(URLS2);
+		console.log(`Loaded ${quadSet2.length} quads in set 2`);
+
+		const animator = await startFirstAnimation(quadSet1);
+		const eventActions = new EventActions(animator, stats, quadSet1, [quadSet1, quadSet2]);
 		const keyHandler = new KeyHandler(eventActions);
 
 		configureControlSocket(eventActions);

@@ -8,21 +8,27 @@ const MAX_ZOOM = 25;
 class ZoomAnimation {
 
 	constructor (quads, direction, easing ){
-		this.quads = quads;
-		this.quads.forEach(quad => quad.position.copy(new THREE.Vector3(-100, 0, 0.0)));	//move out of the way
-		this.quad = quads[0];
-		this.quad.position.copy(new THREE.Vector3(0, 0, 0.0));
 		if(DIR_MULT[direction] == null){
 			throw new Error("Unknown direction " + direction + ", must be IN or OUT");
 		}
+		this.quads = quads;
 		this.direction =  direction;
 		this.easing = easing || 'LINEAR';
 		this.scale = this.direction === 'IN' ? 1.0 : MAX_ZOOM;
+		this.once = false;
 	}
 
 	tick(timeMult){
+		if(!this.once) this._setup();
 		var scale = this._computeScale(timeMult);
 		this.quad.scale.copy(scale);
+	}
+
+	_setup(){
+		this.once = true;
+		this.quads.forEach(quad => quad.position.copy(new THREE.Vector3(-100, 0, 0.0)));	//move out of the way
+		this.quad = this.quads[0];
+		this.quad.position.copy(new THREE.Vector3(0, 0, 0.0));
 	}
 
 	nextImage(){

@@ -9,19 +9,25 @@ class PaletteAnimation {
 
 	constructor(quads, direction, jerkiness){
 		this.quads = quads;
-		this.quads.forEach(quad => quad.position.copy(new THREE.Vector3(-100, 0, 0.0)));	//move out of the way
-		this.quad = quads[0];
-		this.quad.position.copy(new THREE.Vector3(0.0, 0.0, 0.0));
 		this.direction = direction;
 		this.jerkiness = jerkiness;
+		this.once = false;
 		zoomNudge.monkeyPatch(this);
 	}
 
 	tick(timeMult){
+		if(!this.once) this._setup();
 		const dir = (this.jerkiness/0xff) * ((this.direction==='DOWN') ? -1 : 1) * timeMult;
 		this.quad.material.uniforms['colorCycle'].value += dir;
 		this.quad.position.copy(new THREE.Vector3(this.position.x, this.position.y, 0.0));
 		this.quad.scale.copy(new THREE.Vector3(this.zoom, this.zoom, 1.0));
+	}
+
+	_setup(){
+		this.once = true;
+		this.quads.forEach(quad => quad.position.copy(new THREE.Vector3(-100, 0, 0.0)));	//move out of the way
+		this.quad = this.quads[0];
+		this.quad.position.copy(new THREE.Vector3(0.0, 0.0, 0.0));
 	}
 
 	nextImage(){

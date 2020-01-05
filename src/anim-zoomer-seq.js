@@ -13,13 +13,7 @@ class ZoomSeqAnimation {
 
 	constructor (quads, direction, jerkiness){
 		this.quads = quads;
-		this.quads.forEach(quad => quad.position.copy(new THREE.Vector3(-100, 0, 0.0)));	//move out of the way
-		this.quadA = quads[0];
-		this.quadB = quads[1];
-
-		this._toCenter(this.quadA);
-		this._toCenter(this.quadB);
-
+		this.once = false;
 		if(DIR_MULT[direction] == null){
 			throw new Error("Unknown direction " + direction + ", must be IN or OUT");
 		}
@@ -36,6 +30,7 @@ class ZoomSeqAnimation {
 	}
 
 	tick(timeMult){
+		if(!this.once) this._setup();
 		var scaleA = this._computeScale(timeMult, this.scaleA);
 		this.scaleA = scaleA;
 		this.quadA.scale.copy(new THREE.Vector3(scaleA, scaleA, 1.0));
@@ -48,6 +43,16 @@ class ZoomSeqAnimation {
 		}
 		this.quadA.renderOrder = 0;
 		this.quadB.renderOrder = 1;
+	}
+
+	_setup(){
+		this.once = true;
+		this.quads.forEach(quad => quad.position.copy(new THREE.Vector3(-100, 0, 0.0)));	//move out of the way
+		this.quadA = this.quads[0];
+		this.quadB = this.quads[1];
+
+		this._toCenter(this.quadA);
+		this._toCenter(this.quadB);
 	}
 
 	_scaleOut(timeMult, scaleA){

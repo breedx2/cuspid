@@ -12,10 +12,11 @@ const BlendAnimation = require('./anim-blend')
 const gui = require('./gui');
 
 class EventActions {
-  constructor(animator, stats, quads){
+  constructor(animator, stats, quads, quadSets){
       this.animator = animator;
       this.stats = stats;
       this.quads = quads; //maybe this shouldn't be here?
+      this.quadSets = quadSets;
   }
 
   pause(what){
@@ -217,6 +218,38 @@ class EventActions {
 
   advanceOneFrame(){
     this.animator.advanceOneFrame();
+  }
+
+  useQuadSet1(){
+    this._useQuadSet(0);
+  }
+
+  useQuadSet2(){
+    this._useQuadSet(1);
+  }
+
+  _useQuadSet(n){
+    const quads = this.quadSets[n];
+    const opts = this.animator.options;
+    const scene = opts.scene;
+    //TODO: This "reset" is duplicated inside the Animator and should be
+    //consolidated.  Perhaps this should live on the quad itself, as monkey
+    //patched from the builder?
+    opts.animation.quads.forEach(quad => {
+      scene.remove(quad)
+      quad.material.uniforms['colorCycle'].value = 0.0;
+      quad.material.uniforms['alpha'].value = 1.0;
+      quad.material.uniforms['uvOffset'].value.set( 0, 0 );
+      quad.material.blending = THREE.NormalBlending;
+      quad.scale.set( 1.0, 1.0, 1.0 );
+    });
+    quads.forEach(quad => scene.add(quad));
+    this.quads = quads;
+    opts.animation.quads = this.quads;  //OUCH!
+
+    if(opts.animation.once === true){
+      opts.animation.once = false;
+    }
   }
 
   _changeAnimation(animation){
