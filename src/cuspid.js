@@ -21,8 +21,7 @@ const QuadsBuilder = require('./quads-builder');
 
 // ThreeJS variables
 var scene, camera, renderer;
-var quads = [];
-var textures = [];
+// var quads = [];
 var stats;
 
 const URLS1 = [
@@ -47,12 +46,15 @@ async function cuspidLoad(){
 	setRenderSize();
 	try {
 
-		quads = await QuadsBuilder.load(URLS1);
-		console.log(`Loaded ${quads.length} quads`);
-		quads.forEach(q => scene.add(q));
+		const quadSet1 = await QuadsBuilder.load(URLS1);
+		console.log(`Loaded ${quadSet1.length} quads in set 1`);
+		quadSet1.forEach(q => scene.add(q));
 
-		const animator = await startFirstAnimation(quads);
-		const eventActions = new EventActions(animator, stats, quads);
+		const quadSet2 = await QuadsBuilder.load(URLS2);
+		console.log(`Loaded ${quadSet2.length} quads in set 2`);
+
+		const animator = await startFirstAnimation(quadSet1);
+		const eventActions = new EventActions(animator, stats, quadSet1, [quadSet1, quadSet2]);
 		const keyHandler = new KeyHandler(eventActions);
 
 		configureControlSocket(eventActions);
