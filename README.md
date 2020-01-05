@@ -83,7 +83,7 @@ In these examples `{id}` is the client id being addressed.
 
 | address                   | arg(s)       | notes        |
 | ------------------------- |--------------| -------------|
-| /{id}/mode                | {modename}   | modename can be `up`, `down`, `left`, `right`, `zoomIn`, `zoomOut`, `paletteUp`, `paletteDown`, `imageSequence`, `zoomSequenceIn`, `zoomSequenceOut`
+| /{id}/mode                | {modename}   | modename can be `up`, `down`, `left`, `right`, `zoomIn`, `zoomOut`, `paletteUp`, `paletteDown`, `blend`, `imageSequence`, `zoomSequenceIn`, `zoomSequenceOut`
 | /{id}/togglePause         |              | toggles play/stop
 | /{id}/pause               | 0, 1         | 0 = pause, 1 = play             
 | /{id}/nextImage           |              | shows next image, only valid in certain modes
