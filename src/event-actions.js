@@ -12,11 +12,10 @@ const BlendAnimation = require('./anim-blend')
 const gui = require('./gui');
 
 class EventActions {
-  constructor(scene, camera, animator, textures, stats, renderer, quads){
+  constructor(scene, camera, animator, stats, renderer, quads){
       this.scene = scene;
       this.camera = camera;
       this.animator = animator;
-      this.textures = textures;
       this.stats = stats;
       this.renderer = renderer;
       this.quads = quads; //maybe this shouldn't be here?
@@ -122,7 +121,8 @@ class EventActions {
 
   // Toggle smooth/pixelated image scaling
   toggleInterpolation(){
-    this.textures.forEach(texture => {
+    const textures = this.quads.map(q => q.material.uniforms.texture.value);
+    textures.forEach(texture => {
       let filter = texture.minFilter;
       console.log( 'eh?',filter );
       texture.minFilter = texture.magFilter = (filter===THREE.LinearFilter) ? THREE.NearestFilter : THREE.LinearFilter;

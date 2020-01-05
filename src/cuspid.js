@@ -19,44 +19,24 @@ const wsEvents = require('./ws-events');
 const gui = require('./gui');
 const QuadsBuilder = require('./quads-builder');
 
-var animator = null;
-
 // ThreeJS variables
 var scene, camera, renderer;
 var quads = [];
 var textures = [];
-var texture;
 var stats;
 
-// const IMAGE_URLS = ['/static/cuspid.jpg', '/static/corpse001.jpg', '/static/bloody20sunday.jpg', '/static/chupacabra001.jpg'];
-// const xIMAGE_URLS = ['/static/cuspid.jpg'];
-// const IMAGE_URLS = ['/static/tornado_carnage.jpg', '/static/needle_things.jpg', '/static/winter_trees.mp4'];
-const IMAGE_URLS = ['/static/cuspid.jpg', '/static/tornado_carnage.jpg', '/static/needle_things.jpg',
-	'/static/cows01.jpg', '/static/bloody20sunday.jpg', '/static/surgical_implements.jpg',
-	'/static/winter_trees.mp4'];
-// const IMAGE_URLS = ['/static/cuspid.jpg', '/static/tornado_carnage.jpg', '/static/needle_things.jpg'];
+const URLS1 = [
+	'/static/set1/cuspid.jpg', '/static/set1/tornado_carnage.jpg', '/static/set1/needle_things.jpg',
+	'/static/set1/cows01.jpg', '/static/set1/bloody20sunday.jpg', '/static/set1/surgical_implements.jpg',
+	'/static/set1/winter_trees.mp4'
+];
 
-// const IMAGE_URLS = [
-// 	'/static/t/z447p782.jpg',
-// 	'/static/t/z46my5u6.jpg',
-// 	'/static/t/z5apqesm.jpg',
-// 	'/static/t/z5qkxmk4.jpg',
-// 	'/static/t/z5r9kh2u.jpg',
-// 	'/static/t/z8jhy9hw.jpg',
-// 	'/static/t/z9n6pe2b.jpg',
-// 	'/static/t/z9td69vw.jpg',
-// 	'/static/t/z9zuzaag.jpg',
-// 	'/static/t/zcap6hzq.jpg',
-// 	'/static/t/zd33khde.jpg',
-// 	'/static/t/zd5crhcd.jpg',
-// 	'/static/t/zfathe2r.jpg',
-// 	'/static/t/zfd2e6md.jpg',
-// 	'/static/t/zk88rs6x.jpg',
-// 	'/static/t/zmuqxzc3.jpg',
-// 	'/static/t/zpfky38b.jpg',
-// 	'/static/t/zv4322cb.jpg',
-// 	'/static/t/zvddb44f.jpg',
-// 	'/static/t/zwxz4eq9.jpg']
+const URLS2 = [
+	'static/set2/z447p782.jpg',	'static/set2/z46my5u6.jpg',
+	'static/set2/z8jhy9hw.jpg',	'static/set2/z9n6pe2b.jpg',
+	'static/set2/z9td69vw.jpg',	'static/set2/zfd2e6md.jpg',
+	'static/set2/zmuqxzc3.jpg',	'static/set2/zv4322cb.jpg'
+];
 
 async function cuspidLoad(){
 	createStats();
@@ -66,9 +46,8 @@ async function cuspidLoad(){
 	}
 	setRenderSize();
 	try {
-		const newAnimator = await startFirstAnimation();
-		animator = newAnimator;
-		const eventActions = new EventActions(scene, camera, animator, textures, stats, renderer, quads);
+		const animator = await startFirstAnimation();
+		const eventActions = new EventActions(scene, camera, animator, stats, renderer, quads);
 		const keyHandler = new KeyHandler(eventActions);
 
 		configureControlSocket(eventActions);
@@ -137,12 +116,13 @@ function setRenderSize(){
 
 async function startFirstAnimation(){
 	console.log("Starting animation");
-	const texturesAndQuads = await QuadsBuilder.load(IMAGE_URLS);
+	const texturesAndQuads = await QuadsBuilder.load(URLS1);
 	quads = texturesAndQuads.quads;
 	textures = texturesAndQuads.textures;
 
 	console.log(`Loaded ${quads.length} quads`);
 	quads.forEach(q => scene.add(q));
+
 	const animator = new Animator({
 		renderer: renderer,
 		stats: stats,
@@ -155,12 +135,7 @@ async function startFirstAnimation(){
 		// animation: new ZoomAnimation(quads, 'IN', 'LINEAR')
 		// animation: new ZoomSeqAnimation(quads, 'OUT', 5)
 		// animation: TwoQuadBoxScrollAnimation.scrollRight(quads, 5)
-		//		animation: new BoxScrollAnimation(quad, "RIGHT", 5)
-		/*new CompositeAnimation([
-			new BoxScrollAnimation(quad, "LEFT", 5),
-			new PaletteAnimation(quad, 'DOWN', 0.5),
-			new ZoomAnimation.zoomIn(quad, 5)
-		])*/
+		// animation: new BoxScrollAnimation(quad, "RIGHT", 5)
 	});
 	// animator.options.animation.quad = quads[0];
 	animator.start();
