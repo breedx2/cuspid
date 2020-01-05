@@ -6,7 +6,8 @@
   "main": "index.js",
   "scripts": {
     "start": "$(npm bin)/webpack --config webpack.dev.js && node app.js",
-    "build": "$(npm bin)/webpack --config webpack.prod.js"
+    "build": "$(npm bin)/webpack --config webpack.prod.js",
+    "prod": "$(npm bin)/webpack --config webpack.prod.js && node app.js"
   },
   "author": "",
   "license": "ISC",

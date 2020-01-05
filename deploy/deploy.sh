@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Example deploy script for use with roquet (https://github.com/breedx2/roquet)
-# 
+#
 # It's real dumb!
 
 set -e
@@ -39,11 +39,9 @@ echo "existing pid = ${PID}"
 
 if [ "" == "${PID}" ] ; then
 	echo "Not currently running, starting fresh."
-	npm run start &
+	npm run prod &
 else
 	echo "Just killing existing process."
 	kill ${PID}
 	# and now we hope you've set up supervisord to restart it ...
 fi
-
-
