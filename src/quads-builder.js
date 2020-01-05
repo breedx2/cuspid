@@ -9,10 +9,7 @@ async function load(sourceUrls){
 	try {
 		const textures = await loadTexturesFromUrls(sourceUrls);
 		const quads = textures.map(buildQuad).filter(x => x != null);
-		return {
-			textures: textures,
-			quads: (quads.length > 1) ? quads : [quads[0], quads[0]]
-		};
+		return (quads.length > 1) ? quads : [quads[0], quads[0]];
 	}
 	catch(err){
 		console.error(`ERROR: ${err}`);
