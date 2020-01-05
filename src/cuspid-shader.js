@@ -56,7 +56,7 @@ function createCuspidShaderMaterial( firstTexture ){
 		depthTest: false,
 		depthWrite: false,
 		side: THREE.DoubleSide,	// don't test culling
-		blending: THREE.AdditiveBlending
+		blending: THREE.NormalBlending
 	});
 }
 

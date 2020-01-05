@@ -7,16 +7,14 @@ class BlendAnimation {
 
 	constructor (quads){
 		this.quads = quads;
-		for(let i = 0; i < quads.length; i++){
-			const z = 0.001 * i;
-			quads[i].position.copy(new THREE.Vector3(0, 0, z));
-		}
+		this.once = false;
 		this.acc = 0.0;
 		this.bias = 1.25 / this.quads.length;
 		zoomNudge.monkeyPatch(this);
 	}
 
 	tick(timeMult){
+		if(!this.once) this._setup();
 		const pslice = 2 * 3.1415 / this.quads.length;
 		for(let i = 0; i < this.quads.length; i++){
 			const a = (Math.sin(this.acc + (i * pslice)) + 1.0) / 2.0;
@@ -25,6 +23,15 @@ class BlendAnimation {
 			this.quads[i].position.copy(new THREE.Vector3(this.position.x, this.position.y, 0.001 * i));
 		}
 		this.acc += 0.05 * timeMult;
+	}
+
+	_setup(){
+		this.once = true;
+		for(let i = 0; i < this.quads.length; i++){
+			const z = 0.001 * i;
+			this.quads[i].position.copy(new THREE.Vector3(0, 0, z));
+			this.quads[i].material.blending = THREE.AdditiveBlending
+		}
 	}
 
 }
