@@ -13,12 +13,7 @@ class BlendAnimation {
 		}
 		this.acc = 0.0;
 		this.bias = 1.25 / this.quads.length;
-		this.zoom = 1.0;
-		this.position = {x: 0, y: 0};
-		this.deltaZoom = zoomNudge.deltaZoom.bind(this);
-		this.setZoom = zoomNudge.setZoom.bind(this);
-		this.deltaX = zoomNudge.deltaX.bind(this);
-		this.deltaY = zoomNudge.deltaY.bind(this);
+		zoomNudge.monkeyPatch(this);
 	}
 
 	tick(timeMult){
