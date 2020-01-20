@@ -30,6 +30,10 @@ function toggleClientId(closeHandler){
   return false;
 }
 
+function toggleAddImages(){
+  toggle('div#dropsite');
+}
+
 function toggle(sel){
   const x = document.querySelector(sel);
   if(x.offsetParent === null){
@@ -81,8 +85,10 @@ function dismissOverlays(){
 module.exports = {
   toggleKeys,
   toggleClientId,
+  toggleAddImages,
   wsConnectStatus,
   wsSetClientId,
   showHideDecoration,
-  dismissOverlays
+  dismissOverlays,
+
 }

@@ -260,6 +260,10 @@ class EventActions {
     }
   }
 
+  toggleAddImages(){
+    gui.toggleAddImages();
+  }
+
   _changeAnimation(animation){
   	if(this.animator){
   		this.animator.stopAndReset();
