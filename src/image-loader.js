@@ -9,9 +9,20 @@ const ImageLoader = {
 				console.log(`Image ${url} loaded from cache!`);
 				return fulfill(cache[url]);
 			}
-			let img = newImage(url);
+			const img = newImage(url);
 			img.onload = imageOnLoad(url, img, fulfill, reject);
 		});
+	},
+	loadAndCropFile: function(file){
+		return readFile(file)
+				.then(fileContent => {
+					return new Promise((fulfill, reject) => {
+						const img = document.createElement("img");
+						img.onload = imageOnLoad(fileContent, img, fulfill, reject)
+				    img.file = file;
+				    img.src = fileContent;
+					});
+				});
 	},
 }
 
@@ -79,6 +90,19 @@ function closestPow2(num){
 		}
 		check = next;
 	}
+}
+
+function readFile(file){
+	return new Promise((fulfill, reject) => {
+		console.log('ImageLoader is reading file ', file);
+		const reader = new FileReader();
+		reader.addEventListener('loadend', function(e) {
+			console.log('Image load finished');
+			const fileData = reader.result;
+			fulfill(fileData);
+		});
+		reader.readAsDataURL(file);
+	});
 }
 
 module.exports = ImageLoader;
