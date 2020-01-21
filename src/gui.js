@@ -30,6 +30,10 @@ function toggleClientId(closeHandler){
   return false;
 }
 
+function toggleImagePool(){
+  toggle('div#imagepool');
+}
+
 function toggle(sel){
   const x = document.querySelector(sel);
   if(x.offsetParent === null){
@@ -81,8 +85,10 @@ function dismissOverlays(){
 module.exports = {
   toggleKeys,
   toggleClientId,
+  toggleImagePool,
   wsConnectStatus,
   wsSetClientId,
   showHideDecoration,
-  dismissOverlays
+  dismissOverlays,
+
 }

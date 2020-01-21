@@ -236,6 +236,10 @@ class EventActions {
     this.useQuadSet(1);
   }
 
+  useQuadSet3(){
+    this.useQuadSet(2);
+  }
+
   useQuadSet(n){
     const quads = this.quadSets[n];
     const opts = this.animator.options;
@@ -258,6 +262,10 @@ class EventActions {
     if(opts.animation.once === true){
       opts.animation.once = false;
     }
+  }
+
+  toggleImagePool(){
+    gui.toggleImagePool();
   }
 
   _changeAnimation(animation){

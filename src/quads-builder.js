@@ -27,6 +27,9 @@ async function loadTexturesFromUrls(sourceUrls){
 }
 
 function chooseLoader(url){
+	if(url.tagName === "IMG"){	//already loaded image
+		return x => Promise.resolve(x);
+	}
 	return isVideo(url) ?
 		VideoLoader.load :
 	 	ImageLoader.loadAndCrop;
@@ -39,6 +42,7 @@ function chooseTextureBuilder(url){
 }
 
 function isVideo(url){
+	if(url.tagName === "IMG") return false;
 	return url.endsWith('.webm') || url.endsWith('.ogv') || url.endsWith('.mp4');
 }
 
