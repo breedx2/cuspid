@@ -1,18 +1,11 @@
 'use strict';
 
-const cache = {};
-
 class VideoLoader {
   static load(url) {
     return new Promise((fulfill, reject) => {
-      if (cache[url]) {
-        console.log(`Video ${url} loaded from cache!`);
-        return fulfill(cache[url]);
-      }
       const video = newVideo(url);
       video.onplaying = function() {
         console.log("Video loaded!");
-        cache[url] = video;
         fulfill(video);
       };
     });
