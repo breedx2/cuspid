@@ -2,7 +2,7 @@
 
 const ImageLoader = require('./image-loader.js');
 
-function setup(){
+function setup(useTheseImagesCallback){
   console.log('Performing drop site setup');
 
   if(!window.FileReader) {
@@ -49,17 +49,25 @@ function setup(){
 
  const choosefiles = document.getElementById('choosefiles');
  choosefiles.addEventListener('change', chooseSomeFiles);
+
+ const useSet = document.getElementById('useSet');
+ useSet.onclick = () => {
+   console.log('Applying image set...');
+   const images = document.querySelectorAll('#imageset > img');
+   useTheseImagesCallback(Array.from(images));
+ };
 }
 
 function appendThumb(img){
   img.className = 'thumb';
-  const drop = document.getElementById('dropsite');
+  const drop = document.getElementById('imageset');
   drop.appendChild(img);
 }
 
 function chooseSomeFiles(change){
   // console.log(change);
   // console.log(choosefiles.files);
+  const choosefiles = document.getElementById('choosefiles');
   loadAndPreview(choosefiles.files);
 }
 
@@ -72,7 +80,7 @@ function loadAndPreview(files){
           console.log('Wowwy wow, did image stuff');
         });
     });
-  Promise.all(promises);
+  return Promise.all(promises);
 }
 
 module.exports = {

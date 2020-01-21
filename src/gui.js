@@ -30,8 +30,8 @@ function toggleClientId(closeHandler){
   return false;
 }
 
-function toggleAddImages(){
-  toggle('div#dropsite');
+function toggleImagePool(){
+  toggle('div#imagepool');
 }
 
 function toggle(sel){
@@ -85,7 +85,7 @@ function dismissOverlays(){
 module.exports = {
   toggleKeys,
   toggleClientId,
-  toggleAddImages,
+  toggleImagePool,
   wsConnectStatus,
   wsSetClientId,
   showHideDecoration,

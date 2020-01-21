@@ -25,20 +25,20 @@ var scene, camera, renderer;
 // var quads = [];
 var stats;
 
-const xURLS1 = [
+const URLS1 = [
 	'/static/set1/cuspid.jpg', '/static/set1/tornado_carnage.jpg', '/static/set1/needle_things.jpg',
 	'/static/set1/cows01.jpg', '/static/set1/bloody20sunday.jpg', '/static/set1/surgical_implements.jpg',
 	'/static/set1/winter_trees.mp4'
 ];
-const URLS1 = [	'/static/set1/cuspid.jpg'];
+const xURLS1 = [	'/static/set1/cuspid.jpg'];
 
-const xURLS2 = [
+const URLS2 = [
 	'/static/set2/z447p782.jpg',	'/static/set2/z46my5u6.jpg',
 	'/static/set2/z8jhy9hw.jpg',	'/static/set2/z9n6pe2b.jpg',
 	'/static/set2/z9td69vw.jpg',	'/static/set2/zfd2e6md.jpg',
 	'/static/set2/zmuqxzc3.jpg',	'/static/set2/zv4322cb.jpg'
 ];
-const URLS2 = [ '/static/set2/z447p782.jpg' ];
+const xURLS2 = [ '/static/set2/z447p782.jpg' ];
 
 async function cuspidLoad(){
 	createStats();
@@ -56,8 +56,10 @@ async function cuspidLoad(){
 		const quadSet2 = await QuadsBuilder.load(URLS2);
 		console.log(`Loaded ${quadSet2.length} quads in set 2`);
 
+		const quadSet3 = [];	//can be assigned later
+
 		const animator = await startFirstAnimation(quadSet1);
-		const eventActions = new EventActions(animator, stats, quadSet1, [quadSet1, quadSet2]);
+		const eventActions = new EventActions(animator, stats, quadSet1, [quadSet1, quadSet2, quadSet3]);
 		const keyHandler = new KeyHandler(eventActions);
 
 		configureControlSocket(eventActions);
@@ -66,7 +68,18 @@ async function cuspidLoad(){
 		gui.showHideDecoration(false);
 		console.log("Animation started.")
 
-		DropSite.setup();
+		async function makeQuad3(images){
+			console.log("MAKE QUAD 3");
+			const newQuads = await QuadsBuilder.load(images);
+			newQuads.forEach(q => {
+				quadSet3.push(q);
+			});
+			images.forEach(img => {
+				img.remove();
+			})
+			gui.toggleImagePool();
+		}
+		DropSite.setup(makeQuad3);
 	}
 	catch(err) {
 		console.log(`ERROR: ${err}`);

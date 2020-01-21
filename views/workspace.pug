@@ -10,11 +10,6 @@ html
       div(style='display: block; position: relative')
         include ./clientid.pug
       div(style='display: block; position: relative')
-        include keys.pug
+        include ./keys.pug
     canvas(id='cnv')
-    div(id='imagepool')
-    div(id='dropsite')
-      p
-        |drop images here.
-      input(type="file", id="choosefiles", multiple="1")
-      br
+    include ./imagepool.pug
