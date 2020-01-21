@@ -1,14 +1,8 @@
 'use strict';
 
-const cache = {};
-
 const ImageLoader = {
 	loadAndCrop: function(url){
 		return new Promise( (fulfill, reject) => {
-			if(cache[url]){
-				console.log(`Image ${url} loaded from cache!`);
-				return fulfill(cache[url]);
-			}
 			const img = newImage(url);
 			img.onload = imageOnLoad(url, img, fulfill, reject);
 		});
@@ -34,7 +28,6 @@ function imageOnLoad(url, img, fulfill, reject){
 		const base64ImageData = cnv.toDataURL();
 		const finalImage = newImage(url);
 		finalImage.onload = function() {
-			cache[url] = finalImage;
 			console.log("Image was loaded and cropped/scaled");
 			fulfill(finalImage);
 		};
