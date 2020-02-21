@@ -1,6 +1,7 @@
 'use strict';
 
 const ImageLoader = require('./image-loader.js');
+const _ = require('lodash');
 
 function setup(useTheseImagesCallback){
   console.log('Performing drop site setup');
@@ -56,6 +57,9 @@ function setup(useTheseImagesCallback){
    const images = document.querySelectorAll('#imageset > img');
    useTheseImagesCallback(Array.from(images));
  };
+ document.getElementById('random10').onclick = () => {
+   pickRandom10();
+ };
 }
 
 function appendThumb(img){
@@ -82,6 +86,27 @@ function loadAndPreview(files){
     });
   return Promise.all(promises);
 }
+
+async function loadToThumb(url){
+  console.log(`loading to thumbnail: ${url}`);
+  return ImageLoader.loadAndCrop(url)
+    .then(image => {
+      appendThumb(image);
+    });
+}
+
+async function pickRandom10(){
+  console.log('Picking 10 random images..');
+  document.querySelector('div#imageset').innerHTML = "";
+  fetch('/static/index/largeset.json')
+    .then(response => response.json())
+    .then(json => {
+        _.shuffle(json.items).slice(0, 10)
+        .map(f => `/static/largeset/${f}`)
+        .forEach(loadToThumb);
+    });
+}
+
 
 module.exports = {
   setup
