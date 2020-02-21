@@ -101,9 +101,11 @@ async function pickRandom10(){
   fetch('/static/index/largeset.json')
     .then(response => response.json())
     .then(json => {
-        _.shuffle(json.items).slice(0, 10)
-        .map(f => `/static/largeset/${f}`)
-        .forEach(loadToThumb);
+        const promises = _.shuffle(json.items)
+          .slice(0, 10)
+          .map(f => `/static/largeset/${f}`)
+          .map(loadToThumb);
+        return Promise.all(promises);
     });
 }
 
