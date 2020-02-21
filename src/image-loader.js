@@ -22,7 +22,7 @@ const ImageLoader = {
 
 function imageOnLoad(url, img, fulfill, reject){
 	return () => {
-		console.log("Image loaded. Original dimensions: " + img.width + "x" + img.height);
+		console.log(`Image loaded from ${url}. Original dimensions: ${img.width}x${img.height}`);
 
 		const cnv = cropAndStretch(img);
 		const base64ImageData = cnv.toDataURL();
