@@ -25,6 +25,10 @@ function imageOnLoad(url, img, fulfill, reject){
 		console.log(`Image loaded from ${url}. Original dimensions: ${img.width}x${img.height}`);
 
 		const cnv = cropAndStretch(img);
+		if(cnv == null){ // no canvas, image was already set
+			img.onload = null;
+			return fulfill(img);
+		}
 		const base64ImageData = cnv.toDataURL();
 		const finalImage = newImage(url);
 		finalImage.onload = function() {
@@ -40,9 +44,19 @@ function imageOnLoad(url, img, fulfill, reject){
 
 function cropAndStretch(img){
 	const dimension = Math.min(img.width, img.height);
-	console.log("First cropping to " + dimension + "x" + dimension);
 	const pow2Dim = closestPow2(dimension);
+
+	const alreadySet = (img.width === dimension) && (img.height === dimension) &&
+		(dimension === pow2Dim);
+
+	if(alreadySet){
+		console.log('Image is already ideal size! Sweet!');
+		return null;
+	}
+
+	console.log("First cropping to " + dimension + "x" + dimension);
 	console.log("And then stretching to " + pow2Dim + "x" + pow2Dim);
+
 	const cnv = document.createElement('canvas');
 	cnv.width = pow2Dim;
 	cnv.height = pow2Dim;
@@ -61,7 +75,7 @@ function cropAndStretch(img){
 	ctx.drawImage(img, cropCoords.topLeft.x, cropCoords.topLeft.y,
 		dimension, dimension, 0, 0,
 		pow2Dim, pow2Dim);
-		return cnv;
+	return cnv;
 }
 
 function newImage(url){
@@ -72,17 +86,10 @@ function newImage(url){
 }
 
 // Finds the closest power of two to the given number
+// Not exactly precise, but apparently widely used.
+// If this is questionable, there's an alt impl in the history
 function closestPow2(num){
-	let check = 2;
-	while(true){
-		let next = 2 * check;
-		let d1 = num - check;
-		let d2 = num - next;
-		if(d2 <= 0){	// Gone above
-			return Math.abs(d1) < Math.abs(d2) ? check : next;
-		}
-		check = next;
-	}
+	return Math.pow(2, Math.round(Math.log(num)/Math.log(2)));
 }
 
 function readFile(file){
