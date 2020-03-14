@@ -164,3 +164,31 @@ img.thumb {
 	height: 200px;
 	margin: 3px;
 }
+
+ul.tabs {
+	list-style-type: none;
+	width: 100%;
+	padding: 0px;
+	margin: 10px 0 0 0;
+}
+
+ul.tabs > li > a {
+	color: #444444;
+	text-decoration: none;
+}
+ul.tabs > li > a:hover {
+	color: white;
+}
+
+ul.tabs > li {
+	border: solid #bbbbbb 1px;
+	border-radius: 5px 5px 0 0;
+	padding-left: 10px; padding-right: 10px;
+	padding-top: 2px;
+	margin-left: 3px;
+	float: left;
+}
+ul.tabs > li.selected {
+	background-color: #bbbbbb;
+	color: black;
+}
