@@ -22,7 +22,8 @@ const ImageLoader = {
 
 function imageOnLoad(url, img, fulfill, reject){
 	return () => {
-		console.log(`Image loaded from ${url}. Original dimensions: ${img.width}x${img.height}`);
+		const logurl = url.startsWith("data:") ? "<data url>" : url;
+		console.log(`Image loaded from ${logurl}. Original dimensions: ${img.width}x${img.height}`);
 
 		const cnv = cropAndStretch(img);
 		if(cnv == null){ // no canvas, image was already set
