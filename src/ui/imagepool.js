@@ -11,7 +11,7 @@ function setup(useTheseImagesCallback){
 }
 
 function setupTabHandlers(){
-  _.range(1,10).forEach(n => {
+  _.range(1,11).forEach(n => {
     const tab = document.getElementById(`settab${n}`);
     tab.onclick = tabClicked(n);
   });
@@ -19,7 +19,8 @@ function setupTabHandlers(){
 
 function tabClicked(num){
   return () => {
-    _.range(1,10).filter(n => n != num).forEach(n => unselectTab(n));
+    console.log('shit ' + num);
+    _.range(1,11).filter(n => n != num).forEach(n => unselectTab(n));
     selectTab(num);
   };
 }
@@ -27,11 +28,15 @@ function tabClicked(num){
 function selectTab(num){
   const tab = document.getElementById(`settab${num}`);
   tab.classList.add("selected");
+  const imgset = document.getElementById(`imageset${num}`);
+  imgset.classList.add("selected");
 }
 
 function unselectTab(num){
   const tab = document.getElementById(`settab${num}`);
   tab.classList.remove("selected");
+  const imgset = document.getElementById(`imageset${num}`);
+  imgset.classList.remove("selected");
 }
 
 module.exports = {

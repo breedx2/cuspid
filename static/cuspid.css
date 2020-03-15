@@ -147,8 +147,13 @@ div#dropsite {
 	z-index: 11
 }
 
-div#imageset {
+div.imageset {
 	margin-top: 10px;
+	display: none;
+}
+
+div.imageset.selected {
+	display: inline-block;
 }
 
 input#useSet {

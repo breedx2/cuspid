@@ -53,7 +53,7 @@ function setup(useTheseImagesCallback){
  const useSet = document.getElementById('useSet');
  useSet.onclick = () => {
    console.log('Applying image set...');
-   const images = document.querySelectorAll('#imageset > img');
+   const images = document.querySelectorAll('#imageset3 > img');
    useTheseImagesCallback(Array.from(images));
  };
  document.getElementById('random10').onclick = () => {
@@ -63,7 +63,7 @@ function setup(useTheseImagesCallback){
 
 function appendThumb(img){
   img.className = 'thumb';
-  const drop = document.getElementById('imageset');
+  const drop = document.getElementById('imageset3');
   drop.appendChild(img);
 }
 
@@ -96,7 +96,7 @@ async function loadToThumb(url){
 
 async function pickRandom10(){
   console.log('Picking 10 random images..');
-  document.querySelector('div#imageset').innerHTML = "";
+  document.querySelector('div#imageset3').innerHTML = "";
   fetch('/static/index/largeset.json')
     .then(response => response.json())
     .then(json => {
