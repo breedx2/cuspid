@@ -1,6 +1,6 @@
 'use strict';
 
-const ImageLoader = require('./image-loader.js');
+const ImageLoader = require('../image-loader.js');
 const _ = require('lodash');
 
 function setup(useTheseImagesCallback){

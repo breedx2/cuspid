@@ -1,6 +1,6 @@
 'use strict';
 
-const gui = require('./gui');
+const gui = require('./ui/gui');
 const eventActions = require('./event-actions.js');
 
 class KeyHandler {

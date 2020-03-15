@@ -16,9 +16,9 @@ const ImageSequence = require('./anim-image-sequence');
 const KeyHandler = require('./key-handler');
 const EventActions = require('./event-actions');
 const wsEvents = require('./ws-events');
-const gui = require('./gui');
+const gui = require('./ui/gui');
 const QuadsBuilder = require('./quads-builder');
-const DropSite = require('./drop-site');
+const DropSite = require('./ui/imagepool');
 
 // ThreeJS variables
 var scene, camera, renderer;

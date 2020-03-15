@@ -9,7 +9,7 @@ const ZoomSeqAnimation = require('./anim-zoomer-seq');
 const PaletteAnimation = require('./anim-palette');
 const ImageSequence = require('./anim-image-sequence');
 const BlendAnimation = require('./anim-blend')
-const gui = require('./gui');
+const gui = require('./ui/gui');
 
 class EventActions {
   constructor(animator, stats, quads, quadSets){

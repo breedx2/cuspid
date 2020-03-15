@@ -1,7 +1,7 @@
 'use strict';
 
 const osc = require('osc');
-const gui = require('./gui');
+const gui = require('./ui/gui');
 
 // handles OSC events over websocket
 
