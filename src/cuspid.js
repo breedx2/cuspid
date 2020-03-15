@@ -18,7 +18,7 @@ const EventActions = require('./event-actions');
 const wsEvents = require('./ws-events');
 const gui = require('./ui/gui');
 const QuadsBuilder = require('./quads-builder');
-const DropSite = require('./ui/imagepool');
+const DropSite = require('./ui/imagepool-ui');
 
 // ThreeJS variables
 var scene, camera, renderer;

@@ -19,7 +19,6 @@ function setupTabHandlers(){
 
 function tabClicked(num){
   return () => {
-    console.log('shit ' + num);
     _.range(1,11).filter(n => n != num).forEach(n => unselectTab(n));
     selectTab(num);
   };
