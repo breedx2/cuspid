@@ -12,11 +12,11 @@ const BlendAnimation = require('./anim-blend')
 const gui = require('./ui/gui');
 
 class EventActions {
-  constructor(animator, stats, quads, quadSets){
+  constructor(animator, stats, quadSets){
       this.animator = animator;
       this.stats = stats;
-      this.quads = quads; //maybe this shouldn't be here?
       this.quadSets = quadSets;
+      this.quads = quadSets[0];
   }
 
   pause(what){

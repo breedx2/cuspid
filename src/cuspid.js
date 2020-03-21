@@ -44,7 +44,7 @@ async function cuspidLoad(){
 		const quadSet3 = [];	//can be assigned later
 
 		const animator = await startFirstAnimation(quadSet1);
-		const eventActions = new EventActions(animator, stats, quadSet1, [quadSet1, quadSet2, quadSet3]);
+		const eventActions = new EventActions(animator, stats, [quadSet1, quadSet2, quadSet3]);
 		const keyHandler = new KeyHandler(eventActions);
 
 		configureControlSocket(eventActions);
