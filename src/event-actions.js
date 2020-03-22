@@ -228,17 +228,16 @@ class EventActions {
     this.animator.advanceOneFrame();
   }
 
-  useQuadSet1(){
-    this.useQuadSet(0);
-  }
-
-  useQuadSet2(){
-    this.useQuadSet(1);
-  }
-
-  useQuadSet3(){
-    this.useQuadSet(2);
-  }
+  useQuadSet1(){ this.useQuadSet(0); }
+  useQuadSet2(){ this.useQuadSet(1); }
+  useQuadSet3(){ this.useQuadSet(2); }
+  useQuadSet4(){ this.useQuadSet(3); }
+  useQuadSet5(){ this.useQuadSet(4); }
+  useQuadSet6(){ this.useQuadSet(5); }
+  useQuadSet7(){ this.useQuadSet(6); }
+  useQuadSet8(){ this.useQuadSet(7); }
+  useQuadSet9(){ this.useQuadSet(8); }
+  useQuadSet10(){ this.useQuadSet(9); }
 
   useQuadSet(n){
     this.imagePool.setCurrent(n);

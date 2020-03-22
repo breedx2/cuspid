@@ -2,6 +2,7 @@
 
 const ImageLoader = require('../image-loader.js');
 const _ = require('lodash');
+const preview = require('./preview.js');
 
 function setup(useTheseImagesCallback){
   console.log('Performing drop site setup');
@@ -50,21 +51,13 @@ function setup(useTheseImagesCallback){
  const choosefiles = document.getElementById('choosefiles');
  choosefiles.addEventListener('change', chooseSomeFiles);
 
- const useSet = document.getElementById('useSet');
+ const num = preview.currentNum();
  useSet.onclick = () => {
    console.log('Applying image set...');
-   const images = document.querySelectorAll('#imageset3 > img');
+   const num = useSet.getAttribute('num');
+   const images = document.querySelectorAll(`#imageset${num} > img`);
    useTheseImagesCallback(Array.from(images));
  };
- document.getElementById('random10').onclick = () => {
-   pickRandom10();
- };
-}
-
-function appendThumb(img){
-  img.className = 'thumb';
-  const drop = document.getElementById('imageset3');
-  drop.appendChild(img);
 }
 
 function chooseSomeFiles(change){
@@ -79,33 +72,11 @@ function loadAndPreview(files){
     .map(file => {
       return ImageLoader.loadAndCropFile(file)
         .then(image => {
-          appendThumb(image);
+          preview.appendThumb(image);
           console.log('Wowwy wow, did image stuff');
         });
     });
   return Promise.all(promises);
-}
-
-async function loadToThumb(url){
-  console.log(`loading to thumbnail: ${url}`);
-  return ImageLoader.loadAndCrop(url)
-    .then(image => {
-      appendThumb(image);
-    });
-}
-
-async function pickRandom10(){
-  console.log('Picking 10 random images..');
-  document.querySelector('div#imageset3').innerHTML = "";
-  fetch('/static/index/largeset.json')
-    .then(response => response.json())
-    .then(json => {
-        const promises = _.shuffle(json.items)
-          .slice(0, 10)
-          .map(f => `/static/largeset/${f}`)
-          .map(loadToThumb);
-        return Promise.all(promises);
-    });
 }
 
 module.exports = {
