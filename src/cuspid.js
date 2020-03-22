@@ -47,16 +47,13 @@ async function cuspidLoad(){
 		gui.showHideDecoration(false);
 		console.log("Animation started.")
 
-		async function makeQuad3(images){
-			console.log("MAKE QUAD 3");
+		async function makeQuads(index, images){
+			console.log("MAKE QUADS");
 			const newQuads = await QuadsBuilder.load(images);
-			imagePool.setQuads(2, newQuads);
-			images.forEach(img => {
-				img.remove();
-			})
+			imagePool.setQuads(index, newQuads);
 			gui.toggleImagePool();
 		}
-		ImagePoolUi.setup(makeQuad3, imagePool);
+		ImagePoolUi.setup(makeQuads, imagePool);
 	}
 	catch(err) {
 		console.log(`ERROR: ${err}`);

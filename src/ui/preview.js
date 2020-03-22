@@ -5,8 +5,6 @@ function appendThumb(img){
 
   const num = currentNum();
   const set = document.getElementById(`imageset${num}`)
-
-  // const set = document.getElementById('imageset3');
   set.appendChild(img);
 }
 

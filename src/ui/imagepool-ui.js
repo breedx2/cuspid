@@ -7,9 +7,16 @@ const _ = require('lodash');
 
 function setup(useTheseImagesCallback, imagePool){
   console.log('Performing imagepool setup');
-  dropsite.setup(useTheseImagesCallback);
+  dropsite.setup();
   console.log(imagePool.currentQuads());
   setupTabHandlers();
+
+  document.getElementById('useSet').onclick = () => {
+    console.log('Applying image set...');
+    const num = preview.currentNum();
+    const images = document.querySelectorAll(`#imageset${num} > img`);
+    useTheseImagesCallback(num-1, Array.from(images));
+  };
   document.getElementById('random10').onclick = () => {
     pickRandom10();
   };

@@ -4,7 +4,7 @@ const ImageLoader = require('../image-loader.js');
 const _ = require('lodash');
 const preview = require('./preview.js');
 
-function setup(useTheseImagesCallback){
+function setup(){
   console.log('Performing drop site setup');
   if(!window.FileReader) {
     return console.log('Your browser does not support the HTML5 FileReader.');
@@ -50,14 +50,6 @@ function setup(useTheseImagesCallback){
 
  const choosefiles = document.getElementById('choosefiles');
  choosefiles.addEventListener('change', chooseSomeFiles);
-
- const num = preview.currentNum();
- useSet.onclick = () => {
-   console.log('Applying image set...');
-   const num = useSet.getAttribute('num');
-   const images = document.querySelectorAll(`#imageset${num} > img`);
-   useTheseImagesCallback(Array.from(images));
- };
 }
 
 function chooseSomeFiles(change){

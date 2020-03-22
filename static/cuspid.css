@@ -150,6 +150,7 @@ div#dropsite {
 div.imageset {
 	margin-top: 10px;
 	display: none;
+	min-width: 1000px;
 }
 
 div.imageset.selected {
