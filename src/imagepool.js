@@ -42,6 +42,10 @@ class ImagePool {
     return this.sets[n];
   }
 
+  getImages(n){
+    return this.sets[n].map(quad => quad.material.uniforms['texture'].value.image);
+  }
+
   currentQuads() {
     return this.getQuads(this.current);
   }

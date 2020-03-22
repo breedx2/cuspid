@@ -56,7 +56,7 @@ async function cuspidLoad(){
 			})
 			gui.toggleImagePool();
 		}
-		ImagePoolUi.setup(makeQuad3);
+		ImagePoolUi.setup(makeQuad3, imagePool);
 	}
 	catch(err) {
 		console.log(`ERROR: ${err}`);
