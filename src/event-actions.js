@@ -12,11 +12,11 @@ const BlendAnimation = require('./anim-blend')
 const gui = require('./ui/gui');
 
 class EventActions {
-  constructor(animator, stats, quadSets){
+  constructor(animator, stats, imagePool){
       this.animator = animator;
       this.stats = stats;
-      this.quadSets = quadSets;
-      this.quads = quadSets[0];
+      this.imagePool = imagePool;
+      this.quads = imagePool.currentQuads();
   }
 
   pause(what){
@@ -241,7 +241,8 @@ class EventActions {
   }
 
   useQuadSet(n){
-    const quads = this.quadSets[n];
+    this.imagePool.setCurrent(n);
+    const quads = this.imagePool.currentQuads();
     const opts = this.animator.options;
     const scene = opts.scene;
     //TODO: This "reset" is duplicated inside the Animator and should be

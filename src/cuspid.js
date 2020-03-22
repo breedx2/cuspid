@@ -19,7 +19,7 @@ const wsEvents = require('./ws-events');
 const gui = require('./ui/gui');
 const QuadsBuilder = require('./quads-builder');
 const ImagePoolUi = require('./ui/imagepool-ui');
-import { URLS1, URLS2 } from './default-urls';
+import { ImagePool } from './imagepool';
 
 // ThreeJS variables
 var scene, camera, renderer;
@@ -34,17 +34,11 @@ async function cuspidLoad(){
 	setRenderSize();
 	try {
 
-		const quadSet1 = await QuadsBuilder.load(URLS1);
-		console.log(`Loaded ${quadSet1.length} quads in set 1`);
-		quadSet1.forEach(q => scene.add(q));
+		const imagePool = await ImagePool.buildWithDefaults();
+		imagePool.currentQuads().forEach(quad => scene.add(quad));
 
-		const quadSet2 = await QuadsBuilder.load(URLS2);
-		console.log(`Loaded ${quadSet2.length} quads in set 2`);
-
-		const quadSet3 = [];	//can be assigned later
-
-		const animator = await startFirstAnimation(quadSet1);
-		const eventActions = new EventActions(animator, stats, [quadSet1, quadSet2, quadSet3]);
+		const animator = await startFirstAnimation(imagePool.currentQuads());
+		const eventActions = new EventActions(animator, stats, imagePool);
 		const keyHandler = new KeyHandler(eventActions);
 
 		configureControlSocket(eventActions);
@@ -56,9 +50,7 @@ async function cuspidLoad(){
 		async function makeQuad3(images){
 			console.log("MAKE QUAD 3");
 			const newQuads = await QuadsBuilder.load(images);
-			newQuads.forEach(q => {
-				quadSet3.push(q);
-			});
+			imagePool.setQuads(2, newQuads);
 			images.forEach(img => {
 				img.remove();
 			})

@@ -5,7 +5,7 @@ import { URLS1, URLS2 } from './default-urls';
 
 class ImagePool {
 
-  constructor(sets){
+  constructor(sets) {
     if(sets.length != 10){
       throw new Error("Must have 10 sets in the pool.");
     }
@@ -13,7 +13,7 @@ class ImagePool {
     this.current = 0;
   }
 
-  async static buildWithDefaults(){
+  static async buildWithDefaults() {
     console.log('Building ImagePool with default sets...');
     const quadSet1 = await QuadsBuilder.load(URLS1);
     console.log(`Loaded ${quadSet1.length} quads in set 1`);
@@ -28,15 +28,24 @@ class ImagePool {
     return new ImagePool(sets);
   }
 
-  set(n, quads){
-    this.sets[n] = quads;
+  setCurrent(n) {
     this.current = n;
   }
 
-  current(){
-    return this.sets[this.current];
+  // assigns a set of quads at an index.
+  // current stays the same
+  setQuads(n, quads) {
+    this.sets[n] = quads;
+  }
+
+  getQuads(n){
+    return this.sets[n];
+  }
+
+  currentQuads() {
+    return this.getQuads(this.current);
   }
 
 }
 
-module.exports = ImagePool;
+export { ImagePool };
