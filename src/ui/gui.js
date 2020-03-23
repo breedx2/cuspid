@@ -79,6 +79,7 @@ function showHideDecoration(show){
 function dismissOverlays(){
   document.querySelector('div#keys').style.display = 'none';
   document.querySelector('div#clientid').style.display = 'none';
+  document.querySelector('div#imagepool').style.display = 'none';
   document.querySelector('canvas#cnv').focus();
 }
 
