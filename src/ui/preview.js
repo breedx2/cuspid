@@ -1,9 +1,7 @@
 'use strict';
 
-function appendThumb(img){
+function appendThumb(img, num = currentNum()){
   img.className = 'thumb';
-
-  const num = currentNum();
   const set = document.getElementById(`imageset${num}`)
   set.appendChild(img);
 }

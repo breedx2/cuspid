@@ -163,7 +163,7 @@ input#useSet {
 	/* transform:translate(0%, 0%); */
 }
 
-img.thumb {
+img.thumb, video.thumb {
 	-webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
   filter: grayscale(100%);
 	width: 200px;

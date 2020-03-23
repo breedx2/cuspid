@@ -10,6 +10,7 @@ function setup(useTheseImagesCallback, imagePool){
   dropsite.setup();
   console.log(imagePool.currentQuads());
   setupTabHandlers();
+  populateDefaultTabs(imagePool);
 
   document.getElementById('useSet').onclick = () => {
     console.log('Applying image set...');
@@ -20,6 +21,11 @@ function setup(useTheseImagesCallback, imagePool){
   document.getElementById('random10').onclick = () => {
     pickRandom10();
   };
+}
+
+function populateDefaultTabs(imagePool){
+  imagePool.getImages(0).forEach(img => preview.appendThumb(img, 1));
+  imagePool.getImages(1).forEach(img => preview.appendThumb(img, 2));
 }
 
 function setupTabHandlers(){
