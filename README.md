@@ -1,10 +1,12 @@
 # cuspid
 
-intense visualizations - infiltrationlab style.
+Intense visualizations - InfiltrationLab style.
 
-![alt text](https://raw.githubusercontent.com/breedx2/cuspid/master/static/cuspid.jpg "cuspid")
+![alt text](https://raw.githubusercontent.com/breedx2/cuspid/master/static/set1/cuspid.jpg "cuspid")
 
-# huh?
+This is the source code behind https://cuspid.net.
+
+# about
 
 cuspid is a visualization tool that displays images and videos in various modes of manipulation.  It is inspired by microscopy and the aesthetics of found/accidental texture.
 
@@ -29,40 +31,10 @@ Then point a browser to http://localhost:8080/workspace
 
 # keys
 
-## animation modes
-* ⟵ - scroll left
-* → - scroll right
-* ↑ - scroll up
-* ↓ - scroll down
-* shift ↑ - zoom in
-* shift ↓ - zoom out
-* s - image sequence
-* t - tunnel/zoom sequence (in)
-* T - tunnel/zoom sequence (out)
-* shift ⟵ - pallete scroll down
-* shift →  palette scroll up
-* b - blend mode
+Nearly all aspects of cuspid can be controlled via the keyboard.  This includes
+mode changes, speeds, and effects toggles.
 
-## misc
-* SPACE - pause
-* \+ - speed up
-* \- - slow down
-* ctrl ⟵ - nudge left
-* ctrl → - nudge right
-* ctrl ↑ - nudge up
-* ctrl ↓ - nudge down
-* z - zoom out (when in scrolling mode)
-* shift z - zoom in (when in scrolling mode)
-* n - change image
-* d - toggle dot effect
-* q - decrease dot scale
-* w - increase dot scale
-* g - toggle glitch effect
-* i - toggle interpolation mode
-* f - toggle fps overlay
-* F - advance a single "frame"
-* c - view/change client id
-* k|? - show/hide keys help
+[See here for a complete list of all keystrokes](../master/docs/KEYS.md).
 
 # OSC
 
