@@ -171,6 +171,29 @@ img.thumb, video.thumb {
 	margin: 3px;
 }
 
+div.thumb {
+	display: inline-block;
+	position: relative;
+}
+
+img.xclose {
+	width: 25px;
+	height: 30px;
+	opacity: 0.5;
+	padding: 5px;
+	background-color: #cccccccc;
+	border-radius: 3px;
+}
+
+a.xclose {
+	position: absolute;
+	top: 0px; right: 0px;
+	margin-top: 5px;
+	margin-right: 5px;
+	visibility: hidden;
+	padding: 5px;
+}
+
 ul.tabs {
 	list-style-type: none;
 	width: 100%;

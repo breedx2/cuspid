@@ -15,7 +15,7 @@ function setup(useTheseImagesCallback, imagePool){
   document.getElementById('useSet').onclick = () => {
     console.log('Applying image set...');
     const num = preview.currentNum();
-    const images = document.querySelectorAll(`#imageset${num} > img`);
+    const images = document.querySelectorAll(`#imageset${num} > div > img`);
     useTheseImagesCallback(num-1, Array.from(images));
   };
   document.getElementById('random10').onclick = () => {
