@@ -14,7 +14,7 @@
   "dependencies": {
     "express": "4.17.1",
     "express-ws": "4.0.0",
-    "lodash": "4.17.15",
+    "lodash": "4.17.19",
     "osc": "^2.4.0",
     "pug": "2.0.4",
     "three": "^0.114.0"
